@@ -101,10 +101,16 @@ async def main():
         logger.info("Leumit Appointment Agent finished")
         logger.info("=" * 60)
         logger.info("")
-        logger.info("Keeping browser open for 5 seconds so you can see the result...")
-        logger.info("Close the browser window manually when ready.")
+        logger.info("Browser window is staying open with your logged-in session.")
+        logger.info("You can:")
+        logger.info("  - Use the browser manually to book appointments")
+        logger.info("  - Close the window when done")
+        logger.info("  - Run the agent again (it will login fresh)")
         logger.info("")
-        await asyncio.sleep(5)
+        logger.info("Waiting indefinitely... (Press Ctrl+C to close)")
+        logger.info("")
+        while True:
+            await asyncio.sleep(1)
 
 
 def run():

@@ -47,14 +47,7 @@ class LeumitBrowser:
         await self.close()
     
     async def start(self):
-        """Initialize browser and create new page.
-        
-        Strategy:
-        1. Launch fresh Chrome browser (Chromium)
-        2. Try to load saved cookies from previous login
-        3. If cookies work, skip login
-        4. If cookies don't work, perform login and save cookies
-        """
+        """Initialize browser and create new page."""
         logger.info("Starting browser...")
         self.playwright = await async_playwright().start()
         
@@ -68,30 +61,11 @@ class LeumitBrowser:
             viewport={'width': VIEWPORT_WIDTH, 'height': VIEWPORT_HEIGHT}
         )
         
-        # Try to load saved cookies
-        logger.info("Attempting to load saved session cookies...")
-        cookies_loaded = CookieManager.load_cookies(context)
-        
         self.page = await context.new_page()
         self.page.set_default_timeout(BROWSER_TIMEOUT)
         self.context = context
         
         logger.info("Browser started successfully")
-        
-        # If cookies loaded, try to use them
-        if cookies_loaded:
-            logger.info("Testing if saved session is still valid...")
-            await self.page.goto(LEUMIT_ACCOUNT_PAGE)
-            await self.page.wait_for_load_state("networkidle")
-            await asyncio.sleep(1)
-            
-            # Check if still logged in
-            if await self.page.locator("#ctl00_LinkButton3").count() > 0:
-                logger.info("✓ Saved session is still valid! Skipping login.")
-                return
-            else:
-                logger.info("✗ Saved session expired. Will perform new login.")
-                CookieManager.clear_cookies()
         
         # Navigate to home to start login flow
         logger.info("Navigating to Leumit home page...")
@@ -337,13 +311,10 @@ class LeumitBrowser:
                     break
             
             if logged_in:
-                logger.info("Login successful!")
-                # Save cookies for next time
-                logger.info("Saving session cookies...")
-                CookieManager.save_cookies(self.page)
+                logger.info("✓ Login successful!")
                 return True
             else:
-                logger.error("Login failed - could not find profile page indicators")
+                logger.error("✗ Login failed - could not find profile page indicators")
                 return False
                 
         except TimeoutError as e:
@@ -378,27 +349,32 @@ class LeumitBrowser:
                     count = await locator.count()
                     if count > 0:
                         logger.info(f"Found appointments button with: {selector}")
+                        await self.take_screenshot("before_appointments_click")
                         try:
+                            # Scroll to ensure button is visible
+                            await locator.scroll_into_view_if_needed()
+                            await asyncio.sleep(0.5)
                             await locator.click(timeout=5000)
-                            logger.info(f"Successfully clicked with selector: {selector}")
+                            logger.info(f"✓ Successfully clicked with selector: {selector}")
                             clicked = True
+                            await asyncio.sleep(2)
                             break
                         except Exception as click_error:
-                            logger.warning(f"Click failed for selector {selector}: {click_error}")
+                            logger.error(f"✗ Click failed for selector {selector}: {click_error}")
                             continue
                 except Exception as e:
                     logger.debug(f"Selector {selector} check failed: {e}")
             
             if not clicked:
-                logger.error("Could not click appointments button")
+                logger.error("✗ Could not click appointments button")
                 await self.take_screenshot("appointments_button_click_failed")
                 return False
             
-            await asyncio.sleep(2)
+            await asyncio.sleep(1)
             await self.page.wait_for_load_state("networkidle")
             await self.take_screenshot("after_appointments_click")
             
-            logger.info("Successfully navigated to appointments")
+            logger.info("✓ Successfully navigated to appointments")
             
             return True
             
