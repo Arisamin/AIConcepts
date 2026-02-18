@@ -100,34 +100,13 @@ class LeumitBrowser:
             logger.info("Clicking personal area button...")
             await self.page.click(LeumitSelectors.PERSONAL_AREA_BUTTON)
             
-            # Wait for popup animation to complete
-            logger.info("Waiting for login popup to fully appear...")
-            await asyncio.sleep(3)  # Wait 3 seconds for animation
+            # Wait for popup animation and iframe to load
+            logger.info("Waiting for login popup and iframe to load...")
+            await asyncio.sleep(5)  # Increased to 5 seconds
+            await self.page.wait_for_load_state("networkidle")
             
             # Take screenshot of login page
             await self.take_screenshot("login_page_before_input")
-            
-            # Wait for user confirmation that fields are visible
-            logger.info("=" * 60)
-            logger.info("WAITING FOR YOUR CONFIRMATION")
-            logger.info("Please check that the login fields are fully visible")
-            logger.info("Press ENTER when ready to continue...")
-            logger.info("=" * 60)
-            input()  # Wait for user to press Enter
-            
-            logger.info("User confirmed - proceeding with login...")
-            
-            # Wait for input fields to become visible
-            logger.info("Waiting for input fields to be visible...")
-            try:
-                await self.page.wait_for_selector("input:visible", timeout=10000, state="visible")
-            except Exception as e:
-                logger.warning(f"Timeout waiting for visible inputs: {e}")
-            
-            await self.page.wait_for_load_state("networkidle")
-            
-            # Take screenshot after user confirmation
-            await self.take_screenshot("login_page_after_confirmation")
             
             # Use Playwright's locator with visible filter
             logger.info("Finding visible input fields...")
@@ -162,19 +141,75 @@ class LeumitBrowser:
                 await self.take_screenshot("inputs_not_found")
                 return False
             
-            # Fill ID (Teudat Zehut)
+            # Switch to SMS/OTP login mode (left toggle button)
+            logger.info("Switching to SMS/OTP login mode...")
+            sms_toggle_selectors = [
+                "button:has-text('SMS')",
+                "button:has-text('קוד')",
+                "div.custom-radio-btns input[type='radio'][value='1'] + label",
+                "#divLoginWithOtpStepOneNew div.custom-radio-btns label:first-of-type"
+            ]
+            
+            for selector in sms_toggle_selectors:
+                try:
+                    if await login_frame.locator(selector).count() > 0:
+                        logger.info(f"Found SMS toggle with selector: {selector}")
+                        await login_frame.click(selector)
+                        await asyncio.sleep(1)
+                        await self.take_screenshot("after_toggle_to_sms")
+                        break
+                except Exception as e:
+                    logger.debug(f"Toggle selector {selector} failed: {e}")
+            
+            # Wait a bit more for iframe to be fully interactive
+            await asyncio.sleep(1)
+            
+            # Fill ID (Teudat Zehut) - with explicit click first
             logger.info("Entering ID number...")
             user_id = self.credentials.get_leumit_id()
-            await id_input.fill(user_id)
+            await id_input.click()  # Click to focus
+            await asyncio.sleep(0.5)
+            await id_input.fill(user_id, force=True)  # Force fill
+            await self.take_screenshot("after_id_fill")
             
-            # Fill mobile number
+            # Fill mobile number - with explicit click first
             logger.info("Entering mobile number...")
             mobile = self.credentials.get_leumit_mobile()
-            await mobile_input.fill(mobile)
+            await mobile_input.click()  # Click to focus
+            await asyncio.sleep(0.5)
+            await mobile_input.fill(mobile, force=True)  # Force fill
+            await self.take_screenshot("after_mobile_fill")
             
             # Click login button - use the same frame
-            logger.info("Clicking login button...")
-            await login_frame.click(LeumitSelectors.LOGIN_SUBMIT_BUTTON)
+            logger.info("Clicking send OTP button...")
+            await self.take_screenshot("before_clicking_submit")
+            
+            # Use exact button ID
+            submit_button = login_frame.locator("#ButtonSendCellPhoneNew")
+            
+            if await submit_button.count() == 0:
+                logger.error("Could not find submit button #ButtonSendCellPhoneNew")
+                await self.take_screenshot("submit_button_not_found")
+                return False
+            
+            logger.info("Found submit button, clicking...")
+            await submit_button.click()
+            
+            # Wait for response and OTP screen
+            await asyncio.sleep(2)
+            await self.take_screenshot("after_submit_button")
+            
+            # Wait for user to enter OTP code manually
+            logger.info("=" * 60)
+            logger.info("OTP CODE ENTRY - MANUAL STEP REQUIRED")
+            logger.info("A verification code should be sent to your phone.")
+            logger.info("Please enter the OTP code in the browser manually.")
+            logger.info("Press ENTER here once you've submitted the OTP code...")
+            logger.info("=" * 60)
+            input()  # Wait for user to press Enter
+            
+            logger.info("User confirmed OTP entry - checking login status...")
+            await asyncio.sleep(2)
             
             # Wait for navigation after login
             await self.page.wait_for_load_state("networkidle")

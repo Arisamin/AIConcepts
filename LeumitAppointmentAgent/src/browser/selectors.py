@@ -14,7 +14,7 @@ class LeumitSelectors:
     # Login page selectors (exact IDs from Leumit website)
     LOGIN_ID_INPUT = "#TextBoxIdNumForOTP"
     LOGIN_MOBILE_INPUT = "#TextBoxCellphone"
-    LOGIN_SUBMIT_BUTTON = "button[type='submit'], button:has-text('כניסה'), button:has-text('התחבר'), input[type='button'][value*='שלח']"
+    LOGIN_SUBMIT_BUTTON = "#ButtonSendCellPhoneNew"
     
     # Navigation selectors
     APPOINTMENTS_MENU = "a[href*='appointment'], button:has-text('תורים')"
