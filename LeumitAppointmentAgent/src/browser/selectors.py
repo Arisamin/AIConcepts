@@ -17,7 +17,7 @@ class LeumitSelectors:
     LOGIN_SUBMIT_BUTTON = "#ButtonSendCellPhoneNew"
     
     # Navigation selectors
-    APPOINTMENTS_MENU = "a[href*='appointment'], button:has-text('תורים')"
+    APPOINTMENTS_MENU = "#ctl00_LinkButton3, a:has-text('זימון תורים')"
     NEW_APPOINTMENT_BUTTON = "button:has-text('תור חדש'), a:has-text('קביעת תור')"
     
     # Appointment search selectors

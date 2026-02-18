@@ -215,13 +215,29 @@ class LeumitBrowser:
             await self.page.wait_for_load_state("networkidle")
             await self.take_screenshot("after_login")
             
-            # Check if login was successful (you may need to adjust this check)
+            # Check if login was successful - look for profile/main page elements
             current_url = self.page.url
-            if "login" not in current_url.lower():
+            logger.info(f"Current URL after OTP: {current_url}")
+            
+            # Check for appointment button or profile elements as success indicator
+            success_indicators = [
+                "#ctl00_LinkButton3",  # Appointments button
+                "a:has-text('זימון תורים')",
+                "text=תיק הבריאות שלי"  # My health file
+            ]
+            
+            logged_in = False
+            for indicator in success_indicators:
+                if await self.page.locator(indicator).count() > 0:
+                    logger.info(f"Found success indicator: {indicator}")
+                    logged_in = True
+                    break
+            
+            if logged_in:
                 logger.info("Login successful!")
                 return True
             else:
-                logger.error("Login failed - still on login page")
+                logger.error("Login failed - could not find profile page indicators")
                 return False
                 
         except TimeoutError as e:
@@ -242,12 +258,42 @@ class LeumitBrowser:
         try:
             logger.info("Navigating to appointments section...")
             
-            # Try to find and click appointments menu
-            await self.page.click(LeumitSelectors.APPOINTMENTS_MENU)
+            # Try multiple selectors for the appointments button
+            selectors = [
+                "#ctl00_LinkButton3",
+                "a:has-text('זימון תורים')",
+                "xpath=/html/body/form/div[3]/div[2]/div[1]/div[2]/ul/li[2]/a"
+            ]
+            
+            clicked = False
+            for selector in selectors:
+                try:
+                    if await self.page.locator(selector).count() > 0:
+                        logger.info(f"Found appointments button with: {selector}")
+                        await self.page.click(selector)
+                        clicked = True
+                        break
+                except Exception as e:
+                    logger.debug(f"Selector {selector} failed: {e}")
+            
+            if not clicked:
+                logger.error("Could not find appointments button")
+                await self.take_screenshot("appointments_button_not_found")
+                return False
+            
             await self.page.wait_for_load_state("networkidle")
             await self.take_screenshot("appointments_page")
             
             logger.info("Successfully navigated to appointments")
+            
+            # Wait for user to inspect
+            logger.info("=" * 60)
+            logger.info("Arrived at appointments page")
+            logger.info("Please inspect the page and identify next steps")
+            logger.info("Press ENTER to continue...")
+            logger.info("=" * 60)
+            input()
+            
             return True
             
         except Exception as e:
