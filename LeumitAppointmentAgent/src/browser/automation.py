@@ -21,6 +21,7 @@ from config.settings import (
 )
 from config.credentials import Credentials
 from browser.selectors import LeumitSelectors
+from browser.cookies import CookieManager
 
 logger = logging.getLogger(__name__)
 
@@ -48,41 +49,54 @@ class LeumitBrowser:
     async def start(self):
         """Initialize browser and create new page.
         
-        Uses your existing Chrome profile with authentication.
-        Connects to the same Chrome instance you're logged into.
+        Strategy:
+        1. Launch fresh Chrome browser (Chromium)
+        2. Try to load saved cookies from previous login
+        3. If cookies work, skip login
+        4. If cookies don't work, perform login and save cookies
         """
-        logger.info("Starting browser connection...")
+        logger.info("Starting browser...")
         self.playwright = await async_playwright().start()
         
-        # Use Chrome with your actual profile (not a fresh profile)
-        chrome_executable = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-        chrome_user_data = "C:\\Users\\smogb\\AppData\\Local\\Google\\Chrome\\User Data"
-        
-        logger.info(f"Launching Chrome from: {chrome_executable}")
-        logger.info(f"Using profile: {chrome_user_data}")
-        
-        # Use launch_persistent_context to use existing user data directory
-        self.context = await self.playwright.chromium.launch_persistent_context(
-            user_data_dir=chrome_user_data,
-            executable_path=chrome_executable,
-            headless=False,
-            args=[
-                '--start-maximized',
-                '--disable-popup-blocking',
-                '--disable-blink-features=AutomationControlled'
-            ]
+        # Launch fresh browser instance
+        self.browser = await self.playwright.chromium.launch(
+            headless=HEADLESS,
+            args=['--start-maximized', '--disable-blink-features=AutomationControlled']
         )
         
-        self.page = await self.context.new_page()
+        context = await self.browser.new_context(
+            viewport={'width': VIEWPORT_WIDTH, 'height': VIEWPORT_HEIGHT}
+        )
+        
+        # Try to load saved cookies
+        logger.info("Attempting to load saved session cookies...")
+        cookies_loaded = CookieManager.load_cookies(context)
+        
+        self.page = await context.new_page()
         self.page.set_default_timeout(BROWSER_TIMEOUT)
+        self.context = context
+        
         logger.info("Browser started successfully")
         
-        # Navigate directly to the account page
-        logger.info("Navigating to Leumit account page...")
-        await self.page.goto(LEUMIT_ACCOUNT_PAGE)
+        # If cookies loaded, try to use them
+        if cookies_loaded:
+            logger.info("Testing if saved session is still valid...")
+            await self.page.goto(LEUMIT_ACCOUNT_PAGE)
+            await self.page.wait_for_load_state("networkidle")
+            await asyncio.sleep(1)
+            
+            # Check if still logged in
+            if await self.page.locator("#ctl00_LinkButton3").count() > 0:
+                logger.info("✓ Saved session is still valid! Skipping login.")
+                return
+            else:
+                logger.info("✗ Saved session expired. Will perform new login.")
+                CookieManager.clear_cookies()
+        
+        # Navigate to home to start login flow
+        logger.info("Navigating to Leumit home page...")
+        await self.page.goto(LEUMIT_HOME_URL)
         await self.page.wait_for_load_state("networkidle")
-        await asyncio.sleep(1)
-        logger.info("Page loaded")
 
     
     async def close(self):
@@ -324,6 +338,9 @@ class LeumitBrowser:
             
             if logged_in:
                 logger.info("Login successful!")
+                # Save cookies for next time
+                logger.info("Saving session cookies...")
+                CookieManager.save_cookies(self.page)
                 return True
             else:
                 logger.error("Login failed - could not find profile page indicators")
@@ -357,21 +374,29 @@ class LeumitBrowser:
             clicked = False
             for selector in selectors:
                 try:
-                    if await self.page.locator(selector).count() > 0:
+                    locator = self.page.locator(selector)
+                    count = await locator.count()
+                    if count > 0:
                         logger.info(f"Found appointments button with: {selector}")
-                        await self.page.click(selector)
-                        clicked = True
-                        break
+                        try:
+                            await locator.click(timeout=5000)
+                            logger.info(f"Successfully clicked with selector: {selector}")
+                            clicked = True
+                            break
+                        except Exception as click_error:
+                            logger.warning(f"Click failed for selector {selector}: {click_error}")
+                            continue
                 except Exception as e:
-                    logger.debug(f"Selector {selector} failed: {e}")
+                    logger.debug(f"Selector {selector} check failed: {e}")
             
             if not clicked:
-                logger.error("Could not find appointments button")
-                await self.take_screenshot("appointments_button_not_found")
+                logger.error("Could not click appointments button")
+                await self.take_screenshot("appointments_button_click_failed")
                 return False
             
+            await asyncio.sleep(2)
             await self.page.wait_for_load_state("networkidle")
-            await self.take_screenshot("appointments_page")
+            await self.take_screenshot("after_appointments_click")
             
             logger.info("Successfully navigated to appointments")
             

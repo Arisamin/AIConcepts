@@ -44,10 +44,13 @@ async def main():
     try:
         # Use browser automation
         async with LeumitBrowser() as browser:
-            # Browser is already at Leumit account page
-            # Skip login - assume already authenticated
-            logger.info("Step 1: Browser initialized at Leumit account page")
-            logger.info("(Assuming already authenticated)")
+            # Step 1: Login (or use cached cookies)
+            logger.info("Step 1: Authenticating...")
+            login_success = await browser.login()
+            
+            if not login_success:
+                logger.error("Login failed. Please check your credentials.")
+                return False
             
             # Step 2: Navigate to appointments
             logger.info("Step 2: Navigating to appointments section...")
@@ -97,6 +100,11 @@ async def main():
         logger.info("=" * 60)
         logger.info("Leumit Appointment Agent finished")
         logger.info("=" * 60)
+        logger.info("")
+        logger.info("Keeping browser open for 5 seconds so you can see the result...")
+        logger.info("Close the browser window manually when ready.")
+        logger.info("")
+        await asyncio.sleep(5)
 
 
 def run():
