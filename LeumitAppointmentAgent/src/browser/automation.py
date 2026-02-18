@@ -213,13 +213,42 @@ class LeumitBrowser:
             
             # Wait for navigation after login
             await self.page.wait_for_load_state("networkidle")
-            await self.take_screenshot("after_login")
+            screenshot_path = await self.take_screenshot("after_login")
             
             # Check if login was successful - look for profile/main page elements
             current_url = self.page.url
             logger.info(f"Current URL after OTP: {current_url}")
             
-            # Check for appointment button or profile elements as success indicator
+            # Try vision-based verification if available
+            try:
+                from ai.vision_agent import VisionAgent
+                vision = VisionAgent()
+                
+                if vision.client:
+                    logger.info("Using AI vision to verify login success...")
+                    verification_prompt = """
+                    Look at this screenshot and determine if it shows a successfully logged-in 
+                    Leumit health portal page. Look for:
+                    - Patient/user name or ID
+                    - Navigation menu with health-related options
+                    - "זימון תורים" (appointment scheduling) button
+                    - Personal health information
+                    
+                    Reply with ONLY "SUCCESS" if logged in, or "FAILED" if still on login page or error.
+                    """
+                    
+                    result = await vision.analyze_page(screenshot_path, verification_prompt)
+                    if result and "SUCCESS" in result.upper():
+                        logger.info("Vision AI confirmed successful login!")
+                        return True
+                    elif result and "FAILED" in result.upper():
+                        logger.error("Vision AI detected login failure")
+                        return False
+            except Exception as e:
+                logger.warning(f"Vision verification not available: {e}")
+            
+            # Fallback to element-based detection
+            logger.info("Using element detection to verify login...")
             success_indicators = [
                 "#ctl00_LinkButton3",  # Appointments button
                 "a:has-text('זימון תורים')",
