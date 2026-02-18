@@ -11,10 +11,10 @@ class LeumitSelectors:
     # Home page selectors
     PERSONAL_AREA_BUTTON = "button:has-text('אזור אישי'), a:has-text('אזור אישי')"
     
-    # Login page selectors (using Hebrew placeholders)
-    LOGIN_ID_INPUT = "input[placeholder*='תעודת זהות'], input[placeholder*='זהות']"
-    LOGIN_MOBILE_INPUT = "input[placeholder*='מספר נייד'], input[placeholder*='נייד']"
-    LOGIN_SUBMIT_BUTTON = "button[type='submit'], button:has-text('כניסה'), button:has-text('התחבר')"
+    # Login page selectors (exact IDs from Leumit website)
+    LOGIN_ID_INPUT = "#TextBoxIdNumForOTP"
+    LOGIN_MOBILE_INPUT = "#TextBoxCellphone"
+    LOGIN_SUBMIT_BUTTON = "button[type='submit'], button:has-text('כניסה'), button:has-text('התחבר'), input[type='button'][value*='שלח']"
     
     # Navigation selectors
     APPOINTMENTS_MENU = "a[href*='appointment'], button:has-text('תורים')"

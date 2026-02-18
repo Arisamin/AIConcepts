@@ -71,7 +71,13 @@ class LeumitBrowser:
     async def take_screenshot(self, name: str = "screenshot"):
         """Take a screenshot for debugging."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filepath = SCREENSHOTS_DIR / f"{name}_{timestamp}.png"
+        
+        # Create time-based folder (HH_mm format)
+        time_folder = datetime.now().strftime("%H_%M")
+        folder_path = SCREENSHOTS_DIR / time_folder
+        folder_path.mkdir(exist_ok=True)
+        
+        filepath = folder_path / f"{name}_{timestamp}.png"
         await self.page.screenshot(path=str(filepath))
         logger.info(f"Screenshot saved: {filepath}")
         return filepath
@@ -96,25 +102,79 @@ class LeumitBrowser:
             
             # Wait for popup animation to complete
             logger.info("Waiting for login popup to fully appear...")
-            await asyncio.sleep(2)  # Wait 2 seconds for animation
-            await self.page.wait_for_load_state("networkidle")
+            await asyncio.sleep(3)  # Wait 3 seconds for animation
             
             # Take screenshot of login page
-            await self.take_screenshot("login_page")
+            await self.take_screenshot("login_page_before_input")
+            
+            # Wait for user confirmation that fields are visible
+            logger.info("=" * 60)
+            logger.info("WAITING FOR YOUR CONFIRMATION")
+            logger.info("Please check that the login fields are fully visible")
+            logger.info("Press ENTER when ready to continue...")
+            logger.info("=" * 60)
+            input()  # Wait for user to press Enter
+            
+            logger.info("User confirmed - proceeding with login...")
+            
+            # Wait for input fields to become visible
+            logger.info("Waiting for input fields to be visible...")
+            try:
+                await self.page.wait_for_selector("input:visible", timeout=10000, state="visible")
+            except Exception as e:
+                logger.warning(f"Timeout waiting for visible inputs: {e}")
+            
+            await self.page.wait_for_load_state("networkidle")
+            
+            # Take screenshot after user confirmation
+            await self.take_screenshot("login_page_after_confirmation")
+            
+            # Use Playwright's locator with visible filter
+            logger.info("Finding visible input fields...")
+            
+            # The login form might be in an iframe - check all frames
+            id_input = None
+            mobile_input = None
+            login_frame = None
+            
+            # First try main page
+            if await self.page.locator("#TextBoxIdNumForOTP").count() > 0:
+                logger.info("Found inputs in main page")
+                id_input = self.page.locator("#TextBoxIdNumForOTP")
+                mobile_input = self.page.locator("#TextBoxCellphone")
+                login_frame = self.page
+            else:
+                # Check all frames
+                logger.info("Inputs not in main page, checking frames...")
+                for frame in self.page.frames:
+                    frame_url = frame.url
+                    logger.info(f"Checking frame: {frame_url}")
+                    
+                    if await frame.locator("#TextBoxIdNumForOTP").count() > 0:
+                        logger.info(f"Found inputs in frame: {frame_url}")
+                        id_input = frame.locator("#TextBoxIdNumForOTP")
+                        mobile_input = frame.locator("#TextBoxCellphone")
+                        login_frame = frame
+                        break
+            
+            if not id_input or not login_frame:
+                logger.error("Could not find login input fields in any frame")
+                await self.take_screenshot("inputs_not_found")
+                return False
             
             # Fill ID (Teudat Zehut)
             logger.info("Entering ID number...")
             user_id = self.credentials.get_leumit_id()
-            await self.page.fill(LeumitSelectors.LOGIN_ID_INPUT, user_id)
+            await id_input.fill(user_id)
             
             # Fill mobile number
             logger.info("Entering mobile number...")
             mobile = self.credentials.get_leumit_mobile()
-            await self.page.fill(LeumitSelectors.LOGIN_MOBILE_INPUT, mobile)
+            await mobile_input.fill(mobile)
             
-            # Click login button
+            # Click login button - use the same frame
             logger.info("Clicking login button...")
-            await self.page.click(LeumitSelectors.LOGIN_SUBMIT_BUTTON)
+            await login_frame.click(LeumitSelectors.LOGIN_SUBMIT_BUTTON)
             
             # Wait for navigation after login
             await self.page.wait_for_load_state("networkidle")
