@@ -19,6 +19,7 @@ LOGS_DIR.mkdir(exist_ok=True)
 # Leumit website settings
 LEUMIT_BASE_URL = "https://www.leumit.co.il"
 LEUMIT_HOME_URL = LEUMIT_BASE_URL
+LEUMIT_ACCOUNT_PAGE = "https://online2.leumit.co.il/Online/Login/HomePage.aspx"
 
 # Browser settings
 HEADLESS = os.getenv("HEADLESS", "false").lower() == "true"

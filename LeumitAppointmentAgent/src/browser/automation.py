@@ -10,6 +10,7 @@ from playwright.async_api import async_playwright, Browser, Page, TimeoutError
 
 from config.settings import (
     LEUMIT_HOME_URL,
+    LEUMIT_ACCOUNT_PAGE,
     HEADLESS,
     BROWSER_TIMEOUT,
     VIEWPORT_WIDTH,
@@ -89,11 +90,34 @@ class LeumitBrowser:
             bool: True if login successful, False otherwise
         """
         try:
-            logger.info(f"Navigating to Leumit home page: {LEUMIT_HOME_URL}")
-            await self.page.goto(LEUMIT_HOME_URL)
+            # First, try to navigate directly to account page to check if already logged in
+            logger.info(f"Checking if already logged in by navigating to: {LEUMIT_ACCOUNT_PAGE}")
+            await self.page.goto(LEUMIT_ACCOUNT_PAGE)
             await self.page.wait_for_load_state("networkidle")
+            await asyncio.sleep(2)  # Wait for any redirects
+            await self.take_screenshot("initial_check")
             
-            # Take screenshot of home page
+            # Check if we're already logged in by looking for the appointments button
+            if await self.page.locator("#ctl00_LinkButton3").count() > 0:
+                logger.info("Already logged in! No need to login again.")
+                return True
+            
+            # Check if we see login boxes (means we need to login)
+            if await self.page.locator("#TextBoxIdNumForOTP").count() > 0:
+                logger.info("Login required - found login form")
+            else:
+                # Maybe in iframe, check all frames
+                for frame in self.page.frames:
+                    if await frame.locator("#TextBoxIdNumForOTP").count() > 0:
+                        logger.info("Login required - found login form in iframe")
+                        break
+                else:
+                    # Neither logged in nor login form found - navigate to home
+                    logger.info("Navigating to Leumit home page...")
+                    await self.page.goto(LEUMIT_HOME_URL)
+                    await self.page.wait_for_load_state("networkidle")
+            
+            # Continue with login process
             await self.take_screenshot("home_page")
             
             # Click personal area button
