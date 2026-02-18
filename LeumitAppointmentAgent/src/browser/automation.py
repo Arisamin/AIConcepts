@@ -31,8 +31,10 @@ class LeumitBrowser:
     def __init__(self):
         self.browser: Optional[Browser] = None
         self.page: Optional[Page] = None
+        self.context = None  # For persistent context
         self.playwright = None
         self.credentials = Credentials()
+        self.using_existing_browser = False
         
     async def __aenter__(self):
         """Async context manager entry."""
@@ -44,25 +46,51 @@ class LeumitBrowser:
         await self.close()
     
     async def start(self):
-        """Initialize browser and create new page."""
-        logger.info("Starting browser...")
+        """Initialize browser and create new page.
+        
+        Uses your existing Chrome profile with authentication.
+        Connects to the same Chrome instance you're logged into.
+        """
+        logger.info("Starting browser connection...")
         self.playwright = await async_playwright().start()
-        self.browser = await self.playwright.chromium.launch(
-            headless=HEADLESS,
-            args=['--start-maximized']
+        
+        # Use Chrome with your actual profile (not a fresh profile)
+        chrome_executable = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+        chrome_user_data = "C:\\Users\\smogb\\AppData\\Local\\Google\\Chrome\\User Data"
+        
+        logger.info(f"Launching Chrome from: {chrome_executable}")
+        logger.info(f"Using profile: {chrome_user_data}")
+        
+        # Use launch_persistent_context to use existing user data directory
+        self.context = await self.playwright.chromium.launch_persistent_context(
+            user_data_dir=chrome_user_data,
+            executable_path=chrome_executable,
+            headless=False,
+            args=[
+                '--start-maximized',
+                '--disable-popup-blocking',
+                '--disable-blink-features=AutomationControlled'
+            ]
         )
         
-        context = await self.browser.new_context(
-            viewport={'width': VIEWPORT_WIDTH, 'height': VIEWPORT_HEIGHT}
-        )
-        self.page = await context.new_page()
+        self.page = await self.context.new_page()
         self.page.set_default_timeout(BROWSER_TIMEOUT)
         logger.info("Browser started successfully")
+        
+        # Navigate directly to the account page
+        logger.info("Navigating to Leumit account page...")
+        await self.page.goto(LEUMIT_ACCOUNT_PAGE)
+        await self.page.wait_for_load_state("networkidle")
+        await asyncio.sleep(1)
+        logger.info("Page loaded")
+
     
     async def close(self):
         """Close browser and cleanup."""
         if self.page:
             await self.page.close()
+        if self.context:
+            await self.context.close()
         if self.browser:
             await self.browser.close()
         if self.playwright:
@@ -90,6 +118,11 @@ class LeumitBrowser:
             bool: True if login successful, False otherwise
         """
         try:
+            # If using existing browser, skip login - already authenticated
+            if self.using_existing_browser:
+                logger.info("Using existing authenticated browser session - skipping login")
+                return True
+            
             # First, try to navigate directly to account page to check if already logged in
             logger.info(f"Checking if already logged in by navigating to: {LEUMIT_ACCOUNT_PAGE}")
             await self.page.goto(LEUMIT_ACCOUNT_PAGE)
@@ -228,11 +261,14 @@ class LeumitBrowser:
             logger.info("OTP CODE ENTRY - MANUAL STEP REQUIRED")
             logger.info("A verification code should be sent to your phone.")
             logger.info("Please enter the OTP code in the browser manually.")
-            logger.info("Press ENTER here once you've submitted the OTP code...")
+            logger.info("The browser will stay open for 120 seconds (2 minutes)...")
             logger.info("=" * 60)
-            input()  # Wait for user to press Enter
             
-            logger.info("User confirmed OTP entry - checking login status...")
+            # Wait 120 seconds (2 minutes) for user to enter OTP manually
+            logger.info("Waiting 120 seconds for OTP entry...")
+            await asyncio.sleep(120)
+            
+            logger.info("Checking login status...")
             await asyncio.sleep(2)
             
             # Wait for navigation after login
@@ -339,14 +375,6 @@ class LeumitBrowser:
             
             logger.info("Successfully navigated to appointments")
             
-            # Wait for user to inspect
-            logger.info("=" * 60)
-            logger.info("Arrived at appointments page")
-            logger.info("Please inspect the page and identify next steps")
-            logger.info("Press ENTER to continue...")
-            logger.info("=" * 60)
-            input()
-            
             return True
             
         except Exception as e:
@@ -366,16 +394,52 @@ class LeumitBrowser:
         try:
             logger.info("Searching for appointments...")
             
-            # Click new appointment button
-            await self.page.click(LeumitSelectors.NEW_APPOINTMENT_BUTTON)
-            await self.page.wait_for_load_state("networkidle")
+            # Click "בצע חיפוש חדש" (New Search) button
+            logger.info("Step 1: Clicking new search button...")
+            try:
+                await self.page.click(LeumitSelectors.NEW_SEARCH_BUTTON)
+                await self.page.wait_for_load_state("networkidle")
+                await asyncio.sleep(1)
+                await self.take_screenshot("01_new_search_clicked")
+                logger.info("New search button clicked successfully")
+            except Exception as e:
+                logger.warning(f"Could not click new search button: {e}")
+                await self.take_screenshot("01_new_search_button_error")
             
-            # Select doctor if specified
+            # Click "רופאים ומטפלים" (Doctors and Therapists) button
+            logger.info("Step 2: Clicking doctors and therapists button...")
+            try:
+                await self.page.click(LeumitSelectors.DOCTORS_THERAPISTS_BUTTON)
+                await self.page.wait_for_load_state("networkidle")
+                await asyncio.sleep(1)
+                await self.take_screenshot("02_doctors_clicked")
+                logger.info("Doctors and therapists button clicked successfully")
+            except Exception as e:
+                logger.warning(f"Could not click doctors button: {e}")
+                await self.take_screenshot("02_doctors_button_error")
+            
+            # Fill search form
+            logger.info("Step 3: Filling search form...")
+            
+            # Fill doctor/specialty search
             if doctor_name:
-                await self.page.select_option(LeumitSelectors.DOCTOR_SELECT, doctor_name)
+                try:
+                    await self.page.fill(LeumitSelectors.SEARCH_DOCTOR_INPUT, doctor_name)
+                    await self.take_screenshot("03_doctor_filled")
+                    logger.info(f"Entered doctor name: {doctor_name}")
+                except Exception as e:
+                    logger.warning(f"Could not fill doctor input: {e}")
             
-            # Click search
-            await self.page.click(LeumitSelectors.SEARCH_BUTTON)
+            # Click search/submit button
+            logger.info("Step 4: Clicking search button...")
+            try:
+                await self.page.click(LeumitSelectors.SEARCH_BUTTON)
+                await self.page.wait_for_load_state("networkidle")
+                await self.take_screenshot("04_search_submitted")
+                logger.info("Search submitted successfully")
+            except Exception as e:
+                logger.warning(f"Could not click search button: {e}")
+                await self.take_screenshot("04_search_button_error")
             await self.page.wait_for_load_state("networkidle")
             await self.take_screenshot("search_results")
             

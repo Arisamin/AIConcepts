@@ -21,6 +21,19 @@ class LeumitSelectors:
     NEW_APPOINTMENT_BUTTON = "button:has-text('תור חדש'), a:has-text('קביעת תור')"
     
     # Appointment search selectors
+    NEW_SEARCH_BUTTON = ".appointments_large_button_text, div:has-text('בצע חיפוש חדש')"
+    DOCTORS_THERAPISTS_BUTTON = ".appointments_large_button_text:has-text('רופאים ומטפלים'), div:has-text('רופאים ומטפלים')"
+    
+    # Search form fields
+    SEARCH_DOCTOR_INPUT = "input[placeholder*='תמחום טיפול'], input[placeholder*='חפש']"
+    SEARCH_CLINIC_INPUT = "input[placeholder*='הקלד שם רופא'], input[placeholder*='קליניקה']"
+    SEARCH_DATE_INPUT = "input[type='date'], input[placeholder*='תאריך']"
+    
+    # Category selection
+    CATEGORY_DOCTOR = "input[value='קבוע למרקם מומומי'], label:has-text('קבוע למרקם')"
+    CATEGORY_SMS = "input[value='יישום'], label:has-text('יישום')"
+    CATEGORY_DIRECT = "input[value='כיוונית'], label:has-text('כיוונית')"
+    
     DOCTOR_SELECT = "select[name='doctor'], #doctor-select"
     DATE_PICKER = "input[type='date'], .date-picker"
     SEARCH_BUTTON = "button:has-text('חפש'), button[type='submit']"
