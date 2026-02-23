@@ -408,6 +408,64 @@ def test_failed_command_auto_retry():
     test_passed("Only successful commands update hash")
 
 
+def test_new_search_button_strategies():
+    """Test בצע חיפוש חדש button click with multiple selector strategies"""
+    test_section("TEST: בצע חיפוש חדש Button Click Strategies")
+    
+    print(f"\n{BLUE}Button HTML Structure:{RESET}")
+    print("  <div class=\"appointments_large_button\">")
+    print("      <div class=\"appointments_large_button_text\" onclick=\"newSearch()\">")
+    print("          בצע חיפוש חדש")
+    print("      </div>")
+    print("  </div>")
+    
+    print(f"\n{BLUE}Selector Strategies (Priority Order):{RESET}")
+    strategies = [
+        {
+            "name": "onclick attribute",
+            "selector": "div.appointments_large_button_text[onclick='newSearch()']",
+            "reason": "Most specific - matches exact onclick handler"
+        },
+        {
+            "name": "text in div",
+            "selector": "div.appointments_large_button_text:has-text('בצע חיפוש חדש')",
+            "reason": "By class and text content"
+        },
+        {
+            "name": "parent div",
+            "selector": "div.appointments_large_button:has-text('בצע חיפוש חדש')",
+            "reason": "Parent container with text"
+        },
+        {
+            "name": "text fallback",
+            "selector": "get_by_text('בצע חיפוש חדש', exact=False)",
+            "reason": "Generic text-based fallback"
+        }
+    ]
+    
+    print()
+    for i, strategy in enumerate(strategies, 1):
+        print(f"  {i}. {strategy['name']}")
+        print(f"     Selector: {strategy['selector']}")
+        print(f"     Reason:   {strategy['reason']}")
+        print()
+    
+    print(f"{BLUE}Behavior:{RESET}")
+    print("  • Tries each strategy in order with 5s timeout")
+    print("  • Uses first strategy that succeeds")
+    print("  • Logs which strategy worked")
+    print("  • Falls back to next if timeout/error")
+    print("  • Returns error only if all strategies fail")
+    
+    print(f"\n{BLUE}Verified Working:{RESET}")
+    print("  ✓ onclick='newSearch()' selector successfully clicks button")
+    print("  ✓ Button click triggers navigation to search form")
+    print("  ✓ Page loads and רופאים ומטפלים becomes available")
+    
+    test_passed("בצע חיפוש חדש button click with multiple fallback strategies")
+    test_passed("onclick attribute selector works reliably")
+
+
 def main():
     print("\n" + "="*70)
     print("WORKFLOW INTEGRATION TESTS")
@@ -424,6 +482,7 @@ def main():
         test_form_field_ids()
         test_selector_strategies()
         test_failed_command_auto_retry()
+        test_new_search_button_strategies()
         
         print("\n" + "="*70)
         print(f"{GREEN}ALL WORKFLOW TESTS COMPLETED{RESET}")

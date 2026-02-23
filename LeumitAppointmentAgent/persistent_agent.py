@@ -42,6 +42,7 @@ class PersistentAgent:
         self.playwright = None
         self.logged_in = False
         self.last_command_hash = None
+        self.last_file_mtime = None
         self.socket_server = None
         self.debug_mode = os.getenv("AGENT_DEBUG", "0") == "1"
     
@@ -98,40 +99,82 @@ class PersistentAgent:
         logger.info("")
     
     async def login_to_leumit(self):
-        """Complete login flow."""
+        """Complete login flow following the documented workflow."""
         logger.info("=" * 60)
         logger.info("LOGIN FLOW")
         logger.info("=" * 60)
         logger.info("")
         
         try:
-            # Navigate to Google
-            logger.info("Navigating to Google...")
+            # Step 1: Navigate to Google
+            logger.info("Step 1: Navigating to Google...")
             await self.page.goto("https://www.google.com", wait_until="domcontentloaded")
+            await asyncio.sleep(1)
             
-            # Search for Leumit
-            logger.info("Searching for 'לאומית'...")
+            # Step 2: Search for Leumit
+            logger.info("Step 2: Searching for 'לאומית'...")
             await self.page.fill("textarea[name='q'], input[name='q']", "לאומית")
             await self.page.click("input[name='btnK']")
             await asyncio.sleep(3)
             
-            # Click Leumit link
-            logger.info("Clicking Leumit link...")
+            # Step 3: Click Leumit link
+            logger.info("Step 3: Clicking Leumit link...")
             await self.page.click("a[href*='leumit.co.il']")
-            await asyncio.sleep(3)
+            await asyncio.sleep(5)  # Wait for homepage to load
             
-            # Click "אזור אישי" button
-            logger.info("Clicking 'אזור אישי' button...")
+            # Step 4: Check login state per workflow
+            logger.info("Step 4: Checking login state...")
+            
+            # Check for "אזור אישי" (not logged in)
+            azor_ishi_found = False
+            zimun_torim_found = False
+            
+            try:
+                await self.page.get_by_text("אזור אישי").first.wait_for(timeout=3000, state="visible")
+                azor_ishi_found = True
+                logger.info("  ✓ Found 'אזור אישי' button → NOT logged in")
+            except:
+                pass
+            
+            # Check for "זימון תורים" (logged in)
+            if not azor_ishi_found:
+                try:
+                    await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
+                    zimun_torim_found = True
+                    logger.info("  ✓ Found 'זימון תורים' button → Already logged in!")
+                    self.logged_in = True
+                    return True
+                except:
+                    pass
+            
+            # If neither found, trigger error
+            if not azor_ishi_found and not zimun_torim_found:
+                logger.error("  ✗ Neither 'אזור אישי' nor 'זימון תורים' found!")
+                logger.error("  → Unexpected state - cannot proceed with login")
+                return False
+            
+            # If we found "אזור אישי", proceed with login
+            logger.info("Step 5: Clicking 'אזור אישי' button...")
             try:
                 await self.page.get_by_text("אזור אישי").first.click()
             except:
                 logger.warning("Could not click via text, trying selector...")
                 await self.page.click("button:has-text('אזור אישי'), a:has-text('אזור אישי')")
             
-            await asyncio.sleep(8)  # Wait for login modal to load
+            await asyncio.sleep(8)  # Wait for page to respond
+            
+            # After clicking, check if we're now logged in (button appeared) or need to login
+            logger.info("Step 6: Checking if login modal appeared or already logged in...")
+            try:
+                await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
+                logger.info("  ✓ Found 'זימון תורים' → Already logged in after clicking!")
+                self.logged_in = True
+                return True
+            except:
+                logger.info("  → 'זימון תורים' not found, proceeding with login form...")
             
             # Find and fill login form
-            logger.info("Looking for login form...")
+            logger.info("Step 7: Looking for login form...")
             
             # Wait for the form to be visible
             await self.page.wait_for_selector("[id*='fecd8561']", timeout=5000)
@@ -209,6 +252,16 @@ class PersistentAgent:
                 except:
                     logger.warning("Could not find submit button")
             
+            # Before waiting for OTP, check one more time if we're already logged in
+            logger.info("Checking if already logged in before OTP wait...")
+            try:
+                await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
+                logger.info("  ✓ Found 'זימון תורים' → Already logged in!")
+                self.logged_in = True
+                return True
+            except:
+                logger.info("  → Not logged in yet, need OTP verification")
+            
             logger.info("")
             logger.info("=" * 60)
             logger.info("⏳ WAITING FOR OTP VERIFICATION")
@@ -217,8 +270,7 @@ class PersistentAgent:
             logger.info("Agent will continue once you're logged in...")
             logger.info("")
             
-            # Wait for successful login by checking URL or page content
-            # For now, just wait for user action
+            # Wait for successful login by checking for "זימון תורים" button
             max_wait = 300  # 5 minutes
             waited = 0
             check_interval = 2
@@ -227,18 +279,19 @@ class PersistentAgent:
                 await asyncio.sleep(check_interval)
                 waited += check_interval
                 
-                current_url = self.page.url
-                
-                # Check if we're past the login page
-                if "HomePage" not in current_url and "Login" not in current_url:
-                    logger.info(f"✓ Login successful! URL: {current_url}")
+                # Check if "זימון תורים" button appeared (logged in)
+                try:
+                    await self.page.get_by_text("זימון תורים").first.wait_for(timeout=1000, state="visible")
+                    logger.info(f"✓ Login successful! Found 'זימון תורים' button")
                     self.logged_in = True
                     logger.info("")
                     return True
+                except:
+                    pass  # Button not yet visible, keep waiting
                 
                 # Show progress every 30 seconds
                 if waited % 30 == 0:
-                    logger.info(f"Still waiting... ({waited}s / {max_wait}s)")
+                    logger.info(f"Still waiting for OTP... ({waited}s / {max_wait}s)")
             
             logger.error("Login timeout - OTP not verified in time")
             return False
@@ -377,69 +430,120 @@ class PersistentAgent:
                 logger.info(f"  Doctor: {doctor_name}")
                 logger.info(f"  Date range: {date_from} to {date_to}")
                 
-                # Recovery mechanism: Try to find the "זימון תורים" button
-                # If not found, do fresh navigation from Google
-                logger.info("Step 0: Looking for 'זימון תורים' button...")
+                # Step 0: Check if we're logged in by looking for the "זימון תורים" button
+                logger.info("Step 0: Checking login state...")
                 try:
                     # Quick check if button exists (3 second timeout)
                     await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
-                    logger.info("  ✓ Button found, already on correct page")
+                    logger.info("  ✓ Already logged in - 'זימון תורים' button found")
+                    self.logged_in = True
                 except:
-                    logger.info("  Button not found - performing recovery navigation")
-                    logger.info("  → Navigating to Google...")
-                    await self.page.goto("https://www.google.com", wait_until="domcontentloaded")
-                    await asyncio.sleep(1)
+                    logger.info("  ✗ Not logged in - 'זימון תורים' button not found")
+                    logger.info("  → Need to perform login before continuing")
                     
-                    logger.info("  → Searching for 'לאומית'...")
-                    search_box = await self.page.query_selector("textarea[name='q'], input[name='q']")
-                    if search_box:
-                        await search_box.fill("לאומית")
-                        await search_box.press("Enter")
-                        await asyncio.sleep(3)
-                    
-                    logger.info("  → Clicking first Leumit link...")
-                    # Click first link that contains "leumit.co.il"
-                    first_link = await self.page.query_selector("a[href*='leumit.co.il']")
-                    if first_link:
-                        await first_link.click()
-                        await asyncio.sleep(5)  # Wait for page to fully load
-                    
-                    logger.info("  → Checking if logged in...")
-                    # Now check if we landed on logged-in page or login page
-                    try:
-                        await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
-                        logger.info("  ✓ Logged in - 'זימון תורים' button found")
-                    except:
-                        logger.info("  Not logged in yet - checking for login form...")
-                        # Check if we're on a login page
-                        current_url = self.page.url
-                        if "login" in current_url.lower():
-                            logger.info("  → On login page - need to perform login")
-                            # Trigger login flow
-                            await self.login_to_leumit()
-                            # After login, should be on homepage with the button
-                        else:
-                            logger.info("  → Clicking 'אזור אישי' to reach login...")
-                            try:
-                                await self.page.get_by_text("אזור אישי").first.click(timeout=5000)
-                                await asyncio.sleep(3)
-                                await self.login_to_leumit()
-                            except Exception as e:
-                                logger.error(f"  Could not find login path: {e}")
-                                raise Exception("Failed to navigate to login or logged-in state")
+                    # Return error asking for login
+                    return {
+                        "status": "error",
+                        "message": "Not logged in. Please send login command first: {\"action\": \"login\"}",
+                        "requires_login": True
+                    }
                 
                 # Navigate to appointments section
                 logger.info("Step 1: Click 'זימון תורים'")
-                await self.page.get_by_text("זימון תורים").first.click(timeout=30000)
-                await asyncio.sleep(2)
+                try:
+                    await self.page.get_by_text("זימון תורים").first.click(timeout=30000)
+                    await asyncio.sleep(3)  # Wait for page transition
+                    logger.info("  ✓ Clicked 'זימון תורים'")
+                    
+                    # Take screenshot after clicking
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"after_zimon_torim_{datetime.now().strftime('%H%M%S')}.png"
+                    screenshot_path.parent.mkdir(exist_ok=True)
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                    
+                except Exception as e:
+                    logger.error(f"  ✗ Failed to click 'זימון תורים': {e}")
+                    return {"status": "error", "message": f"Failed to click appointments button: {e}"}
                 
                 logger.info("Step 2: Click 'בצע חיפוש חדש'")
-                await self.page.get_by_text("בצע חיפוש חדש").first.click(timeout=60000)
-                await asyncio.sleep(2)
+                
+                # Try multiple selector strategies for the button
+                clicked = False
+                strategies = [
+                    ("onclick", lambda: self.page.locator("div.appointments_large_button_text[onclick='newSearch()']")),
+                    ("text_in_div", lambda: self.page.locator("div.appointments_large_button_text:has-text('בצע חיפוש חדש')")),
+                    ("parent_div", lambda: self.page.locator("div.appointments_large_button:has-text('בצע חיפוש חדש')")),
+                    ("text", lambda: self.page.get_by_text("בצע חיפוש חדש", exact=False).first),
+                ]
+                
+                for strategy_name, selector_fn in strategies:
+                    try:
+                        logger.info(f"  → Trying strategy: {strategy_name}")
+                        element = selector_fn()
+                        await element.wait_for(timeout=5000, state="visible")
+                        await element.click()
+                        logger.info(f"  ✓ Clicked 'בצע חיפוש חדש' (strategy: {strategy_name})")
+                        clicked = True
+                        
+                        # Take screenshot after clicking
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"after_new_search_{datetime.now().strftime('%H%M%S')}.png"
+                        await self.page.screenshot(path=str(screenshot_path))
+                        logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                        break
+                        
+                    except Exception as e:
+                        logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                        continue
+                
+                if not clicked:
+                    logger.error(f"  ✗ All strategies failed to click 'בצע חיפוש חדש'")
+                    
+                    # Take error screenshot
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step2_error_{datetime.now().strftime('%H%M%S')}.png"
+                    screenshot_path.parent.mkdir(exist_ok=True)
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.error(f"  📸 Error screenshot: {screenshot_path.name}")
+                    
+                    return {"status": "error", "message": "Failed to click בצע חיפוש חדש - all strategies exhausted"}
+                
+                # Wait for page to load after clicking new search - increased to 5 seconds
+                logger.info("  → Waiting for search page to load...")
+                await asyncio.sleep(5)  # Give page more time to fully render
                 
                 logger.info("Step 3: Click 'רופאים ומטפלים'")
-                await self.page.get_by_text("רופאים ומטפלים").first.click()
-                await asyncio.sleep(2)
+                
+                # Try multiple selector strategies
+                clicked = False
+                strategies = [
+                    ("text", lambda: self.page.get_by_text("רופאים ומטפלים", exact=False).first),
+                    ("radio", lambda: self.page.locator("input[type='radio'][value*='doctor'], input[type='radio'][value*='Doctor']").first),
+                    ("label", lambda: self.page.locator("label:has-text('רופאים ומטפלים')").first),
+                    ("contains", lambda: self.page.locator("*:has-text('רופאים ומטפלים')").first),
+                ]
+                
+                for strategy_name, selector_fn in strategies:
+                    try:
+                        logger.info(f"  → Trying strategy: {strategy_name}")
+                        element = selector_fn()
+                        await element.wait_for(timeout=5000, state="visible")
+                        await element.click()
+                        await asyncio.sleep(2)
+                        logger.info(f"  ✓ Clicked 'רופאים ומטפלים' (strategy: {strategy_name})")
+                        clicked = True
+                        break
+                    except Exception as e:
+                        logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                        continue
+                
+                if not clicked:
+                    logger.error(f"  ✗ All strategies failed to click 'רופאים ומטפלים'")
+                    
+                    # Take screenshot to see current state
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step3_error_{datetime.now().strftime('%H%M%S')}.png"
+                    screenshot_path.parent.mkdir(exist_ok=True)
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.error(f"  📸 Error screenshot: {screenshot_path.name}")
+                    return {"status": "error", "message": "Failed to click רופאים ומטפלים - all strategies exhausted"}
                 
                 # Select specialty
                 logger.info(f"Step 4: Select specialty '{specialty}'")
@@ -570,32 +674,107 @@ class PersistentAgent:
                     if cmd:
                         logger.info(f"DEBUG: Loaded command: {cmd.get('action')}")
                         cmd_hash = self.get_command_hash(cmd)
-                        logger.info(f"DEBUG: Command hash: {cmd_hash}, Last hash: {self.last_command_hash}")
                         
-                        # Only execute if command is new or has changed
-                        if cmd_hash != self.last_command_hash:
-                            logger.info("DEBUG: Hash changed, executing command")
-                            self.last_command_hash = cmd_hash
+                        # Check file modification time
+                        file_mtime = COMMANDS_FILE.stat().st_mtime if COMMANDS_FILE.exists() else None
+                        logger.info(f"DEBUG: Command hash: {cmd_hash}, Last hash: {self.last_command_hash}")
+                        logger.info(f"DEBUG: File mtime: {file_mtime}, Last mtime: {self.last_file_mtime}")
+                        
+                        # Only execute if command is new or has changed (check both hash AND file modification time)
+                        if cmd_hash != self.last_command_hash or file_mtime != self.last_file_mtime:
+                            logger.info("DEBUG: Command changed (hash or file modified), executing command")
                             
                             if cmd.get("action") == "login":
-                                success = await self.login_to_leumit()
+                                # Login with infinite retry mechanism
+                                retry_count = 0
+                                success = False
+                                
+                                while not success:
+                                    if retry_count > 0:
+                                        logger.info("")
+                                        logger.info(f"🔄 Login retry attempt #{retry_count}")
+                                        logger.info("Waiting 10 seconds before retry...")
+                                        await asyncio.sleep(10)
+                                    
+                                    success = await self.login_to_leumit()
+                                    retry_count += 1
+                                    
+                                    if not success:
+                                        logger.warning(f"Login attempt #{retry_count} failed, will retry in 10 seconds...")
+                                        logger.info("Press Ctrl+C to stop agent if needed")
+                                
+                                logger.info("✅ Login successful!")
+                                
                                 self.save_state({
                                     "logged_in": success,
                                     "timestamp": datetime.now().isoformat(),
                                     "last_url": self.page.url if self.page else None
                                 })
+                                
+                                # Don't update command hash yet - keep retrying on same command
+                                # Only update hash after successful login
+                                self.last_command_hash = cmd_hash
+                                self.last_file_mtime = file_mtime
                             else:
-                                # With persistent context, cookies may restore session
-                                # Let commands try - if session is invalid, they'll fail with useful errors
+                                # Execute non-login commands
                                 result = await self.execute_command(cmd)
                                 logger.info(f"Result: {result}")
-                                self.save_state({
-                                    "logged_in": self.logged_in,
-                                    "timestamp": datetime.now().isoformat(),
-                                    "last_url": self.page.url if self.page else None,
-                                    "last_command": cmd.get("action"),
-                                    "result": result
-                                })
+                                
+                                # Check if command requires login
+                                if isinstance(result, dict) and result.get("requires_login"):
+                                    logger.info("")
+                                    logger.info("⚠️  Command requires login. Attempting login first...")
+                                    
+                                    # Perform login with infinite retry
+                                    retry_count = 0
+                                    success = False
+                                    
+                                    while not success:
+                                        if retry_count > 0:
+                                            logger.info("")
+                                            logger.info(f"🔄 Login retry attempt #{retry_count}")
+                                            logger.info("Waiting 10 seconds before retry...")
+                                            await asyncio.sleep(10)
+                                        
+                                        success = await self.login_to_leumit()
+                                        retry_count += 1
+                                        
+                                        if not success:
+                                            logger.warning(f"Login attempt #{retry_count} failed, will retry in 10 seconds...")
+                                            logger.info("Press Ctrl+C to stop agent if needed")
+                                    
+                                    logger.info("✅ Login successful! Will retry command on next cycle...")
+                                    
+                                    # DON'T update hash - let command retry on next cycle
+                                    # The command file hasn't changed, but we need to re-execute after login
+                                    self.save_state({
+                                        "logged_in": success,
+                                        "timestamp": datetime.now().isoformat(),
+                                        "last_url": self.page.url if self.page else None,
+                                        "last_command": "login",
+                                        "result": {"status": "success", "next": cmd.get("action")}
+                                    })
+                                else:
+                                    # Check if command succeeded or failed
+                                    command_succeeded = (isinstance(result, dict) and result.get("status") != "error")
+                                    
+                                    if command_succeeded:
+                                        # Command succeeded - update hash to prevent re-execution
+                                        self.last_command_hash = cmd_hash
+                                        self.last_file_mtime = file_mtime
+                                        logger.info("✅ Command completed successfully")
+                                    else:
+                                        # Command failed - DON'T update hash to allow retry
+                                        logger.warning("⚠️  Command failed, will retry on next cycle")
+                                        logger.info("   To skip this command, modify commands.json")
+                                    
+                                    self.save_state({
+                                        "logged_in": self.logged_in,
+                                        "timestamp": datetime.now().isoformat(),
+                                        "last_url": self.page.url if self.page else None,
+                                        "last_command": cmd.get("action"),
+                                        "result": result
+                                    })
                         else:
                             # Command hasn't changed, wait
                             logger.info("DEBUG: Command unchanged, waiting...")
