@@ -43,6 +43,7 @@ class PersistentAgent:
         self.logged_in = False
         self.last_command_hash = None
         self.socket_server = None
+        self.debug_mode = os.getenv("AGENT_DEBUG", "0") == "1"
     
     async def setup(self):
         """Initialize browser."""
