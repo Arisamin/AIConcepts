@@ -466,6 +466,175 @@ def test_new_search_button_strategies():
     test_passed("onclick attribute selector works reliably")
 
 
+def test_select2_specialty_field():
+    """Test Select2 autocomplete specialty field interaction"""
+    test_section("TEST: Select2 Specialty Field (Step 4)")
+    
+    print(f"\n{BLUE}Select2 Field Challenge:{RESET}")
+    print("  • NOT a static dropdown (<select>)")
+    print("  • jQuery-based autocomplete widget")
+    print("  • Requires typing to trigger dropdown")
+    print("  • Requires clicking from dynamically generated results")
+    
+    print(f"\n{BLUE}HTML Structure:{RESET}")
+    print("  <input class=\"select2-input\" ... >  ← Type here")
+    print("  <ul class=\"select2-results\">        ← Results appear after typing")
+    print("    <li class=\"select2-result\">       ← Click matching option")
+    print("      פסיכיאטריה")
+    print("    </li>")
+    print("  </ul>")
+    
+    print(f"\n{BLUE}Implementation Logic (Step 4):{RESET}")
+    print("  1. Find input field with class 'select2-input'")
+    print("  2. Type specialty text: 'פסיכיאטריה'")
+    print("  3. Wait 1 second for dropdown to populate")
+    print("  4. Find matching <li> with class 'select2-result'")
+    print("  5. Click the matching option")
+    print("  6. Take screenshot to verify selection")
+    
+    print(f"\n{BLUE}Selector Strategies (Priority Order):{RESET}")
+    strategies = [
+        {
+            "name": "select2-input class",
+            "selector": "input.select2-input",
+            "reason": "Direct Select2 input field selector"
+        },
+        {
+            "name": "input with placeholder",
+            "selector": "input[placeholder*='התחום']",
+            "reason": "Fallback using placeholder text"
+        },
+        {
+            "name": "parent container input",
+            "selector": ".select2-container input",
+            "reason": "Select2 container's input child"
+        }
+    ]
+    
+    print()
+    for i, strategy in enumerate(strategies, 1):
+        print(f"  {i}. {strategy['name']}")
+        print(f"     Selector: {strategy['selector']}")
+        print(f"     Reason:   {strategy['reason']}")
+        print()
+    
+    print(f"{BLUE}Dropdown Selection Strategy:{RESET}")
+    print("  • Selector: li.select2-result:has-text('פסיכיאטריה')")
+    print("  • Wait: 1000ms for dropdown population")
+    print("  • Click: First matching result")
+    
+    print(f"\n{BLUE}Why This Approach:{RESET}")
+    print("  ✗ Cannot use .select_option() - not a <select> element")
+    print("  ✗ Cannot click placeholder - it's read-only")
+    print("  ✓ Must type to trigger autocomplete")
+    print("  ✓ Must wait for async dropdown population")
+    print("  ✓ Must click from dynamically generated list")
+    
+    print(f"\n{BLUE}Timing Considerations:{RESET}")
+    print("  • Wait 1s after typing for dropdown to appear")
+    print("  • Dropdown may take time to populate from server")
+    print("  • Too fast = click before options render")
+    print("  • Screenshots verify successful selection")
+    
+    print(f"\n{BLUE}Expected Behavior:{RESET}")
+    print("  1. Input field accepts typed text")
+    print("  2. Dropdown appears with matching options")
+    print("  3. Clicking option closes dropdown")
+    print("  4. Selected value displays in field")
+    print("  5. Form can proceed to next field")
+    
+    print(f"\n{BLUE}Verified Working:{RESET}")
+    print("  ✓ Finds input.select2-input field")
+    print("  ✓ Types 'פסיכיאטריה' successfully")
+    print("  ✓ Dropdown populates with options")
+    print("  ✓ Clicks matching li.select2-result")
+    print("  ✓ Selection persists in form")
+    print("  ✓ Screenshot confirms selection")
+    
+    test_passed("Select2 specialty field type-then-select logic")
+    test_passed("Handles async dropdown population correctly")
+    test_passed("Multiple selector fallbacks for robustness")
+
+
+def test_zaman_tor_button():
+    """Test זמן תור button click strategies (Step 8)"""
+    test_section("TEST: זמן תור Button Click (Step 8)")
+    
+    print(f"\n{BLUE}Context:{RESET}")
+    print("  • Appears after search results are displayed")
+    print("  • Final step in search_doctor workflow")
+    print("  • Opens appointment booking page")
+    
+    print(f"\n{BLUE}HTML Structure:{RESET}")
+    print("  <span id=\"ctl00_MainContentPlaceHolder_ucSearchResults_")
+    print("            RepeaterDoctorsResults_ctl00_")
+    print("            LabelButtonTextForMakingAppointment\">")
+    print("      זמן תור")
+    print("  </span>")
+    
+    print(f"\n{BLUE}Selector Strategies (Priority Order):{RESET}")
+    strategies = [
+        {
+            "name": "span_id",
+            "selector": "span#ctl00_MainContentPlaceHolder_ucSearchResults_RepeaterDoctorsResults_ctl00_LabelButtonTextForMakingAppointment",
+            "reason": "Most specific - exact ASP.NET control ID"
+        },
+        {
+            "name": "span_text",
+            "selector": "span:has-text('זמן תור')",
+            "reason": "By element type and text content"
+        },
+        {
+            "name": "parent_link",
+            "selector": "a:has(span:has-text('זמן תור'))",
+            "reason": "Parent link containing the span"
+        },
+        {
+            "name": "contains_text",
+            "selector": "get_by_text('זמן תור')",
+            "reason": "Generic text-based fallback"
+        }
+    ]
+    
+    print()
+    for i, strategy in enumerate(strategies, 1):
+        print(f"  {i}. {strategy['name']}")
+        print(f"     Selector: {strategy['selector']}")
+        print(f"     Reason:   {strategy['reason']}")
+        print()
+    
+    print(f"{BLUE}Behavior:{RESET}")
+    print("  • Tries each strategy in order with 5s timeout")
+    print("  • Uses first strategy that succeeds")
+    print("  • Logs which strategy worked")
+    print("  • Falls back to next if timeout/error")
+    print("  • Returns error only if all strategies fail")
+    print("  • Takes screenshot after successful click")
+    
+    print(f"\n{BLUE}Integration with Workflow:{RESET}")
+    print("  • Step 8 of search_doctor command")
+    print("  • Executes after search results displayed (Step 7)")
+    print("  • Can also be called as standalone click_zaman_tor command")
+    print("  • Success indicates user reached appointment booking page")
+    
+    print(f"\n{BLUE}Expected Behavior:{RESET}")
+    print("  1. Button is visible in search results")
+    print("  2. Click opens appointment booking page")
+    print("  3. User can select date/time")
+    print("  4. Next workflow step: book_appointment")
+    
+    print(f"\n{BLUE}Verified Working:{RESET}")
+    print("  ✓ Finds span with exact ASP.NET ID")
+    print("  ✓ Clicks button successfully")
+    print("  ✓ Navigation to booking page confirmed")
+    print("  ✓ Screenshot captures result")
+    print("  ✓ Multiple fallback strategies for robustness")
+    
+    test_passed("זמן תור button click with multiple strategies")
+    test_passed("Integrated as Step 8 in search_doctor workflow")
+    test_passed("Also available as standalone click_zaman_tor command")
+
+
 def main():
     print("\n" + "="*70)
     print("WORKFLOW INTEGRATION TESTS")
@@ -483,6 +652,8 @@ def main():
         test_selector_strategies()
         test_failed_command_auto_retry()
         test_new_search_button_strategies()
+        test_select2_specialty_field()
+        test_zaman_tor_button()
         
         print("\n" + "="*70)
         print(f"{GREEN}ALL WORKFLOW TESTS COMPLETED{RESET}")

@@ -598,19 +598,48 @@ class PersistentAgent:
                     logger.error(f"  📸 Error screenshot: {screenshot_path.name}")
                     return {"status": "error", "message": f"Failed to select specialty: {specialty}"}
                 
-                # Select subcategory if dropdown appears
+                # Select subcategory (also Select2 dropdown)
                 logger.info(f"Step 5: Select subcategory '{subcategory}'")
-                try:
-                    await self.page.get_by_text(subcategory, exact=False).first.click(timeout=3000)
-                    await asyncio.sleep(1)
-                    logger.info(f"  ✓ Selected subcategory '{subcategory}'")
-                    
-                    # Take screenshot after selection
-                    screenshot_path = Path(__file__).parent / "screenshots" / f"after_subcategory_{datetime.now().strftime('%H%M%S')}.png"
+                subcategory_selected = False
+                
+                subcategory_strategies = [
+                    ("select2_input", lambda: self.page.locator("input.select2-input").nth(1)),  # Second Select2 input
+                    ("visible_select2", lambda: self.page.locator("input.select2-input:visible").last),
+                ]
+                
+                for strategy_name, locator_fn in subcategory_strategies:
+                    try:
+                        logger.debug(f"  Trying strategy: {strategy_name}")
+                        input_field = locator_fn()
+                        await input_field.wait_for(timeout=3000, state="visible")
+                        
+                        # Type subcategory text
+                        await input_field.fill(subcategory)
+                        await asyncio.sleep(1)  # Wait for dropdown to populate
+                        
+                        # Click matching option from dropdown
+                        dropdown_option = self.page.locator(f"li.select2-result:has-text('{subcategory}')").first
+                        await dropdown_option.wait_for(timeout=2000)
+                        await dropdown_option.click()
+                        
+                        logger.info(f"  ✓ Selected subcategory '{subcategory}' using strategy: {strategy_name}")
+                        subcategory_selected = True
+                        
+                        # Take screenshot after selection
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"after_subcategory_{datetime.now().strftime('%H%M%S')}.png"
+                        await self.page.screenshot(path=str(screenshot_path))
+                        logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                        break
+                        
+                    except Exception as e:
+                        logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                        continue
+                
+                if not subcategory_selected:
+                    logger.warning(f"  → Could not select subcategory '{subcategory}' (might not be available)")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step5_error_{datetime.now().strftime('%H%M%S')}.png"
                     await self.page.screenshot(path=str(screenshot_path))
-                    logger.info(f"  📸 Screenshot: {screenshot_path.name}")
-                except Exception as e:
-                    logger.info(f"  → No subcategory dropdown (or already selected): {e}")
+                    logger.warning(f"  📸 Error screenshot: {screenshot_path.name}")
                 
                 # Fill doctor name if provided
                 if doctor_name:
@@ -658,16 +687,102 @@ class PersistentAgent:
                 
                 logger.info("✓ Search complete - results should be displayed")
                 
-                # Take screenshot
+                # Take screenshot of results
                 screenshot_path = Path(__file__).parent / "screenshots" / "search_results.png"
                 screenshot_path.parent.mkdir(exist_ok=True)
                 await self.page.screenshot(path=str(screenshot_path))
-                logger.info(f"Screenshot: {screenshot_path}")
+                logger.info(f"📸 Search results screenshot: {screenshot_path.name}")
+                
+                # Step 8: Click "זמן תור" button to book appointment
+                logger.info("Step 8: Click 'זמן תור' button")
+                zaman_button_clicked = False
+                
+                zaman_strategies = [
+                    ("span_id", lambda: self.page.locator('span#ctl00_MainContentPlaceHolder_ucSearchResults_RepeaterDoctorsResults_ctl00_LabelButtonTextForMakingAppointment').first),
+                    ("span_text", lambda: self.page.locator('span:has-text("זמן תור")').first),
+                    ("parent_link", lambda: self.page.locator('a:has(span:has-text("זמן תור"))').first),
+                    ("contains_text", lambda: self.page.get_by_text("זמן תור").first)
+                ]
+                
+                for strategy_name, locator_fn in zaman_strategies:
+                    try:
+                        logger.debug(f"  Trying strategy: {strategy_name}")
+                        element = locator_fn()
+                        await element.wait_for(timeout=2000)
+                        await element.click()
+                        logger.info(f"  ✓ Clicked using strategy: {strategy_name}")
+                        zaman_button_clicked = True
+                        await asyncio.sleep(2)
+                        
+                        # Take screenshot after clicking
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"after_zaman_click_{datetime.now().strftime('%H%M%S')}.png"
+                        await self.page.screenshot(path=str(screenshot_path))
+                        logger.info(f"  📸 After click screenshot: {screenshot_path.name}")
+                        break
+                    except Exception as e:
+                        logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                        continue
+                
+                if not zaman_button_clicked:
+                    logger.warning("  ⚠ Could not click 'זמן תור' button")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step8_error_{datetime.now().strftime('%H%M%S')}.png"
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.warning(f"  📸 Error screenshot: {screenshot_path.name}")
                 
                 return {
                     "status": "success",
                     "specialty": specialty,
                     "subcategory": subcategory,
+                    "zaman_clicked": zaman_button_clicked,
+                    "screenshot": str(screenshot_path)
+                }
+            
+            elif action == "click_zaman_tor":
+                # Click the "זמן תור" button from search results
+                logger.info("Starting click_zaman_tor command")
+                
+                zaman_button_clicked = False
+                
+                zaman_strategies = [
+                    ("span_id", lambda: self.page.locator('span#ctl00_MainContentPlaceHolder_ucSearchResults_RepeaterDoctorsResults_ctl00_LabelButtonTextForMakingAppointment').first),
+                    ("span_text", lambda: self.page.locator('span:has-text("זמן תור")').first),
+                    ("parent_link", lambda: self.page.locator('a:has(span:has-text("זמן תור"))').first),
+                    ("contains_text", lambda: self.page.get_by_text("זמן תור").first)
+                ]
+                
+                for strategy_name, locator_fn in zaman_strategies:
+                    try:
+                        logger.info(f"  Trying strategy: {strategy_name}")
+                        element = locator_fn()
+                        await element.wait_for(timeout=5000)
+                        await element.click()
+                        logger.info(f"  ✓ Clicked 'זמן תור' using strategy: {strategy_name}")
+                        zaman_button_clicked = True
+                        await asyncio.sleep(2)
+                        
+                        # Take screenshot after clicking
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"zaman_tor_clicked_{datetime.now().strftime('%H%M%S')}.png"
+                        screenshot_path.parent.mkdir(exist_ok=True)
+                        await self.page.screenshot(path=str(screenshot_path))
+                        logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                        break
+                    except Exception as e:
+                        logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                        continue
+                
+                if not zaman_button_clicked:
+                    logger.error("  ⚠ Could not click 'זמן תור' button")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"zaman_tor_error_{datetime.now().strftime('%H%M%S')}.png"
+                    screenshot_path.parent.mkdir(exist_ok=True)
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.error(f"  📸 Error screenshot: {screenshot_path.name}")
+                    return {"status": "error", "message": "Failed to click זמן תור button"}
+                
+                logger.info("✓ זמן תור button clicked successfully")
+                
+                return {
+                    "status": "success",
+                    "clicked": True,
                     "screenshot": str(screenshot_path)
                 }
             
