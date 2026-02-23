@@ -547,36 +547,109 @@ class PersistentAgent:
                 
                 # Select specialty
                 logger.info(f"Step 4: Select specialty '{specialty}'")
-                try:
-                    await self.page.click("text=תחום טיפול")
-                    await asyncio.sleep(1)
-                    await self.page.get_by_text(specialty, exact=True).first.click()
-                    await asyncio.sleep(2)
-                except Exception as e:
-                    logger.error(f"Error selecting specialty: {e}")
+                specialty_selected = False
+                
+                # Select2 autocomplete field - need to type and select from dropdown
+                specialty_strategies = [
+                    ("select2_input", "input.select2-input"),
+                    ("select2_search", "input.select2-search-field"),
+                    ("placeholder_search", "input[placeholder*='חיפוש'], input[placeholder*='תחום']"),
+                ]
+                
+                for strategy_name, selector in specialty_strategies:
+                    try:
+                        logger.info(f"  → Trying strategy: {strategy_name}")
+                        
+                        # Find and click the input field
+                        input_field = self.page.locator(selector).first
+                        await input_field.wait_for(timeout=5000, state="visible")
+                        await input_field.click()
+                        await asyncio.sleep(0.5)
+                        
+                        # Type the specialty name
+                        await input_field.fill(specialty)
+                        await asyncio.sleep(1)  # Wait for dropdown to appear
+                        logger.info(f"  ✓ Typed '{specialty}' in search field")
+                        
+                        # Wait for and click the dropdown option
+                        # Select2 creates li elements with the results
+                        dropdown_option = self.page.locator(f"li.select2-result:has-text('{specialty}')").first
+                        await dropdown_option.wait_for(timeout=5000, state="visible")
+                        await dropdown_option.click()
+                        await asyncio.sleep(2)
+                        
+                        logger.info(f"  ✓ Selected specialty '{specialty}' from dropdown (strategy: {strategy_name})")
+                        specialty_selected = True
+                        
+                        # Take screenshot after selection
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"after_specialty_{datetime.now().strftime('%H%M%S')}.png"
+                        await self.page.screenshot(path=str(screenshot_path))
+                        logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                        break
+                        
+                    except Exception as e:
+                        logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                        continue
+                
+                if not specialty_selected:
+                    logger.error(f"  ✗ Failed to select specialty '{specialty}'")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step4_error_{datetime.now().strftime('%H%M%S')}.png"
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.error(f"  📸 Error screenshot: {screenshot_path.name}")
+                    return {"status": "error", "message": f"Failed to select specialty: {specialty}"}
                 
                 # Select subcategory if dropdown appears
                 logger.info(f"Step 5: Select subcategory '{subcategory}'")
                 try:
-                    await self.page.get_by_text(subcategory, exact=True).first.click(timeout=3000)
+                    await self.page.get_by_text(subcategory, exact=False).first.click(timeout=3000)
                     await asyncio.sleep(1)
-                except:
-                    logger.info("No subcategory dropdown (or already selected)")
+                    logger.info(f"  ✓ Selected subcategory '{subcategory}'")
+                    
+                    # Take screenshot after selection
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"after_subcategory_{datetime.now().strftime('%H%M%S')}.png"
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                except Exception as e:
+                    logger.info(f"  → No subcategory dropdown (or already selected): {e}")
                 
                 # Fill doctor name if provided
                 if doctor_name:
                     logger.info(f"Step 6: Filter by doctor name '{doctor_name}'")
-                    try:
-                        # Look for doctor name input field
-                        doctor_input = await self.page.query_selector("input[placeholder*='שם רופא'], input[id*='doctor'], input[id*='Doctor']")
-                        if doctor_input:
+                    doctor_filled = False
+                    
+                    # Try multiple strategies to find and fill doctor name
+                    doctor_strategies = [
+                        ("placeholder", "input[placeholder*='שם רופא']"),
+                        ("id_doctor", "input[id*='doctor'], input[id*='Doctor']"),
+                        ("name_doctor", "input[name*='doctor'], input[name*='Doctor']"),
+                        ("text_input", "input[type='text']"),
+                    ]
+                    
+                    for strategy_name, selector in doctor_strategies:
+                        try:
+                            logger.info(f"  → Trying strategy: {strategy_name}")
+                            doctor_input = self.page.locator(selector).first
+                            await doctor_input.wait_for(timeout=3000, state="visible")
                             await doctor_input.fill(doctor_name)
                             await asyncio.sleep(1)
-                            logger.info(f"  ✓ Doctor name entered")
-                        else:
-                            logger.warning("  Could not find doctor name input field")
-                    except Exception as e:
-                        logger.warning(f"  Error filling doctor name: {e}")
+                            logger.info(f"  ✓ Doctor name '{doctor_name}' entered (strategy: {strategy_name})")
+                            doctor_filled = True
+                            
+                            # Take screenshot after entering
+                            screenshot_path = Path(__file__).parent / "screenshots" / f"after_doctor_name_{datetime.now().strftime('%H%M%S')}.png"
+                            await self.page.screenshot(path=str(screenshot_path))
+                            logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                            break
+                            
+                        except Exception as e:
+                            logger.debug(f"  ✗ Strategy '{strategy_name}' failed: {e}")
+                            continue
+                    
+                    if not doctor_filled:
+                        logger.warning("  ⚠ Could not find doctor name input field")
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"step6_error_{datetime.now().strftime('%H%M%S')}.png"
+                        await self.page.screenshot(path=str(screenshot_path))
+                        logger.warning(f"  📸 Error screenshot: {screenshot_path.name}")
                 
                 # Click search
                 logger.info("Step 7: Click 'חפש'")
