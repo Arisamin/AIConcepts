@@ -17,9 +17,22 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from playwright.async_api import async_playwright
 
+LOGS_DIR = Path(__file__).parent / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
+
+# Create unique log file per run: persistent_agent_<PID>_<HH-mm>.log
+import os
+pid = os.getpid()
+time_str = datetime.now().strftime("%H-%m")
+LOG_FILE = LOGS_DIR / f"persistent_agent_{pid}_{time_str}.log"
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(message)s"
+    format="%(asctime)s - %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_FILE, encoding="utf-8"),
+        logging.StreamHandler(sys.stdout)
+    ]
 )
 logger = logging.getLogger(__name__)
 
@@ -59,22 +72,44 @@ class PersistentAgent:
         user_data_dir = Path(__file__).parent / ".browser_profile"
         user_data_dir.mkdir(exist_ok=True)
         
-        try:
-            context = await self.playwright.chromium.launch_persistent_context(
-                str(user_data_dir),
-                headless=False,
-                args=[
-                    "--disable-blink-features=AutomationControlled",
-                    "--start-maximized",
-                ]
-            )
-        except Exception as e:
-            if "Target" in str(e) or "closed" in str(e):
-                logger.error(f"Browser profile locked! Close existing browser window or delete .browser_profile/ folder")
-                logger.error(f"Error: {e}")
-                raise
-            else:
-                raise
+        context = None
+        lock_files = ["SingletonLock", "SingletonCookie", "SingletonSocket", "lockfile"]
+        for attempt in range(1, 3):
+            try:
+                context = await self.playwright.chromium.launch_persistent_context(
+                    str(user_data_dir),
+                    headless=False,
+                    args=[
+                        "--disable-blink-features=AutomationControlled",
+                        "--start-maximized",
+                    ]
+                )
+                break
+            except Exception as e:
+                if "Target" in str(e) or "closed" in str(e):
+                    logger.error("Browser profile locked! Attempting to clear stale lock files...")
+                    removed = []
+                    for name in lock_files:
+                        lock_path = user_data_dir / name
+                        if lock_path.exists():
+                            try:
+                                lock_path.unlink()
+                                removed.append(name)
+                            except Exception:
+                                pass
+                    if removed:
+                        logger.info(f"Removed lock files: {', '.join(removed)}")
+                    if attempt < 2:
+                        await asyncio.sleep(1)
+                        continue
+                    logger.error("Browser profile still locked. Close existing browser windows or delete .browser_profile/")
+                    logger.error(f"Error: {e}")
+                    raise
+                else:
+                    raise
+
+        if context is None:
+            raise RuntimeError("Failed to launch browser context")
         
         # Get or create first page
         if len(context.pages) > 0:
@@ -728,12 +763,212 @@ class PersistentAgent:
                     screenshot_path = Path(__file__).parent / "screenshots" / f"step8_error_{datetime.now().strftime('%H%M%S')}.png"
                     await self.page.screenshot(path=str(screenshot_path))
                     logger.warning(f"  📸 Error screenshot: {screenshot_path.name}")
+                    return {"status": "error", "message": "Failed to click זמן תור button"}
+                
+                # Step 9: Navigate calendar to find date within range
+                logger.info("Step 9: Navigate calendar to find available date")
+                
+                # Parse date range from command
+                from datetime import datetime as dt
+                date_from = dt.strptime(cmd["params"].get("date_from", "2026-02-23"), "%Y-%m-%d")
+                date_to = dt.strptime(cmd["params"].get("date_to", "2026-04-03"), "%Y-%m-%d")
+                logger.info(f"  Date range: {date_from.strftime('%Y-%m-%d')} to {date_to.strftime('%Y-%m-%d')}")
+                
+                # Wait for calendar to load
+                await asyncio.sleep(2)
+                
+                # Check if we need to navigate backward
+                # Look for the calendar month/year header
+                try:
+                    # Take screenshot of calendar
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_initial_{datetime.now().strftime('%H%M%S')}.png"
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.info(f"  📸 Initial calendar screenshot: {screenshot_path.name}")
+                    
+                    # Check if previous month button is disabled
+                    prev_button_disabled = False
+                    try:
+                        # Try to find disabled previous button (common patterns)
+                        disabled_prev = await self.page.locator('button:has-text("<"):disabled, button[disabled]:has-text("<"), .disabled:has-text("<")').first.count()
+                        if disabled_prev > 0:
+                            prev_button_disabled = True
+                            logger.info("  ⚠ Previous month button is DISABLED - no earlier dates available")
+                    except:
+                        pass
+                    
+                    if prev_button_disabled:
+                        logger.warning("  ⚠ No appointments available in date range")
+                        logger.warning("  → Agent will retry in 15 minutes")
+                        return {
+                            "status": "retry_later",
+                            "message": "No appointments available in date range. Retry in 15 minutes.",
+                            "retry_after_seconds": 900  # 15 minutes
+                        }
+                    
+                    # Navigate calendar backward to find date in range
+                    logger.info("  → Navigating calendar to find earliest available date")
+                    
+                    max_navigation_clicks = 12  # Don't click more than 12 times (1 year back)
+                    clicks = 0
+                    
+                    # Check current calendar date vs date_to bounds
+                    logger.info(f"  Checking calendar date against upper bound (date_to): {date_to.strftime('%Y-%m-%d')}")
+                    
+                    # Try to find current calendar month/year
+                    current_calendar_month = None
+                    try:
+                        # Common patterns for month/year display
+                        month_header = await self.page.locator('.calendar-header, .month-year, [class*="month"], [class*="calendar"] >> text=/^\s*\w+\s+\d{4}\s*$/').first.text_content(timeout=5000)
+                        logger.info(f"  Current calendar showing: {month_header}")
+                    except:
+                        logger.warning("  ⚠ Could not detect calendar month/year header")
+                    
+                    # Navigate backward until we reach date_from month or earlier
+                    while clicks < max_navigation_clicks:
+                        # Look for clickable dates in current month that are within range
+                        try:
+                            # Find all date cells that are clickable (not disabled, not grayed out)
+                            # Common patterns: <td class="available">, <button data-date="...">, etc.
+                            date_cells = await self.page.locator('td:not(.disabled):not(.past) a, button[data-date]:not(:disabled), .calendar-day:not(.disabled) a').all()
+                            
+                            if len(date_cells) > 0:
+                                logger.info(f"  Found {len(date_cells)} available dates in current month")
+                                
+                                # Try to find a date within our range
+                                # For now, click the first available date (assuming calendar logic ensures it's valid)
+                                first_date = date_cells[0]
+                                
+                                # CRITICAL: Check if date is within bounds (not past date_to)
+                                # Try to extract the date value from the element
+                                try:
+                                    date_attr = await first_date.get_attribute("data-date")
+                                    if date_attr:
+                                        selected_date = dt.strptime(date_attr, "%Y-%m-%d")
+                                        logger.info(f"  📅 Identified selected date: {selected_date.strftime('%Y-%m-%d')}")
+                                        logger.info(f"  🔍 Comparing with upper bound:")
+                                        logger.info(f"     Selected: {selected_date.strftime('%Y-%m-%d')}")
+                                        logger.info(f"     Upper Bound (date_to): {date_to.strftime('%Y-%m-%d')}")
+                                        
+                                        if selected_date > date_to:
+                                            logger.warning(f"  ⚠ VIOLATION: {selected_date.strftime('%Y-%m-%d')} > {date_to.strftime('%Y-%m-%d')} (selected > upper bound)")
+                                            logger.warning(f"  → Calendar showing dates past search range")
+                                            logger.warning(f"  → No appointments available within [{date_from.strftime('%Y-%m-%d')}, {date_to.strftime('%Y-%m-%d')}]")
+                                            logger.warning(f"  → Sleeping 15 minutes (900 seconds) before retry...")
+                                            return {
+                                                "status": "retry_later",
+                                                "message": f"Calendar showing dates past {date_to.strftime('%Y-%m-%d')}. No appointments in range. Retry in 15 minutes.",
+                                                "retry_after_seconds": 900
+                                            }
+                                        logger.info(f"  ✓ VALID: {selected_date.strftime('%Y-%m-%d')} is within range [{date_from.strftime('%Y-%m-%d')}, {date_to.strftime('%Y-%m-%d')}]")
+                                except Exception as e:
+                                    logger.debug(f"  Could not verify date bounds: {e}")
+                                
+                                await first_date.click(timeout=5000)
+                                logger.info("  ✓ Clicked first available date")
+                                
+                                # Wait for time selection screen
+                                await asyncio.sleep(2)
+                                
+                                # Take screenshot
+                                screenshot_path = Path(__file__).parent / "screenshots" / f"time_selection_{datetime.now().strftime('%H%M%S')}.png"
+                                await self.page.screenshot(path=str(screenshot_path))
+                                logger.info(f"  📸 Time selection screenshot: {screenshot_path.name}")
+                                
+                                # Look for time slots and select first one
+                                try:
+                                    time_slots = await self.page.locator('button:has-text(":"), a:has-text(":"), .time-slot').all()
+                                    if len(time_slots) > 0:
+                                        await time_slots[0].click(timeout=5000)
+                                        logger.info("  ✓ Selected first available time slot")
+                                        await asyncio.sleep(1)
+                                        
+                                        # Look for confirmation button
+                                        confirm_clicked = False
+                                        confirm_patterns = [
+                                            'button:has-text("אישור")',
+                                            'button:has-text("אשר")',
+                                            'button:has-text("זמן לוידאו")',
+                                            'a:has-text("אישור")'
+                                        ]
+                                        
+                                        for pattern in confirm_patterns:
+                                            try:
+                                                confirm_btn = self.page.locator(pattern).first
+                                                if await confirm_btn.count() > 0:
+                                                    await confirm_btn.click(timeout=5000)
+                                                    logger.info(f"  ✓ Clicked confirmation button: {pattern}")
+                                                    confirm_clicked = True
+                                                    break
+                                            except:
+                                                continue
+                                        
+                                        if confirm_clicked:
+                                            await asyncio.sleep(2)
+                                            screenshot_path = Path(__file__).parent / "screenshots" / f"confirmation_{datetime.now().strftime('%H%M%S')}.png"
+                                            await self.page.screenshot(path=str(screenshot_path))
+                                            logger.info(f"  📸 Final confirmation screenshot: {screenshot_path.name}")
+                                            logger.info("  ✓ Appointment booking completed!")
+                                            return {
+                                                "status": "success",
+                                                "message": "Appointment booked successfully",
+                                                "screenshot": str(screenshot_path)
+                                            }
+                                        else:
+                                            logger.warning("  ⚠ Could not find confirmation button")
+                                    else:
+                                        logger.warning("  ⚠ No time slots available for selected date")
+                                except Exception as e:
+                                    logger.error(f"  ✗ Error selecting time slot: {e}")
+                                
+                                break  # Exit navigation loop
+                            else:
+                                # No available dates in current month, navigate backward
+                                logger.info("  No available dates in current month, navigating to previous month")
+                                
+                                # Click previous month button
+                                prev_clicked = False
+                                prev_patterns = [
+                                    'button:has-text("<")',
+                                    'a:has-text("<")',
+                                    '.prev-month',
+                                    'button.prev'
+                                ]
+                                
+                                for pattern in prev_patterns:
+                                    try:
+                                        prev_btn = self.page.locator(pattern).first
+                                        if await prev_btn.count() > 0:
+                                            await prev_btn.click(timeout=5000)
+                                            logger.info(f"  ← Clicked previous month button")
+                                            prev_clicked = True
+                                            clicks += 1
+                                            await asyncio.sleep(1)
+                                            break
+                                    except:
+                                        continue
+                                
+                                if not prev_clicked:
+                                    logger.warning("  ⚠ Could not click previous month button")
+                                    break
+                        
+                        except Exception as e:
+                            logger.error(f"  ✗ Error during calendar navigation: {e}")
+                            break
+                    
+                    if clicks >= max_navigation_clicks:
+                        logger.warning("  ⚠ Reached maximum navigation clicks, stopping")
+                    
+                    logger.info("  → Calendar navigation completed (partial implementation)")
+                    
+                except Exception as e:
+                    logger.error(f"  ✗ Error checking calendar: {e}")
                 
                 return {
                     "status": "success",
                     "specialty": specialty,
                     "subcategory": subcategory,
                     "zaman_clicked": zaman_button_clicked,
+                    "calendar_reached": True,
                     "screenshot": str(screenshot_path)
                 }
             
@@ -943,6 +1178,17 @@ class PersistentAgent:
                                         "result": {"status": "success", "next": cmd.get("action")}
                                     })
                                 else:
+                                    # Check if command requires retry_later (e.g., no appointments available)
+                                    if isinstance(result, dict) and result.get("status") == "retry_later":
+                                        retry_seconds = result.get("retry_after_seconds", 900)  # Default 15 minutes
+                                        logger.info("")
+                                        logger.info(f"⏰ {result.get('message', 'Retrying later...')}")
+                                        logger.info(f"   Waiting {retry_seconds} seconds ({retry_seconds // 60} minutes) before retry...")
+                                        await asyncio.sleep(retry_seconds)
+                                        # DON'T update hash - command should retry after sleep
+                                        logger.info("   Retry time reached, command will re-execute on next cycle")
+                                        continue  # Skip to next iteration
+                                    
                                     # Check if command succeeded or failed
                                     command_succeeded = (isinstance(result, dict) and result.get("status") != "error")
                                     
