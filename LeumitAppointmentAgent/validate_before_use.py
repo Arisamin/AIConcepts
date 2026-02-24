@@ -42,17 +42,17 @@ def main():
     
     print("\n" + "="*70)
     if all_passed:
-        print("✅ ALL VALIDATION CHECKS PASSED")
+        print(" ALL VALIDATION CHECKS PASSED")
         print("="*70)
         print("\nCode is ready to use")
         return 0
     else:
-        print("❌ VALIDATION FAILED")
+        print(" VALIDATION FAILED")
         print("="*70)
         print("\nFailed checks:")
         for check in failed_checks:
-            print(f"  ✗ {check}")
-        print("\n⚠️  DO NOT USE THIS CODE - FIX TESTS FIRST")
+            print(f"   {check}")
+        print("\n  DO NOT USE THIS CODE - FIX TESTS FIRST")
         return 1
 
 if __name__ == "__main__":

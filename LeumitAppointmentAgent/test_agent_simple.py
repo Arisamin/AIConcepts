@@ -10,22 +10,22 @@ import time
 from pathlib import Path
 from unittest.mock import Mock
 
-# Test color output
-GREEN = '\033[92m'
-RED = '\033[91m'
-YELLOW = '\033[93m'
-RESET = '\033[0m'
+# Test color output (disabled for Windows console compatibility)
+GREEN = ''
+RED = ''
+YELLOW = ''
+RESET = ''
 
 def test_passed(msg):
-    print(f"{GREEN}✓ PASS{RESET}: {msg}")
+    print(f"[PASS] {msg}")
 
 def test_failed(msg):
-    print(f"{RED}✗ FAIL{RESET}: {msg}")
+    print(f"[FAIL] {msg}")
 
 def test_section(title):
-    print(f"\n{YELLOW}{'='*60}{RESET}")
-    print(f"{YELLOW}{title}{RESET}")
-    print(f"{YELLOW}{'='*60}{RESET}")
+    print(f"\n{'='*60}")
+    print(f"{title}")
+    print(f"{'='*60}")
 
 
 # Import after setup
@@ -119,7 +119,7 @@ def test_command_detection_logic():
     should_exec = (curr_hash != last_hash) or (curr_mtime != last_mtime)
     
     if not should_exec:
-        test_passed("Same hash and mtime → no execution")
+        test_passed("Same hash and mtime  no execution")
     else:
         test_failed("Same hash and mtime should not trigger execution")
     
@@ -128,7 +128,7 @@ def test_command_detection_logic():
     should_exec = (curr_hash != last_hash) or (curr_mtime != last_mtime)
     
     if should_exec:
-        test_passed("Different hash → execution")
+        test_passed("Different hash  execution")
     else:
         test_failed("Different hash should trigger execution")
     
@@ -137,7 +137,7 @@ def test_command_detection_logic():
     should_exec = (curr_hash != last_hash) or (curr_mtime != last_mtime)
     
     if should_exec:
-        test_passed("Different mtime → execution (even with same hash)")
+        test_passed("Different mtime  execution (even with same hash)")
     else:
         test_failed("Different mtime should trigger execution")
 
@@ -264,11 +264,11 @@ def test_command_error_retry_logic():
     
     # Test 4: Demonstrate the retry flow for failed commands
     print("\n  Retry Flow for Failed Commands:")
-    print("    1. Command executes → Step 3 fails (element not visible)")
+    print("    1. Command executes  Step 3 fails (element not visible)")
     print("    2. Returns: {'status': 'error', 'message': '...'}")
     print("    3. Hash NOT updated")
-    print("    4. Next cycle (2 seconds) → Command re-executes")
-    print("    5. Eventually succeeds → Hash updated ✓")
+    print("    4. Next cycle (2 seconds)  Command re-executes")
+    print("    5. Eventually succeeds  Hash updated ")
     
     test_passed("Failed commands retry automatically until success")
 

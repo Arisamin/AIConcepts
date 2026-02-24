@@ -3,6 +3,7 @@
 import asyncio
 import logging
 import sys
+import signal
 from pathlib import Path
 
 # Add src directory to path for imports
@@ -25,9 +26,27 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+# Global browser reference to keep it alive
+browser_instance = None
+
+
+def signal_handler(signum, frame):
+    """Handle signals gracefully - allows browser to stay open."""
+    logger.info("Signal received - script exiting but browser stays open")
+    # Just exit - don't close anything
+    sys.exit(0)
+
+
+# Register signal handlers
+signal.signal(signal.SIGINT, signal_handler)
+if sys.platform != "win32":
+    signal.signal(signal.SIGTERM, signal_handler)
+
 
 async def main():
     """Main function to run the appointment agent."""
+    global browser_instance
+    
     logger.info("=" * 60)
     logger.info("Starting Leumit Appointment Agent")
     logger.info("=" * 60)
@@ -42,8 +61,15 @@ async def main():
     decision_maker = AppointmentDecisionMaker()
     
     try:
-        # Use browser automation
-        async with LeumitBrowser() as browser:
+        # IMPORTANT: Don't use async context manager - manually manage browser
+        # This prevents automatic cleanup that closes the browser
+        browser = LeumitBrowser()
+        browser_instance = browser
+        
+        # Manually start browser (don't use __aenter__)
+        await browser.start()
+        
+        try:
             # Step 1: Login (or use cached cookies)
             logger.info("Step 1: Authenticating...")
             login_success = await browser.login()
@@ -89,6 +115,12 @@ async def main():
             
             logger.info("Run completed successfully!")
             return True
+        
+        finally:
+            # IMPORTANT: Do NOT close the browser here
+            # We want it to stay open with the logged-in session
+            # Don't call: await browser.close()
+            logger.info("Browser left open (not closing)")
             
     except KeyboardInterrupt:
         logger.info("Agent interrupted by user")
@@ -101,23 +133,46 @@ async def main():
         logger.info("Leumit Appointment Agent finished")
         logger.info("=" * 60)
         logger.info("")
-        logger.info("Browser window is staying open with your logged-in session.")
-        logger.info("You can:")
-        logger.info("  - Use the browser manually to book appointments")
-        logger.info("  - Close the window when done")
-        logger.info("  - Run the agent again (it will login fresh)")
+        logger.info("✓ Browser session is ready and waiting")
         logger.info("")
-        logger.info("Waiting indefinitely... (Press Ctrl+C to close)")
+        logger.info("TO KEEP THE BROWSER OPEN:")
+        logger.info("  - This script will keep running indefinitely")
+        logger.info("  - Press Ctrl+C anytime to close the browser and exit")
+        logger.info("  - If running from VS Code chat: use run_detached.bat instead")
         logger.info("")
-        while True:
-            await asyncio.sleep(1)
+        logger.info("The browser will stay open with your logged-in session.")
+        logger.info("=" * 60)
+        logger.info("")
+        
+        # Keep the browser alive by running event loop indefinitely
+        # This prevents the script from exiting and closing the browser
+        try:
+            while True:
+                await asyncio.sleep(1)
+        except KeyboardInterrupt:
+            logger.info("Closing browser...")
+            if browser_instance:
+                await browser_instance.close()
+            logger.info("Done.")
 
 
 def run():
     """Synchronous wrapper to run the async main function."""
-    return asyncio.run(main())
+    try:
+        return asyncio.run(main())
+    except KeyboardInterrupt:
+        # User pressed Ctrl+C
+        return 0
 
 
 if __name__ == "__main__":
-    success = run()
-    sys.exit(0 if success else 1)
+    try:
+        success = run()
+        # Don't exit immediately - give browser time to stay open
+        # The browser reference should keep it alive even after this script "completes"
+        import time
+        time.sleep(0.5)
+        sys.exit(0 if success else 1)
+    except KeyboardInterrupt:
+        # Handle Ctrl+C at top level
+        sys.exit(0)

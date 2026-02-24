@@ -347,7 +347,9 @@ class PersistentAgent:
         try:
             with open(COMMANDS_FILE, encoding='utf-8') as f:
                 cmd = json.load(f)
-                logger.info(f"DEBUG: Loaded command: {cmd}")
+                # Log only the action, not the full command (which may contain Hebrew chars)
+                action = cmd.get('action', 'unknown')
+                logger.info(f"DEBUG: Loaded command: {action}")
                 return cmd
         except Exception as e:
             logger.error(f"DEBUG: Error loading command: {e}")
@@ -796,181 +798,261 @@ class PersistentAgent:
                     except:
                         pass
                     
-                    if prev_button_disabled:
-                        logger.warning("  ⚠ No appointments available in date range")
-                        logger.warning("  → Agent will retry in 15 minutes")
-                        return {
-                            "status": "retry_later",
-                            "message": "No appointments available in date range. Retry in 15 minutes.",
-                            "retry_after_seconds": 900  # 15 minutes
-                        }
+                    # Step 9: Read the pre-selected appointment date and time from the calendar info div
+                    logger.info("  → Reading pre-selected appointment from calendar")
                     
-                    # Navigate calendar backward to find date in range
-                    logger.info("  → Navigating calendar to find earliest available date")
-                    
-                    max_navigation_clicks = 12  # Don't click more than 12 times (1 year back)
-                    clicks = 0
-                    
-                    # Check current calendar date vs date_to bounds
-                    logger.info(f"  Checking calendar date against upper bound (date_to): {date_to.strftime('%Y-%m-%d')}")
-                    
-                    # Try to find current calendar month/year
-                    current_calendar_month = None
                     try:
-                        # Common patterns for month/year display
-                        month_header = await self.page.locator('.calendar-header, .month-year, [class*="month"], [class*="calendar"] >> text=/^\s*\w+\s+\d{4}\s*$/').first.text_content(timeout=5000)
-                        logger.info(f"  Current calendar showing: {month_header}")
-                    except:
-                        logger.warning("  ⚠ Could not detect calendar month/year header")
-                    
-                    # Navigate backward until we reach date_from month or earlier
-                    while clicks < max_navigation_clicks:
-                        # Look for clickable dates in current month that are within range
+                        # The calendar displays a pre-selected appointment in this structure:
+                        # <div class="appointment_calendar_selected_appointment_text">
+                        #   תור ליום
+                        #   <span id="ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedDayInHebrew">ב</span>'
+                        #   <span id="ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedDate">01.06.26</span>
+                        #   |
+                        #   <span id="ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedTime">13:30</span>
+                        # </div>
+                        
+                        # Read the selected date
+                        selected_date_elem = self.page.locator("#ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedDate")
+                        selected_time_elem = self.page.locator("#ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedTime")
+                        
+                        selected_date = await selected_date_elem.text_content() if await selected_date_elem.count() > 0 else "Unknown"
+                        selected_time = await selected_time_elem.text_content() if await selected_time_elem.count() > 0 else "Unknown"
+                        
+                        logger.info(f"  ✓ Pre-selected appointment: Date={selected_date.strip()}, Time={selected_time.strip()}")
+                        
+                        # Take screenshot to see the calendar state
+                        logger.info("  → Taking screenshot of calendar with pre-selected appointment...")
                         try:
-                            # Find all date cells that are clickable (not disabled, not grayed out)
-                            # Common patterns: <td class="available">, <button data-date="...">, etc.
-                            date_cells = await self.page.locator('td:not(.disabled):not(.past) a, button[data-date]:not(:disabled), .calendar-day:not(.disabled) a').all()
+                            screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_preselected_{datetime.now().strftime('%H%M%S')}.png"
+                            await self.page.screenshot(path=str(screenshot_path))
+                            logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                        except Exception as e:
+                            logger.debug(f"  Could not take screenshot: {e}")
+                        
+                        # The calendar has already selected an appointment time
+                        # Now we need to click the appointment type button in divCalendarButtonsBoxForDoctor
+                        # The button is in a div with class "appointments_large_button_blue_2"
+                        logger.info("  → Looking for appointment type button (זמן לטלפון/וידאו/מרפאה)...")
+                        
+                        try:
+                            # Look for the appointment button in divCalendarButtonsBoxForDoctor
+                            # The button has class "appointments_large_button_blue_2" with text inside
+                            appointment_btn_patterns = [
+                                '#divCalendarButtonsBoxForDoctor .appointments_large_button_blue_2',
+                                '.appointment_calendar_buttons_box .appointments_large_button_blue_2',
+                                'div:has-text("זמן לוידאו")',
+                                'div:has-text("זמן לטלפון")',
+                                'div:has-text("זמן למרפאה")',
+                            ]
                             
-                            if len(date_cells) > 0:
-                                logger.info(f"  Found {len(date_cells)} available dates in current month")
-                                
-                                # Try to find a date within our range
-                                # For now, click the first available date (assuming calendar logic ensures it's valid)
-                                first_date = date_cells[0]
-                                
-                                # CRITICAL: Check if date is within bounds (not past date_to)
-                                # Try to extract the date value from the element
+                            appointment_btn = None
+                            appointment_btn_text = None
+                            
+                            for pattern in appointment_btn_patterns:
                                 try:
-                                    date_attr = await first_date.get_attribute("data-date")
-                                    if date_attr:
-                                        selected_date = dt.strptime(date_attr, "%Y-%m-%d")
-                                        logger.info(f"  📅 Identified selected date: {selected_date.strftime('%Y-%m-%d')}")
-                                        logger.info(f"  🔍 Comparing with upper bound:")
-                                        logger.info(f"     Selected: {selected_date.strftime('%Y-%m-%d')}")
-                                        logger.info(f"     Upper Bound (date_to): {date_to.strftime('%Y-%m-%d')}")
-                                        
-                                        if selected_date > date_to:
-                                            logger.warning(f"  ⚠ VIOLATION: {selected_date.strftime('%Y-%m-%d')} > {date_to.strftime('%Y-%m-%d')} (selected > upper bound)")
-                                            logger.warning(f"  → Calendar showing dates past search range")
-                                            logger.warning(f"  → No appointments available within [{date_from.strftime('%Y-%m-%d')}, {date_to.strftime('%Y-%m-%d')}]")
-                                            logger.warning(f"  → Sleeping 15 minutes (900 seconds) before retry...")
-                                            return {
-                                                "status": "retry_later",
-                                                "message": f"Calendar showing dates past {date_to.strftime('%Y-%m-%d')}. No appointments in range. Retry in 15 minutes.",
-                                                "retry_after_seconds": 900
-                                            }
-                                        logger.info(f"  ✓ VALID: {selected_date.strftime('%Y-%m-%d')} is within range [{date_from.strftime('%Y-%m-%d')}, {date_to.strftime('%Y-%m-%d')}]")
+                                    logger.info(f"  → Trying pattern: {pattern}")
+                                    btn = self.page.locator(pattern).first
+                                    if await btn.count() > 0:
+                                        btn_text = await btn.text_content()
+                                        logger.info(f"  ✓ Found appointment button: '{btn_text.strip()}'")
+                                        appointment_btn = btn
+                                        appointment_btn_text = btn_text.strip()
+                                        break
                                 except Exception as e:
-                                    logger.debug(f"  Could not verify date bounds: {e}")
+                                    logger.debug(f"  → Pattern '{pattern}' failed: {e}")
+                                    continue
+                            
+                            if not appointment_btn:
+                                logger.error("  ✗ Could not find appointment type button")
+                                return {
+                                    "status": "error",
+                                    "message": "Could not find appointment type button",
+                                    "requires_login": False
+                                }
+                            
+                            # Click the appointment button
+                            logger.info(f"  → Clicking appointment button: '{appointment_btn_text}'")
+                            await appointment_btn.click(timeout=5000)
+                            logger.info(f"  ✓ Clicked appointment button")
+                            await asyncio.sleep(2)
+                            
+                            # Take screenshot to see the approval screen
+                            screenshot_path = Path(__file__).parent / "screenshots" / f"appointment_type_clicked_{datetime.now().strftime('%H%M%S')}.png"
+                            await self.page.screenshot(path=str(screenshot_path))
+                            logger.info(f"  📸 Screenshot after appointment button click: {screenshot_path.name}")
+                            
+                            # Now we enter a multi-step approval process
+                            # We need to click "המשך" (Continue) buttons multiple times until we reach SMS validation
+                            logger.info("  → Entering multi-step approval process...")
+                            
+                            step_count = 0
+                            max_steps = 10  # Prevent infinite loops
+                            sms_validation_reached = False
+                            
+                            while step_count < max_steps:
+                                step_count += 1
+                                logger.info(f"  → Step {step_count}: Looking for continuation button...")
                                 
-                                await first_date.click(timeout=5000)
-                                logger.info("  ✓ Clicked first available date")
-                                
-                                # Wait for time selection screen
-                                await asyncio.sleep(2)
-                                
-                                # Take screenshot
-                                screenshot_path = Path(__file__).parent / "screenshots" / f"time_selection_{datetime.now().strftime('%H%M%S')}.png"
-                                await self.page.screenshot(path=str(screenshot_path))
-                                logger.info(f"  📸 Time selection screenshot: {screenshot_path.name}")
-                                
-                                # Look for time slots and select first one
+                                # Check if we've reached SMS validation screen
                                 try:
-                                    time_slots = await self.page.locator('button:has-text(":"), a:has-text(":"), .time-slot').all()
-                                    if len(time_slots) > 0:
-                                        await time_slots[0].click(timeout=5000)
-                                        logger.info("  ✓ Selected first available time slot")
-                                        await asyncio.sleep(1)
+                                    sms_validation_elem = self.page.locator('div.appointments_approve_video_validation_row_1')
+                                    if await sms_validation_elem.count() > 0:
+                                        # CRITICAL: Must check visibility - element exists in DOM but may not be displayed
+                                        is_sms_visible = await sms_validation_elem.is_visible()
+                                        logger.debug(f"      SMS validation element found, is_visible: {is_sms_visible}")
                                         
-                                        # Look for confirmation button
-                                        confirm_clicked = False
-                                        confirm_patterns = [
-                                            'button:has-text("אישור")',
-                                            'button:has-text("אשר")',
-                                            'button:has-text("זמן לוידאו")',
-                                            'a:has-text("אישור")'
-                                        ]
-                                        
-                                        for pattern in confirm_patterns:
+                                        if is_sms_visible:
+                                            sms_text = await sms_validation_elem.text_content()
+                                            logger.debug(f"      SMS element text: {sms_text[:100]}")
+                                            
+                                            # Check if element contains actual SMS message content
+                                            if sms_text and ("SMS" in sms_text or "ת.ז" in sms_text):
+                                                logger.info(f"  ✓ SMS validation screen reached: '{sms_text.strip()}'")
+                                                logger.info("  ⏸ SMS sent to phone - manual intervention required")
+                                                sms_validation_reached = True
+                                                break
+                                            else:
+                                                logger.debug(f"      SMS element visible but no SMS message text found yet")
+                                        else:
+                                            logger.debug(f"      SMS validation element exists but is hidden")
+                                except Exception as e:
+                                    logger.debug(f"      SMS check error: {str(e)[:100]}")
+                                    pass
+                                
+                                # Look for the next "המשך" button - use multiple patterns with increasing flexibility
+                                continue_patterns = [
+                                    # ID-based patterns (most specific)
+                                    'div#divContinueToShowMessage',
+                                    'div#divContinueToFillPhone',
+                                    'div#divValidatePhone',
+                                    'div#divSaveAppointment',
+                                    # Class-based patterns
+                                    '.appointments_large_button_blue_2:has-text("המשך")',
+                                    '.appointments_large_button_blue_2:has-text("שמור וסיים")',
+                                    # Generic patterns
+                                    'div[onclick*="continue"]:visible',
+                                    'div[onclick*="Validate"]:visible',
+                                    'div[onclick*="Show"]:visible',
+                                ]
+                                
+                                button_clicked = False
+                                
+                                for pattern in continue_patterns:
+                                    try:
+                                        logger.debug(f"    → Trying pattern: {pattern}")
+                                        cont_btn = self.page.locator(pattern).first
+                                        if await cont_btn.count() > 0:
+                                            is_visible = await cont_btn.is_visible()
+                                            logger.debug(f"      Found element, is_visible: {is_visible}")
+                                            
+                                            if is_visible:
+                                                btn_text = await cont_btn.text_content()
+                                                btn_html = await cont_btn.inner_html()
+                                                logger.info(f"    ✓ Found button at step {step_count}: '{btn_text.strip()}'")
+                                                logger.debug(f"      Button HTML: {btn_html[:100]}")
+                                                
+                                                await cont_btn.click(timeout=5000)
+                                                logger.info(f"    ✓ Clicked button")
+                                                await asyncio.sleep(1)
+                                                
+                                                # Take screenshot after each button click
+                                                screenshot_path = Path(__file__).parent / "screenshots" / f"approval_step_{step_count}_{datetime.now().strftime('%H%M%S')}.png"
+                                                await self.page.screenshot(path=str(screenshot_path))
+                                                logger.info(f"    📸 Screenshot: {screenshot_path.name}")
+                                                
+                                                button_clicked = True
+                                                break
+                                            else:
+                                                logger.debug(f"      Element found but not visible")
+                                    except Exception as e:
+                                        logger.debug(f"    Pattern '{pattern}' failed: {str(e)[:100]}")
+                                        continue
+                                
+                                if not button_clicked:
+                                    logger.warning(f"  ⚠ No more continuation buttons found at step {step_count}")
+                                    # Debug: list all visible buttons on page
+                                    try:
+                                        all_buttons = await self.page.locator('div.appointments_large_button_blue_2').all()
+                                        logger.warning(f"  → Found {len(all_buttons)} buttons with class 'appointments_large_button_blue_2':")
+                                        for i, btn in enumerate(all_buttons[:10]):
                                             try:
-                                                confirm_btn = self.page.locator(pattern).first
-                                                if await confirm_btn.count() > 0:
-                                                    await confirm_btn.click(timeout=5000)
-                                                    logger.info(f"  ✓ Clicked confirmation button: {pattern}")
-                                                    confirm_clicked = True
-                                                    break
+                                                btn_text = await btn.text_content()
+                                                btn_visible = await btn.is_visible()
+                                                logger.warning(f"     [{i}] visible={btn_visible}, text='{btn_text[:50]}'")
                                             except:
-                                                continue
-                                        
-                                        if confirm_clicked:
+                                                pass
+                                    except Exception as e:
+                                        logger.debug(f"  Could not list buttons: {e}")
+                                    break
+                            
+                            if sms_validation_reached:
+                                # We've successfully reached the SMS validation stage
+                                screenshot_path = Path(__file__).parent / "screenshots" / f"sms_validation_{datetime.now().strftime('%H%M%S')}.png"
+                                await self.page.screenshot(path=str(screenshot_path))
+                                logger.info(f"  📸 SMS validation screenshot: {screenshot_path.name}")
+                                
+                                logger.info("  ✓ Appointment date found and SMS validation initiated!")
+                                logger.info("  → Waiting for user to complete SMS verification...")
+                                return {
+                                    "status": "awaiting_sms_verification",
+                                    "message": "Appointment date found. SMS sent to phone. Please verify using the code sent.",
+                                    "screenshot": str(screenshot_path)
+                                }
+                            else:
+                                # Check if appointment was already saved
+                                try:
+                                    save_button = self.page.locator('#divSaveAppointment:not([style*="display: none"])').first
+                                    if await save_button.count() > 0:
+                                        is_visible = await save_button.is_visible()
+                                        if is_visible:
+                                            logger.info("  → Found 'Save Appointment' button, clicking...")
+                                            await save_button.click(timeout=5000)
                                             await asyncio.sleep(2)
-                                            screenshot_path = Path(__file__).parent / "screenshots" / f"confirmation_{datetime.now().strftime('%H%M%S')}.png"
+                                            screenshot_path = Path(__file__).parent / "screenshots" / f"appointment_saved_{datetime.now().strftime('%H%M%S')}.png"
                                             await self.page.screenshot(path=str(screenshot_path))
-                                            logger.info(f"  📸 Final confirmation screenshot: {screenshot_path.name}")
-                                            logger.info("  ✓ Appointment booking completed!")
+                                            logger.info(f"  ✓ Appointment saved!")
                                             return {
                                                 "status": "success",
                                                 "message": "Appointment booked successfully",
                                                 "screenshot": str(screenshot_path)
                                             }
-                                        else:
-                                            logger.warning("  ⚠ Could not find confirmation button")
-                                    else:
-                                        logger.warning("  ⚠ No time slots available for selected date")
-                                except Exception as e:
-                                    logger.error(f"  ✗ Error selecting time slot: {e}")
+                                except:
+                                    pass
                                 
-                                break  # Exit navigation loop
-                            else:
-                                # No available dates in current month, navigate backward
-                                logger.info("  No available dates in current month, navigating to previous month")
-                                
-                                # Click previous month button
-                                prev_clicked = False
-                                prev_patterns = [
-                                    'button:has-text("<")',
-                                    'a:has-text("<")',
-                                    '.prev-month',
-                                    'button.prev'
-                                ]
-                                
-                                for pattern in prev_patterns:
-                                    try:
-                                        prev_btn = self.page.locator(pattern).first
-                                        if await prev_btn.count() > 0:
-                                            await prev_btn.click(timeout=5000)
-                                            logger.info(f"  ← Clicked previous month button")
-                                            prev_clicked = True
-                                            clicks += 1
-                                            await asyncio.sleep(1)
-                                            break
-                                    except:
-                                        continue
-                                
-                                if not prev_clicked:
-                                    logger.warning("  ⚠ Could not click previous month button")
-                                    break
+                                logger.warning("  ⚠ Approval process completed but SMS validation not reached")
+                                screenshot_path = Path(__file__).parent / "screenshots" / f"approval_final_{datetime.now().strftime('%H%M%S')}.png"
+                                await self.page.screenshot(path=str(screenshot_path))
+                                return {
+                                    "status": "awaiting_completion",
+                                    "message": "Approval process completed. Please check browser for next steps.",
+                                    "screenshot": str(screenshot_path)
+                                }
                         
                         except Exception as e:
-                            logger.error(f"  ✗ Error during calendar navigation: {e}")
-                            break
+                            logger.error(f"  ✗ Error during appointment confirmation: {e}")
+                            import traceback
+                            logger.error(f"  Traceback: {traceback.format_exc()}")
+                            return {
+                                "status": "error",
+                                "message": f"Error confirming appointment: {str(e)}",
+                                "requires_login": False
+                            }
                     
-                    if clicks >= max_navigation_clicks:
-                        logger.warning("  ⚠ Reached maximum navigation clicks, stopping")
-                    
-                    logger.info("  → Calendar navigation completed (partial implementation)")
-                    
-                except Exception as e:
-                    logger.error(f"  ✗ Error checking calendar: {e}")
+                    except Exception as e:
+                        logger.error(f"  ✗ Error in calendar navigation: {e}")
+                        return {
+                            "status": "error",
+                            "message": f"Error during calendar booking: {str(e)}",
+                            "requires_login": False
+                        }
                 
-                return {
-                    "status": "success",
-                    "specialty": specialty,
-                    "subcategory": subcategory,
-                    "zaman_clicked": zaman_button_clicked,
-                    "calendar_reached": True,
-                    "screenshot": str(screenshot_path)
-                }
+                except Exception as e:
+                    logger.error(f"  ✗ Outer exception in calendar workflow: {e}")
+                    return {
+                        "status": "error",
+                        "message": f"Calendar workflow error: {str(e)}",
+                        "requires_login": False
+                        }
             
             elif action == "click_zaman_tor":
                 # Click the "זמן תור" button from search results

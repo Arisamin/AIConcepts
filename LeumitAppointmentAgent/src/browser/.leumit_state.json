@@ -1,0 +1,8 @@
+{
+  "stage": "form_filled",
+  "port": 9222,
+  "endpoint": "ws://127.0.0.1:9222",
+  "browser_pid": 54780,
+  "created_at": "1771706191.7858284",
+  "chrome_data_dir": "C:\\MyData\\Git\\AI Projects\\LeumitAppointmentAgent\\.chrome_data"
+}

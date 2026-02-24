@@ -1,0 +1,328 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="he">
+<head id="ctl00_Head1">
+<script type="text/javascript">
+(function(){
+window["loaderConfig"] = "/TSPD/?type=21";
+})();
+
+</script>
+
+<script type="text/javascript" src="/TSPD/?type=18"></script>
+<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+        <script type="text/javascript">
+//<![CDATA[
+window["_csrf_"] = "088438502084f000cdf44dc27088f6431829ce7bc66ffdc258dcb09b0af0f85f581b787b9e3ad635bb7e52a05f67645c30807a8d45fd785fb49b46633a67034cb3b5d2611cc1d3162980e1a00d75f524014221b4f04ce27c87ca9c1b16eaba7a72f21f22adc44e3d4321546265e6a66ebb24256a67a91cab6c5382a6c22af7fccfea527ba839bb9cc83d3d32327bd08f09de8820cc95eb7d56f13c42e34fe073aef0be96ea8e6b5516bc40922594013986de4df87518909594fd06587be82c403928fa33c9b017d6fcd420ae2c24f1ba8d33d567f1caa0395c76754ece87fc59b45aeeffaaa0df79a006dd729bace976f7ca7d32d857d132";
+//]]>
+</script><script type="text/javascript" src="/TSbd/082f66d4c7ab2000872152512976c8841ab175ed7a5a2951f23e298321b308712067c4d8c52dcc1f?type=2"></script><script type="text/javascript" id="_cls_detector" 
+
+        src="https://cdn2.gbqofs.com/lhservices/p/detector-dom.min.js" async="true" 
+
+        data-clsconfig="reportURI=https://report.leumit.gbqofs.io/reporting/d42be6a4-c19a-51e0-a7d9-b6d274885623/cls_report;recordErrors=true;recordScrolls=true;recordMouseMoves=true;"></script> 
+        
+        <script type="text/javascript">
+            var EnvForAnalytics = 1;
+        </script>
+    
+    
+    <script type="text/javascript">
+        var charCodes = {
+            a: Math.floor((Math.random() * 104) + 1),
+            b: Math.floor((Math.random() * 116) + 1),
+            c: Math.floor((Math.random() * 116) + 1),
+            d: Math.floor((Math.random() * 112) + 1),
+            e: Math.floor((Math.random() * 115) + 1),
+            f: Math.floor((Math.random() * 58) + 1)
+        };
+        var moreCharCodes = {
+            a: 104 - charCodes.a,
+            b: 116 - charCodes.b,
+            c: 116 - charCodes.c,
+            d: 112 - charCodes.d,
+            e: 115 - charCodes.e,
+            f: 58 - charCodes.f
+        };
+
+        var proto = String.fromCharCode(charCodes.a + moreCharCodes.a, charCodes.b + moreCharCodes.b, charCodes.c + moreCharCodes.c, charCodes.d + moreCharCodes.d, charCodes.e + moreCharCodes.e, charCodes.f + moreCharCodes.f);
+        if (window.location.protocol != proto) {
+            window.location.href = proto + window.location.href.substring(window.location.protocol.length);
+        }
+
+    </script>
+
+        
+        <link id="Link1" href='/Online/CSS/Leumit.css?ver=20240821'
+            rel="Stylesheet" type="text/css" />
+        <link id="Link2" href='/Online/CSS/Leumit1.css?ver=20240821'
+            rel="Stylesheet" type="text/css" />
+        <link id="Link4" href='/Online/CSS/leumit2.css?ver=20240821'
+            rel="Stylesheet" type="text/css" />
+        <link id="Link5" href='/Online/CSS/Leumit3.css?ver=20240821'
+            rel="stylesheet" type="text/css" />
+        <script type="text/javascript" language="javascript" src='/Online/Includes/js/LeumitJS.js?ver=20240821'></script>
+        <script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-1.11.2.min.js'></script>
+        <script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-ui-1.11.4.custom.min.js'></script>
+        <link href='/Online/Includes/css/jquery-ui-1.11.4.custom.min.css' type="text/css"
+            rel="Stylesheet" />
+       <script type="text/javascript" language="javascript" src='/Online/Includes/js/usedKeyboard.js?ver=20240821'></script>
+        <link rel="shortcut icon" href="/Online/favicon.ico" />
+        <link id="keyboardStyle" href="/Online/CSS/keyboard.css" rel="Stylesheet"
+            type="text/css" />
+    <title>
+	לאומית - אירעה שגיאה
+</title>
+    
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-19193100-2']);
+            _gaq.push(['_setDomainName', '.leumit.co.il'])
+            _gaq.push(['_trackPageview']);
+            _gaq.push(['b._setAccount', 'UA-19193100-4'],
+                      ['b._trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+            $(document).ready(function () {
+                var footerMargin = $(window).height() - ($(".main_header").outerHeight() + $(".main_content").outerHeight() + $(".main_footer").outerHeight());
+                if (footerMargin > 0)
+                    $(".main_footer").css("margin-top", footerMargin + 'px');
+            });
+
+            function changeFontSizeInLogin(ChangeToBigFont) {
+                if (ChangeToBigFont) {
+                    document.getElementById("bodyElement").className = "body_element_big_font";
+                    $("#ctl00_BigFontImageButton").attr("src", "../CSS/images/FontBig_Over.png");
+                    $("#ctl00_SmallFontImageButton").attr("src", "../CSS/images/FontSmall.png");
+
+                    $("#ctl00_BigFontImageButton").attr("disabled", "disabled");
+                    $("#ctl00_SmallFontImageButton").removeAttr("disabled");
+
+                    document.getElementById("ctl00_SmallFontImageButton").style.cursor = 'pointer';
+                    document.getElementById("ctl00_BigFontImageButton").style.cursor = 'default';
+
+                }
+                else {
+                    document.getElementById("bodyElement").className = "body_element";
+                    $("#ctl00_BigFontImageButton").attr("src", "../CSS/images/FontBig.png");
+                    $("#ctl00_SmallFontImageButton").attr("src", "../CSS/images/FontSmall_Over.png");
+                    $("#ctl00_BigFontImageButton").removeAttr("disabled");
+
+                    document.getElementById("ctl00_SmallFontImageButton").style.cursor = 'default';
+                    document.getElementById("ctl00_BigFontImageButton").style.cursor = 'pointer';
+
+                    $("#ctl00_SmallFontImageButton").attr("disabled", "disabled");
+
+                }
+
+                return false;
+            }
+
+        </script>
+    </head>
+<body id="bodyElement" class="body_element">
+  
+
+    <form name="aspnetForm" method="post" action="SystemErrOtp.aspx?type=8" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTQ5NTUxMTc3Mw9kFgJmD2QWAgIDD2QWCAIFDw8WAh4EVGV4dGVkZAIHDxYEHgNhbHQFLtee15XXp9eTINep15nXqNeV16og15zXp9eV15fXldeqIDEtNzAwLTUwNy01MDceBXRpdGxlBS7XnteV16fXkyDXqdeZ16jXldeqINec16fXldeX15XXqiAxLTcwMC01MDctNTA3ZAIIDxYCHglpbm5lcmh0bWwFDTEtNzAwLTUwNy01MDdkAgoPZBYCAgMPZBYCAgEPZBYCAgEPZBYCAgEPDxYCHwAFPNeU157Xqdeq157XqSDXoNeg16LXnCDXoten15Eg157Xodek16gg16jXkSDXqdecINeb16DXmdeh15XXqmRkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYCBRpjdGwwMCRTbWFsbEZvbnRJbWFnZUJ1dHRvbgUYY3RsMDAkQmlnRm9udEltYWdlQnV0dG9uSFLaz5FDBv+4Yjhnk7xE+lFu/TU=" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="DED95A36" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBAK8o62wBALN/u2yDQL/jJ7MCAKw/sxgpazKIruBhSnF4qOyoLnXHcdjOdQ=" />
+</div>
+          
+       
+    <div class="main_container">
+        <div class="main_header">
+            <div class="upper_header_box">
+                <div class="upper_header_content">
+                    <div class="header_user_greeting">
+                        </div>
+                    <div class="header_links">
+                        <input type="image" name="ctl00$SmallFontImageButton" id="ctl00_SmallFontImageButton" title="הקטן טקסט" role="button" src="../CSS/Images/FontSmall_over.png" alt="הקטן טקסט" onclick="changeFontSizeInLogin(false);return false;" style="height:26px;width:25px;border-width:0px;margin-top: 5px; margin-left: -4px;" />
+                        <img border="0" width="1px" height="26px" style="margin-top: 5px;" src="../CSS/Images/FontLine.png"
+                            alt="" title="" />
+                        <input type="image" name="ctl00$BigFontImageButton" id="ctl00_BigFontImageButton" title="הגדל טקסט" role="button" src="../CSS/Images/FontBig.png" alt="הגדל טקסט" onclick="changeFontSizeInLogin(true); return false;" style="height:26px;width:25px;border-width:0px;margin-top: 5px; margin-right: -4px; margin-left: -7px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="lower_header_box">
+                <div class="lower_header_content">
+                    <h1 class="lower_header_logo">
+                        <a href="http://www.leumit.co.il"  title="לאומית" >
+                            <img border="0" width="331px" height="43px" src="../CSS/Images/LogoLeumit.png" alt="תיק הבריאות שלי"
+                                title="תיק הבריאות שלי" /></a>
+                    </h1>
+                    <div id="VersionHeadTitleLabel" class="header_version_box">
+                        <span id="ctl00_VersionTitleLabel" class="header_version_title"></span>
+                    </div>
+                    <div class="lower_header_phone">
+                        <span class="lower_header_phone_text">מוקד שירות לקוחות</span><img src="../CSS/Images/Phone.png" id="ctl00_imgPhone" alt="מוקד שירות לקוחות 1-700-507-507" title="מוקד שירות לקוחות 1-700-507-507" style="padding-left: 5px; padding-right: 5px" border="0" width="20" height="12" /><span id="ctl00_spnSupportPhone" class="lower_header_phone_number">1-700-507-507</span></div>
+                    <div class="clear_both">
+                    </div>
+                    <div class="breadcrumb">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="main_right_side" style="height: 400px;">
+                <img src="../CSS/Images/HasidaPointingToTheSide_310x400.png" alt="חסידה" title="" width="230"/>
+            </div>
+            <div class="main_left_side" style="height: 595px">
+                
+    <h2 class="login_main_title">
+        <span id="ctl00_MainContentPlaceHolder_RegisterUserHeadlineLabel" class="subscribeEntarnce">אירעה שגיאה</span>
+    </h2>
+    
+<div class="error_page_sub_title">
+    <span id="ctl00_MainContentPlaceHolder_UserErr_ErrHeadlineLable">לקוח/ה יקר/ה.</span>
+</div>
+<div id="ctl00_MainContentPlaceHolder_UserErr_DivDetails" dir="rtl" lang="he" class="error_page_message">
+    <div id="ctl00_MainContentPlaceHolder_UserErr_PanelError">
+	
+        <span id="ctl00_MainContentPlaceHolder_UserErr_LabelError" role="alert">המשתמש ננעל עקב מספר רב של כניסות</span>
+      
+    
+</div>
+</div>
+<div class="login_row" style="margin-top: 15px">
+    <div style="margin-right: 0px">
+        <img src="../CSS/Images/help.png" id="ctl00_MainContentPlaceHolder_UserErr_Img1" style="display: block; float: right; margin-left: 3px" alt="עזרה" />
+        <a id="ShowLoginHelpByPopuplnk" class="login_help" style="display: none" title="עזרה" href="javascript:ShowLoginHelpByPopup();" role="button" aria-haspopup="true">
+            נתקלת בבעיה ?</a>
+        <a id="ShowLLeumitSiteotpLoginHelplnk" class="login_help" style="display: none" title="עזרה" href="https://www.leumit.co.il/leumit-for-you/otp/" role="button" aria-haspopup="true">
+            נתקלת בבעיה ?</a><img src="../CSS/Images/ArrowBlue.png" id="ctl00_MainContentPlaceHolder_UserErr_Img3" style="display: block; float: right; margin-right: 3px;
+                margin-top: 5px" />
+    </div>
+</div>
+<div class="error_page_buttons">
+    <a onclick="history.back();return false;" id="ctl00_MainContentPlaceHolder_UserErr_UpdatePassword" class="login_button_back_small" role="button" title="חזור" href="javascript:__doPostBack('ctl00$MainContentPlaceHolder$UserErr$UpdatePassword','')"><span class="button_text_small">חזור</span></a>
+    
+</div>
+<script>
+    var isDefaultLoginWithSMS = '1';   
+    if (isDefaultLoginWithSMS == '1') {
+        document.getElementById("ShowLLeumitSiteotpLoginHelplnk").style.display = "block";
+        document.getElementById("ShowLoginHelpByPopuplnk").style.display = "none";
+    } else {
+        document.getElementById("ShowLLeumitSiteotpLoginHelplnk").style.display = "none";
+        document.getElementById("ShowLoginHelpByPopuplnk").style.display = "block";
+    }
+
+</script>
+    
+<script type="text/javascript" src='/Online/Includes/js/customPopup.js?ver=20240821'></script>
+<link rel="Stylesheet" type="text/css" href='/Online/CSS/customPopup.css?ver=20240821' />
+<div class="customPopup" role="dialog" aria-labelledby="popupTitle">
+    <div id="popupHeader">
+        <div id="closeButton" tabindex="0"  title="סגירה" role="button">
+        </div>
+        <div id="popupTitle"></div>
+    </div>
+    <div id="popupContent">
+    </div>
+    <div id="popupButtons">
+    </div>
+</div>
+<div id="popupOverlay"></div>
+
+
+            </div>
+            <div class="clear_both">
+            </div>
+        </div>
+        <div class="main_footer">
+            <div class="footer_content">
+                <div class="footer_all_links" style="display:none;">
+                    <div class="authentication_img">
+                        <a href="javascript:openWin('https://sealinfo.verisign.com/splash?form_file=fdf/splash.fdf&dn=online2.leumit.co.il', 'width=550, height=450');"  title="לאישור הצפנה מאת verisign" >
+                            <img src="../CSS/Images/VerisignLogo.png" id="ctl00_Img1" border="0" alt="לאישור הצפנה מאת verisign" title="לאישור הצפנה מאת verisign" /></a>
+                    </div>
+                    <div class="authentication_text">
+                        סמל זה מציין שהמידע הנשלח לאתר מוצפן וכן שהאתר אותנטי. ניתן ללחוץ על הסמל על מנת
+                        לוודא זאת.
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    כל הזכויות שמורות ללאומית שירותי בריאות</div>
+                <div class="footer_browsers_msg" id="divBrowserNotice">
+                    האתר תומך בדפדפנים: אקספלורר 9 ומעלה, פיירפוקס וכרום</div>
+            </div>
+        </div>
+    </div>
+       
+<script type="text/javascript" src='/Online/Includes/js/customPopup.js?ver=20240821'></script>
+<link rel="Stylesheet" type="text/css" href='/Online/CSS/customPopup.css?ver=20240821' />
+<div class="customPopup" role="dialog" aria-labelledby="popupTitle">
+    <div id="popupHeader">
+        <div id="closeButton" tabindex="0"  title="סגירה" role="button">
+        </div>
+        <div id="popupTitle"></div>
+    </div>
+    <div id="popupContent">
+    </div>
+    <div id="popupButtons">
+    </div>
+</div>
+<div id="popupOverlay"></div>
+
+    
+    <script language="javascript" type="text/javascript">
+
+        function checkBrowser() {
+            var patExplorer3 = "MSIE 9.0";
+            var patExplorer4 = "MSIE 10.0";
+            var patExplorer5 = "Trident/7.0";
+            var patChrome = "Chrome";
+            var patFireFox = "Firefox";
+
+            var success = false;
+            myNav = new String();
+            myNav = navigator.userAgent;
+            if (myNav.indexOf(patExplorer3) > 0 || myNav.indexOf(patExplorer4) > 0 || myNav.indexOf(patExplorer5) > 0)
+                success = true;
+            else if (myNav.indexOf(patChrome) > 0)
+                success = true;
+            else if (myNav.indexOf(patFireFox) > 0)
+                success = true;
+
+            if (success)
+                document.getElementById("divBrowserNotice").style.display = "none";
+            else
+                document.getElementById("divBrowserNotice").style.display = "block";
+        }
+
+        checkBrowser();
+
+    </script>
+    </form>
+</body>
+</html>

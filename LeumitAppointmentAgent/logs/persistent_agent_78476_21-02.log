@@ -1,0 +1,9 @@
+2026-02-23 21:02:34,815 - Test log entry for naming format validation
+2026-02-23 21:02:35,021 - Run 0 - Test message with timestamp 2026-02-23T21:02:35.021442
+2026-02-23 21:02:35,124 - Run 1 - Test message with timestamp 2026-02-23T21:02:35.124579
+2026-02-23 21:02:35,228 - Run 2 - Test message with timestamp 2026-02-23T21:02:35.228956
+2026-02-23 21:02:35,329 - Entry 1: Startup message
+2026-02-23 21:02:35,329 - Entry 2: Step execution
+2026-02-23 21:02:35,329 - Entry 3: Hebrew text: ג'ודית הלפר
+2026-02-23 21:02:35,329 - Entry 4: Error handling
+2026-02-23 21:02:35,329 - Entry 5: Final status

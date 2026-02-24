@@ -43,8 +43,12 @@ class LeumitBrowser:
         return self
         
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        """Async context manager exit."""
-        await self.close()
+        """Async context manager exit - DOES NOT close the browser.
+        
+        The browser stays open so the logged-in session persists.
+        Call close() manually if you want to close it.
+        """
+        pass  # Don't close - let the browser stay open
     
     async def start(self):
         """Initialize browser and create new page."""
@@ -54,7 +58,11 @@ class LeumitBrowser:
         # Launch fresh browser instance
         self.browser = await self.playwright.chromium.launch(
             headless=HEADLESS,
-            args=['--start-maximized', '--disable-blink-features=AutomationControlled']
+            args=[
+                '--start-maximized',
+                '--disable-blink-features=AutomationControlled',
+                '--disable-dev-shm-usage'  # Prevent Chrome from being terminated when parent process exits
+            ]
         )
         
         context = await self.browser.new_context(
@@ -252,9 +260,23 @@ class LeumitBrowser:
             logger.info("The browser will stay open for 120 seconds (2 minutes)...")
             logger.info("=" * 60)
             
-            # Wait 120 seconds (2 minutes) for user to enter OTP manually
-            logger.info("Waiting 120 seconds for OTP entry...")
-            await asyncio.sleep(120)
+            # Poll for login success for up to 120 seconds
+            logger.info("Polling for login success...")
+            login_success = False
+            for attempt in range(120):
+                await asyncio.sleep(1)  # Check every 1 second
+                
+                # Check if login succeeded
+                if await self.page.locator("#ctl00_LinkButton3").count() > 0:
+                    logger.info(f"✓ Login detected at {attempt}s - user entered OTP!")
+                    login_success = True
+                    break
+                
+                if attempt % 10 == 0:  # Log every 10 seconds
+                    logger.info(f"  Still waiting... ({attempt}s / 120s)")
+            
+            if not login_success:
+                logger.warning("⏱ Timeout: OTP was not entered within 120 seconds")
             
             logger.info("Checking login status...")
             await asyncio.sleep(2)
@@ -394,17 +416,44 @@ class LeumitBrowser:
         """
         try:
             logger.info("Searching for appointments...")
+            logger.info("")
+            logger.info("Waiting for appointments page to fully load...")
+            await asyncio.sleep(2)
+            await self.take_screenshot("00_appointments_page_loaded")
+            
+            # List all visible buttons on the page for debugging
+            logger.info("Analyzing page buttons...")
+            buttons = await self.page.query_selector_all("button, a, div[role='button']")
+            logger.info(f"Found {len(buttons)} clickable elements on page")
+            
+            for i, btn in enumerate(buttons[:10]):  # Show first 10
+                try:
+                    text = await btn.text_content()
+                    btn_id = await btn.get_attribute("id")
+                    logger.info(f"  [{i}] ID: {btn_id}, Text: {text.strip()[:50] if text else 'N/A'}")
+                except:
+                    pass
             
             # Click "בצע חיפוש חדש" (New Search) button
+            logger.info("")
             logger.info("Step 1: Clicking new search button...")
             try:
-                await self.page.click(LeumitSelectors.NEW_SEARCH_BUTTON)
+                # Try to find and click the div with onclick="newSearch()"
+                new_search_element = await self.page.query_selector("div[onclick*='newSearch']")
+                if new_search_element:
+                    await new_search_element.click()
+                    logger.info("✓ Clicked new search button using onclick selector")
+                else:
+                    logger.warning("New search element not found, trying generic selector...")
+                    await self.page.click(LeumitSelectors.NEW_SEARCH_BUTTON)
+                    logger.info("✓ Clicked using generic selector")
+                
                 await self.page.wait_for_load_state("networkidle")
                 await asyncio.sleep(1)
                 await self.take_screenshot("01_new_search_clicked")
-                logger.info("New search button clicked successfully")
+                logger.info("✓ New search button click successful")
             except Exception as e:
-                logger.warning(f"Could not click new search button: {e}")
+                logger.warning(f"✗ Could not click new search button: {e}")
                 await self.take_screenshot("01_new_search_button_error")
             
             # Click "רופאים ומטפלים" (Doctors and Therapists) button
@@ -412,12 +461,51 @@ class LeumitBrowser:
             try:
                 await self.page.click(LeumitSelectors.DOCTORS_THERAPISTS_BUTTON)
                 await self.page.wait_for_load_state("networkidle")
-                await asyncio.sleep(1)
+                await asyncio.sleep(2)
                 await self.take_screenshot("02_doctors_clicked")
-                logger.info("Doctors and therapists button clicked successfully")
+                logger.info("✓ Doctors and therapists button clicked successfully")
             except Exception as e:
-                logger.warning(f"Could not click doctors button: {e}")
+                logger.warning(f"✗ Could not click doctors button: {e}")
                 await self.take_screenshot("02_doctors_button_error")
+            
+            # Take a detailed screenshot of the form page
+            logger.info("")
+            logger.info("Analyzing the search form page...")
+            await self.take_screenshot("03_search_form_page")
+            
+            # Get page HTML to analyze structure
+            page_content = await self.page.content()
+            
+            # Look for any input fields on the page
+            inputs = await self.page.query_selector_all("input")
+            logger.info(f"Found {len(inputs)} input fields on page")
+            
+            # Look for any buttons
+            all_buttons = await self.page.query_selector_all("button")
+            logger.info(f"Found {len(all_buttons)} buttons on page")
+            
+            # Log some page info
+            current_url = self.page.url
+            logger.info(f"Current URL: {current_url}")
+            
+            # Check if we're on the right page
+            if "תורים" in page_content or "appointments" in current_url.lower():
+                logger.info("✓ Successfully on appointments/tours page")
+            else:
+                logger.warning("⚠ May not be on appointments page")
+            
+            # TEMPORARY: Just wait and let user interact manually
+            logger.info("")
+            logger.info("(" + "="*50)
+            logger.info("PAUSING HERE FOR MANUAL INSPECTION")
+            logger.info("The appointments page is loaded and ready.")
+            logger.info("Please examine the screenshot and tell us what form fields you see.")
+            logger.info("="*50 + ")")
+            
+            await asyncio.sleep(5)  # Wait 5 seconds to let user see the page
+            
+            logger.info("Continuing with automatic form filling...")
+            
             
             # Fill search form
             logger.info("Step 3: Filling search form...")

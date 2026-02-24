@@ -1,0 +1,18 @@
+2026/02/22-00:20:59.624 f080 Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.chrome_data\Default\Session Storage/MANIFEST-000001
+2026/02/22-00:20:59.626 f080 Recovering log #59
+2026/02/22-00:20:59.630 f080 Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.chrome_data\Default\Session Storage/000059.log 
+2026/02/22-00:21:52.529 3714 Level-0 table #62: started
+2026/02/22-00:21:52.535 3714 Level-0 table #62: 27822 bytes OK
+2026/02/22-00:21:52.536 3714 Delete type=0 #59
+2026/02/22-00:21:52.537 3714 Compacting 4@0 + 1@1 files
+2026/02/22-00:21:52.554 3714 Generated table #63@0: 331 keys, 17950 bytes
+2026/02/22-00:21:52.554 3714 Compacted 4@0 + 1@1 files => 17950 bytes
+2026/02/22-00:21:52.555 3714 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/22-00:21:52.556 3714 Delete type=2 #53
+2026/02/22-00:21:52.556 3714 Delete type=2 #55
+2026/02/22-00:21:52.556 3714 Delete type=2 #57
+2026/02/22-00:21:52.556 3714 Delete type=2 #59
+2026/02/22-00:21:52.556 3714 Delete type=2 #62
+2026/02/22-00:22:35.851 3714 Level-0 table #65: started
+2026/02/22-00:22:35.875 3714 Level-0 table #65: 1953195 bytes OK
+2026/02/22-00:22:35.877 3714 Delete type=0 #61

@@ -1,0 +1,925 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+<script type="text/javascript">
+(function(){
+window["loaderConfig"] = "/TSPD/?type=21";
+})();
+
+</script>
+
+<script type="text/javascript" src="/TSPD/?type=18"></script>
+<title>
+
+</title><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+	<!-- google fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&amp;display=swap" />
+
+
+	<!-- swiper -->
+	<link rel="preload" as="style" href="../css/LeumitWebsiteCSS/CSS/plugins/swiper-bundle.min.css" /><link rel="stylesheet" href="../css/LeumitWebsiteCSS/CSS//plugins/swiper-bundle.min.css" />
+	<!-- / -->
+
+	<!-- slick -->
+	<link rel="preload" as="style" href="../css/LeumitWebsiteCSS/CSS/plugins/slick.css" /><link rel="stylesheet" href="../css/LeumitWebsiteCSS/CSS/plugins/slick.css" />
+	<!-- / -->
+
+	<!-- AOS (scroll animation) -->
+	<link rel="preload" as="style" href="../css/LeumitWebsiteCSS/CSS/plugins/aos.css" /><link rel="stylesheet" href="../css/LeumitWebsiteCSS/CSS/plugins/aos.css" />
+	<!-- / -->
+   
+	<!-- site css -->
+	<link rel="preload" as="style" href="../css/LeumitWebsiteCSS/CSS/style_rtl.css" /><link rel="stylesheet" href="../css/LeumitWebsiteCSS/CSS/style_rtl.css" />
+	<!-- <link rel="stylesheet" href="./css/style.css" />  -->
+    
+        <script type="text/javascript">
+//<![CDATA[
+window["_csrf_"] = "0898f1822884f0008ff3750cba82071767cc8695b87372ec8fb937e14f63106b31c7ed394ebe367b0fa173c3c9f06067d0898c1d6ae0bcba29520c137405f32074ae7a952c1a2ba4a4ce9a061202b0b1c2a3d48055d3e7a61ad526aee233f76981d1f6e8f22a68bb9b3147abe236a78dfc1b647edd40221c7c4daa764bd0421d66637bdaf3b49da9c1f7819e204a4a751fa7785a12bc0838f5d5b5396182f14eebd3f52ea270fe5ac9328df7b52cc9b21c5f547d6056fb61c98c54e915dcebe596ccd93e865811f63e14d23c5829e0ab93505ca2547a20ab5b543e328c1d5597688162d522c11ac5ce0d12aee3078758aeed34bf2d4d9565";
+//]]>
+</script><script type="text/javascript" src="/TSbd/082f66d4c7ab200033cb2e2825bfa352ad0afed35f5c96000a0f86a8038bbad5f0afc40f94cb7aff?type=2"></script><script type="text/javascript">
+            var EnvForAnalytics = 1;
+        </script>
+    
+    <script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-1.11.2.min.js'></script>
+    <script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-ui-1.11.4.custom.min.js'></script>
+    <link href='/Online/Includes/css/jquery-ui-1.11.4.custom.min.css'
+        type="text/css" rel="Stylesheet" />
+    <script src='../Includes/js/LeumitJS.js?ver=20240821'
+        type="text/javascript"></script>
+    <link type="text/css" rel="Stylesheet" href="Styles/LoginForHomepage.css?ver=20240821" />
+    <script type="text/javascript">
+        var oldPasswordMaximumLength = "20";
+
+        var currentPageDisplayed = "loginPassword";
+
+        var isDefaultLoginWithSMS = "1";
+
+        if (window.self == window.top) {
+            
+            window.location.replace('https://online2.leumit.co.il/Online/Login/Login.aspx');
+
+        }
+        
+
+        $(document).ready(function () {
+            if (isDefaultLoginWithSMS == "1") {
+                //document.getElementById('spnTechnicalsupport').style.display = 'inline';
+                displayLoginWithOtpStepOneNew();
+            }
+            else {
+                //document.getElementById('spnTechnicalsupport').style.display = 'none'
+            }
+            DisableAutoComplete();
+
+            var getKeyCode = function (str) {
+                return str.charCodeAt(str.length - 1);
+            }
+
+            $("#PasswordTextBox").keyup(function (e) {
+
+                $("#passErrorMsgNew").text('').hide();
+                $("#PasswordTextBox").removeClass("inputError");
+            });
+
+            
+
+            $("#TextBoxCellphone").keyup(function (e) {
+              
+                if (e.keyCode == 13) {
+                    return false;
+                }
+
+                $("#TextBoxCellphone").removeClass("inputError");
+                $("#cellphoneErrorMsg").text('').hide();
+                
+                
+                
+                if (e.keyCode == 189 || e.keyCode == 109)
+                {
+                    return;
+                }
+
+                if (e.keyCode == 0 || e.keyCode == 229) {
+                    var code = getKeyCode(this.value);
+                    if (code < 48 || code > 57) {
+                        $("#cellphoneErrorMsg").text('יש להקליד רק ספרות').show();
+                        this.style.borderColor = "#f26065";
+                        this.style.borderStyle = "solid";
+                    }
+                    else {
+                        $("#cellphoneErrorMsg").text('').hide();
+                        this.style.borderColor = "";
+                        this.style.borderStyle = "";
+                    }
+                }
+                else if (e.which != 8 && e.which != 9 && e.which != 46 && e.which != 17 && e.which != 86 &&  e.which != 88 && (e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105)) {
+                    $("#cellphoneErrorMsg").text('יש להקליד רק ספרות').show();
+                    this.style.borderColor = "#f26065";
+                    this.style.borderStyle = "solid";
+                }
+                else {
+                    $("#cellphoneErrorMsg").text('').hide();
+                    this.style.borderColor = "";
+                    this.style.borderStyle = "";
+                }
+            });
+
+
+            $("#TextBoxIdNumForOTP").keyup(function (e) {
+
+                if (e.keyCode == 13) {
+                    return false;
+                }
+
+                $("#idForOtpErrorMsg").text('').hide();
+                $("#TextBoxIdNumForOTP").removeClass("inputError");
+
+                
+                if (e.keyCode == 0 || e.keyCode == 229) {
+                    var code = getKeyCode(this.value);
+                    if (code < 48 || code > 57) {
+                        $("#idForOtpErrorMsg").text('יש להקליד רק ספרות').show();
+                        this.style.borderColor = "#f26065";
+                        this.style.borderStyle = "solid";
+                    }
+                    else {
+                        $("#idForOtpErrorMsg").text('').hide();
+                        this.style.borderColor = "";
+                        this.style.borderStyle = "";
+                    }
+                }
+                else if (e.which != 8 && e.which != 9 && e.which != 46 &&  e.which != 17 && e.which != 86 && e.which != 88 &&(e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105)) {
+                    $("#idForOtpErrorMsg").text('יש להקליד רק ספרות').show();
+                    this.style.borderColor = "#f26065";
+                    this.style.borderStyle = "solid";
+                }
+                else {
+                    $("#idForOtpErrorMsg").text('').hide();
+                    this.style.borderColor = "";
+                    this.style.borderStyle = "";
+                }
+            });
+
+
+
+
+            $("#IdNumTextBox").keyup(function (e) {
+
+                if (e.keyCode == 13) {
+                    return false;
+                }
+
+                $("#idErrorMsg").text('').hide();
+                $("#IdNumTextBox").removeClass("inputError");
+
+                
+                if (e.keyCode == 0 || e.keyCode == 229) {
+                    var code = getKeyCode(this.value);
+                    if (code < 48 || code > 57) {
+                        $("#idErrorMsg").text('יש להקליד רק ספרות').show();
+                        this.style.borderColor = "#f26065";
+                        this.style.borderStyle = "solid";
+                    }
+                    else {
+                        $("#idErrorMsg").text('').hide();
+                        this.style.borderColor = "";
+                        this.style.borderStyle = "";
+                    }
+                }
+                else if (e.which != 8 && e.which != 9 && e.which != 46 && e.which != 17 && e.which != 86 && e.which != 88 && (e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105)) {
+                    $("#idErrorMsg").text('יש להקליד רק ספרות').show();
+                    this.style.borderColor = "#f26065";
+                    this.style.borderStyle = "solid";
+                }
+                else {
+                    $("#idErrorMsg").text('').hide();
+                    this.style.borderColor = "";
+                    this.style.borderStyle = "";
+                }
+            });
+
+            $("#changePasswordLink").on("click", function () {
+                writeGAEvent("Online Login", "Click", "Forgotten Password");
+            });
+            $("#howtojoin").on("click", function () {
+                writeGAEvent("Online Login", "Click", "How to Join");
+            });
+            $("#SchduleAppointmentWithoutLogin").on("click", function () {
+                writeGAEvent("Online Login", "Click", "Appointments without Login");
+            });
+
+            $(document).keypress(function (e) {
+
+                if (e.keyCode === 13) {
+                    
+                    if (currentPageDisplayed == "loginPassword")
+                    {
+                        if (validateLoginWithPassword())
+                            document.getElementById('Button2').click();
+                    }
+                    else if (currentPageDisplayed == "loginWithOtpStepOneNew")
+                    {
+                        if (validateloginWithOtpStepOne())
+                        {
+                            document.getElementById('ButtonSendCellPhoneNew').click();
+                        }
+                    }
+
+                    return false;
+                }
+            });
+            if (isDefaultLoginWithSMS == "1")
+                displayLoginWithOtpStepOne();
+        });
+
+        function crossBrowserOpenModalWithPosition(url, width, height, left, top) {
+            window.open(url, "", "width=" + width + ", height=" + height + ", scrollbars=yes, left=" + left + ", top=" + top);
+        }
+
+        function showLoginHelp() {
+            crossBrowserOpenModalWithPosition("~/../../Login/LoginHelp.aspx", 705, 680, 0, 0);
+        }
+
+        String.prototype.trim = function () { return this.replace(/^\s+|\s+$/, ''); };
+
+        //delete when changing position
+        function DelCuurentPassMark() {
+            document.getElementById('PasswordNoteDIV1').style.visibility = 'hidden';
+        }
+        //delete when changing position
+        function DelNewPassMark() {
+            document.getElementById('PasswordNoteDIV').style.visibility = 'hidden';
+        }
+        function Dellall() {
+            //document.getElementById('PasswordNoteDIV1').style.visibility = 'hidden';
+            //document.getElementById('PasswordNoteDIV').style.visibility = 'hidden';
+            var obj = document.getElementById('TextLangeType1');
+            if (document.all)
+                document.getElementById('TextLangeType1').innerText = "";
+            else if (obj.textContent)
+                document.getElementById('TextLangeType1').textContent = "";
+        }
+        function closeToolTip() {
+            $("#toolTipDiv").text();
+            $("#toolTipDiv").hide();
+        }
+        function setInnerTextCheckLocation(str) {
+            var obj = document.getElementById('TextLangeType');
+            if (document.all)
+                document.getElementById('TextLangeType').innerText = str;
+            else if (obj.textContent) {
+                document.getElementById('TextLangeType').textContent = str;
+            }
+            else {
+                document.getElementById('TextLangeType').style.visibility = 'hidden';
+            }
+        }
+
+        function setInnerTextCheckLocationCurrentPass(str, sender) {
+            $("#toolTipDiv").text(str);
+            $("#toolTipDiv").show();
+            var top = ($(sender).offset().top) - 30;
+            $("#toolTipDiv").css("top", top);
+            $("#toolTipDiv").css("left", $(sender).offset().left + Number($(sender).width()/4));
+        }
+
+        //Check if caps lock was pressed/ Type of Language / Amount of charachters
+        function capLockCurrentPass(e, sender) {
+            kc = e.keyCode ? e.keyCode : e.which;
+            sk = e.shiftKey;
+            if (!sk) {
+                if (kc == 16) {
+                    sk = true;
+                }
+                else {
+                    sk = false;
+                }
+            }
+            //            var amountOfLetters = $("[id$='PasswordTextBox']")[0];
+            //            if (amountOfLetters != null) {
+            //                if (amountOfLetters.value.length > 11) {
+            //                    setInnerTextCheckLocationCurrentPass("ניתן להכניס עד 12 תווים", sender)
+            //                    return;
+            //                }
+            //            }
+            //if right + or right -
+            if (kc == 43 || kc == 45 || kc == 61 || kc == 13) {
+                return;
+            }
+            if (kc >= 48 && kc <= 57) {
+                return;
+            }
+            if (!e.ctrlKey) {//if the user dow not press ctrl
+                //alert(kc)
+                if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk)) {
+                    setInnerTextCheckLocationCurrentPass("מקש Caps Lock לחוץ", sender)
+                    return;
+                }
+                if (!sk) {
+                    //check if press numbers
+                    //check the keyboard IF ITS ENGLISH WRITE THE LANG AS ENGLISH
+                    if ((kc >= 65 && kc <= 90) || (kc >= 97 && kc <= 122)) {
+                        setInnerTextCheckLocationCurrentPass("שפת המקלדת אנגלית", sender)
+                        return;
+                    }
+                    else if (isArabicCharacter(e)) {
+                        setInnerTextCheckLocationCurrentPass("שפת המקלדת ערבית")
+                        return;
+                    }
+                    else if (isRussianCharacter(e.which)) {
+                        setInnerTextCheckLocationCurrentPass("שפת המקלדת רוסית")
+                        return;
+                    }
+                    else {
+                        setInnerTextCheckLocationCurrentPass("שפת המקלדת עברית", sender)
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        
+        //Check if caps lock was press (Old Function)
+        function capLock(e) {
+
+            kc = e.keyCode ? e.keyCode : e.which;
+            sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
+
+            //if right + or right -
+            if (kc == 43 || kc == 45 || kc == 61 || kc == 13) {
+                return;
+            }
+
+            //            var amountOfLetters = $("[id$='PasswordTextBox']");
+            //            if (amountOfLetters != null) {
+            //                if (amountOfLetters.value.length > 11) {
+            //                    setInnerTextCheckLocation("ניתן להכניס עד 12 תוים בלבד")
+            //                    return;
+            //                }
+            //            }
+            if (kc >= 48 && kc <= 57) {
+                return;
+            }
+            if (!e.ctrlKey) {//if the user dow not press ctrl
+                document.getElementById('PasswordNoteDIV').style.visibility = 'visible';
+                if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk)) {
+                    //document.getElementById('TextLangeType').innerText = "שים לה מקש ה CAPS LOCK לחוץ";
+                    setInnerTextCheckLocation("מקש ה CAPS LOCK לחוץ")
+                    return;
+                }
+                if (!sk) {
+                    //check if press numbers
+                    //check the keyborde IF ITS ENGLISH WRITE THE LANG AS ENGLISH
+                    if ((kc >= 65 && kc <= 90) || (kc >= 97 && kc <= 122)) {
+                        //document.getElementById('TextLangeType').innerText = " שפת המקלדת אנגלית";
+                        setInnerTextCheckLocation("שפת המקלדת אנגלית")
+                        return;
+                    }
+                    else if (isArabicCharacter(e)) {
+                        setInnerTextCheckLocation("שפת המקלדת ערבית")
+                        return;
+                    }
+                   else if (isRussianCharacter(e.which)) {
+                        setInnerTextCheckLocation("שפת המקלדת רוסית")
+                        return;
+                    }
+                    else {
+                        //document.getElementById('TextLangeType').innerText = "שפת המקלדת עברית";
+                        setInnerTextCheckLocation("שפת המקלדת עברית")
+                        return;
+                    }
+                }
+            }
+        }
+
+        function isRussianCharacter(char) {
+            var key = String.fromCharCode(char);
+            return /[а-яА-ЯЁё]/.test(key)
+        }
+
+        function isArabicCharacter(event) {
+            var arabicAlphabetDigits = /[\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufc3f]|[\ufe70-\ufefc]|[\u0200]|[\u00A0]/g;
+
+            var key = String.fromCharCode(event.which);
+
+            if (event.keyCode == 8 || event.keyCode == 37 || event.keyCode == 39 || arabicAlphabetDigits.test(key)) {
+                return true;
+            }
+            return false;
+        }
+
+        function OnFininiOuterLogin() {
+            window.open("Login.aspx");
+        }
+
+        function myLoad() {
+            document.getElementById("ClientResilution").value = screen.width + " / " + screen.height;
+            if ((navigator.appName != "Microsoft Internet Explorer") && document.getElementById("mainTable")) {
+                 document.getElementById("mainTable").style.borderSpacing = "2px";
+            }
+            if (isIE() == 8) {
+                $("#imgUsernameKeyboard").hide();
+                $('#divKeyboard').append($("#imgPasswordKeyboard"));
+            }
+        }
+
+        function submitit() {
+
+            if (currentPageDisplayed == "loginPassword")
+                return validateLoginWithPassword();
+            else if (currentPageDisplayed == "loginWithOtpStepOneNew")
+                return validateLoginWithOtpStepOne();
+        }
+
+        function validateLoginWithPassword() {
+            $("#IdNumTextBox").removeClass("inputError");
+            $("#PasswordTextBox").removeClass("inputError");
+            $("#idErrorMsg").text('').hide();
+            $("#passErrorMsgNew").text('').hide();
+            var keyb = document.getElementById('hfKeyboard').value;
+            if (keyb == "1" || keyb == "2")
+                return true;
+            id = document.getElementById("IdNumTextBox").value;
+            id = id.trim();
+            password = document.getElementById("PasswordTextBox").value;
+            password = password.trim();
+            var isValid = true;
+            if (password == "") {
+                $("#passErrorMsgNew").text("סיסמה היא חובה").show();
+                $("#PasswordTextBox").addClass("inputError");
+                document.getElementById("PasswordTextBox").focus();
+                isValid = false;
+            }
+            else if (password.length < 4) {
+                $("#passErrorMsgNew").text("יש להקליד יותר מ-4 תוים").show();
+                $("#PasswordTextBox").addClass("inputError");
+                document.getElementById("PasswordTextBox").focus();
+                isValid = false;
+            }
+            else if (password.length > oldPasswordMaximumLength) {
+                $("#passErrorMsgNew").text("אין להקליד יותר מ-" + oldPasswordMaximumLength + " תווים").show();
+                $("#PasswordTextBox").addClass("inputError");
+                document.getElementById("PasswordTextBox").focus();
+                isValid = false;
+            }
+
+            var radioButtonIdNumOption = $('input[name="RadioButtonList1"]:checked');
+            if (id.length < 1) {
+                $("#idErrorMsg").text("תעודה מזהה היא חובה").show();
+                $("#IdNumTextBox").addClass("inputError");
+                document.getElementById("IdNumTextBox").focus();
+                isValid = false;
+            }
+            else if (radioButtonIdNumOption != null && radioButtonIdNumOption.length > 0 && !DoesIDNumValid(id)) {
+                $("#idErrorMsg").text("תעודה מזהה אינה תקינה").show();
+                $("#IdNumTextBox").addClass("inputError");
+                document.getElementById("IdNumTextBox").focus();
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+
+        function noNumbers(e) {
+            var keynum;
+            var keychar;
+            var numcheck;
+
+            if (window.event) // IE
+            {
+                keynum = e.keyCode;
+            }
+            else if (e.which) // Netscape/Firefox/Opera
+            {
+                keynum = e.which;
+            }
+            keychar = String.fromCharCode(keynum);
+            if (keynum == 9 || keynum == 13) {
+                return true;
+            }
+            numcheck = /[\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\d\b\x2E]/;
+
+            if (e.shiftKey) {
+                return false;
+            }
+            else {
+                return numcheck.test(keychar);
+            }
+        }
+
+        function DoesIDNumValid(idNumValue) {
+
+            var idnum = idNumValue;
+            if (isNaN(idnum))
+                return false;
+            while (idnum.length < 9) {
+                idnum = "0" + idnum;
+            }
+            idnum1 = idnum.substr(0, 1) * 1;
+            idnum2 = idnum.substr(1, 1) * 2;
+            idnum3 = idnum.substr(2, 1) * 1;
+            idnum4 = idnum.substr(3, 1) * 2;
+            idnum5 = idnum.substr(4, 1) * 1;
+            idnum6 = idnum.substr(5, 1) * 2;
+            idnum7 = idnum.substr(6, 1) * 1;
+            idnum8 = idnum.substr(7, 1) * 2;
+            idnum9 = idnum.substr(8, 1) * 1;
+
+            if (idnum1 > 9) idnum1 = (idnum1 % 10) + 1
+            if (idnum2 > 9) idnum2 = (idnum2 % 10) + 1
+            if (idnum3 > 9) idnum3 = (idnum3 % 10) + 1
+            if (idnum4 > 9) idnum4 = (idnum4 % 10) + 1
+            if (idnum5 > 9) idnum5 = (idnum5 % 10) + 1
+            if (idnum6 > 9) idnum6 = (idnum6 % 10) + 1
+            if (idnum7 > 9) idnum7 = (idnum7 % 10) + 1
+            if (idnum8 > 9) idnum8 = (idnum8 % 10) + 1
+            if (idnum9 > 9) idnum9 = (idnum9 % 10) + 1
+
+            var sumval = idnum1 + idnum2 + idnum3 + idnum4 + idnum5 + idnum6 + idnum7 + idnum8 + idnum9;
+
+            sumval = sumval % 10
+            if (sumval > 0) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function goToOnline2() {
+            document.getElementById('hfKeyboard').value = "1";
+            document.getElementById('Button2').click();
+        }
+        function goToOnlineWithoutKeyBoard() {
+            document.getElementById('hfKeyboard').value = "";
+        }
+        function isIE() {
+            var myNav = navigator.userAgent.toLowerCase();
+            return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+
+        }
+        function displayLoginWithPasswordNew() {
+
+            emptyAllTexBoxesNew();
+
+            $("#divLoginWithPasswordNew").show();
+            $("#divLoginWithOtpStepOneNew").hide();
+            $('#loginWithPassword-tab').addClass('active');
+            $('#loginWithSMS-tab').removeClass('active');
+            $("#loginWithPassword-tab").attr("onclick", "").unbind("click");
+            $("#loginWithSMS-tab").click(displayLoginWithOtpStepOneNew);
+
+            currentPageDisplayed = "loginPassword";
+
+
+        }        
+
+        function displayLoginWithOtpStepOneNew() {
+
+            emptyAllTexBoxesNew();
+
+            $("#divLoginWithPasswordNew").hide();
+            $("#divLoginWithOtpStepOneNew").show();
+
+            $('#loginWithSMS-tab').addClass('active');
+            $('#loginWithPassword-tab').removeClass('active');
+
+            $("#loginWithPassword-tab").click(displayLoginWithPasswordNew);
+            $("#loginWithSMS-tab").attr("onclick", "").unbind("click");
+          
+            currentPageDisplayed = "loginWithOtpStepOneNew";
+
+            $("#ButtonSendCellPhone").attr("disabled", false);
+        }
+     
+
+        function validateLoginWithOtpStepOne() {
+            $("#TextBoxIdNumForOTP").removeClass("inputError");
+            $("#TextBoxCellphone").removeClass("inputError");
+            $("#idForOtpErrorMsg").text('').hide();
+            $("#cellphoneErrorMsg").text('').hide();
+            
+            id = document.getElementById("TextBoxIdNumForOTP").value;
+            id = id.trim();
+            password = document.getElementById("TextBoxCellphone").value;
+            password = password.trim();
+            var isValid = true;
+            if (password == "") {
+                $("#cellphoneErrorMsg").text("יש להזין מספר טלפון נייד").show();
+                $("#TextBoxCellphone").addClass("inputError");
+                document.getElementById("TextBoxCellphone").focus();
+                isValid = false;
+            }
+            else if (password.length < 10) {
+                $("#cellphoneErrorMsg").text("מספר הטלפון אינו תקין").show();
+                $("#TextBoxCellphone").addClass("inputError");
+                document.getElementById("TextBoxCellphone").focus();
+                isValid = false;
+            }
+            else if (!IsCellPhoneNumberValid(password)){
+                $("#cellphoneErrorMsg").text("מספר הטלפון אינו תקין").show();
+                $("#TextBoxCellphone").addClass("inputError");
+                document.getElementById("TextBoxCellphone").focus();
+                isValid = false;
+            }
+            
+            var radioButtonIdNumOption = $('input[name="RadioButtonListForOTP"]:checked');
+            if (id.length < 1) {
+                $("#idForOtpErrorMsg").text("תעודה מזהה היא חובה").show();
+                $("#TextBoxIdNumForOTP").addClass("inputError");
+                document.getElementById("TextBoxIdNumForOTP").focus();
+                isValid = false;
+            }
+            else if (radioButtonIdNumOption != null && radioButtonIdNumOption.length >0 && !DoesIDNumValid(id)) {
+                $("#idForOtpErrorMsg").text("תעודה מזהה אינה תקינה").show();
+                $("#TextBoxIdNumForOTP").addClass("inputError");
+                document.getElementById("TextBoxIdNumForOTP").focus();
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+
+        function IsCellPhoneNumberValid(cellPhoneNumber)
+        {
+            if ((cellPhoneNumber.indexOf("-") > -1) && (cellPhoneNumber[3] != '-'))
+                return false;
+
+            if ((cellPhoneNumber.indexOf("-") == -1) && (cellPhoneNumber.length == 11))
+                return false;
+
+            cellPhoneNumber = cellPhoneNumber.slice(0,3) + cellPhoneNumber.slice(4);
+
+            var cellPhonePrefixesAsOneString = document.getElementById('HiddenFieldPhonePrefixes').value;
+
+            var cellPhonePrefixesArray =  cellPhonePrefixesAsOneString.split(",");
+
+            for (var i = 0; i < cellPhonePrefixesArray.length; i++) {
+                if (cellPhoneNumber.indexOf(cellPhonePrefixesArray[i]) == 0)
+                    return true;
+            }
+            return false;
+          
+        }
+
+        function goBackToPreviousDiv(idOfDivToShow)
+        {
+            $("#ButtonSendCellPhone").attr("disabled", false);
+
+            $("#divLoginWithPasswordNew").hide();
+            $("#divLoginWithOtpStepOneNew").hide();
+
+            $("#" + idOfDivToShow).show();
+        }
+
+
+        function emptyAllTexBoxes()
+        {
+           
+            document.getElementById('PasswordTextBox').value = "";
+            document.getElementById('TextBoxIdNumForOTP').value = "";
+            document.getElementById('TextBoxCellphone').value = "";
+            document.getElementById('IdNumTextBox').value = "";
+           
+            $("#PasswordTextBox").removeClass("inputError");
+            $("#TextBoxIdNumForOTP").removeClass("inputError");
+            $("#TextBoxCellphone").removeClass("inputError");
+            $("#IdNumTextBox").removeClass("inputError");
+
+            $("#idErrorMsg").text('').hide();
+            $("#passErrorMsgNew").text('').hide();
+            $("#idForOtpErrorMsg").text('').hide();
+            $("#cellphoneErrorMsg").text('').hide();
+            $("#otpErrorMsgNew").text('').hide();
+            
+        }
+
+        function emptyAllTexBoxesNew() {
+            document.getElementById('PasswordTextBox').value = "";
+            document.getElementById('TextBoxIdNumForOTP').value = "";
+            document.getElementById('TextBoxCellphone').value = "";
+            document.getElementById('IdNumTextBox').value = "";
+
+            $("#PasswordTextBox").removeClass("inputError");
+            $("#TextBoxIdNumForOTP").removeClass("inputError");
+            $("#TextBoxCellphone").removeClass("inputError");
+            $("#IdNumTextBox").removeClass("inputError");
+
+            $("#idErrorMsg").text('').hide();
+            $("#passErrorMsgNew").text('').hide();
+            $("#idForOtpErrorMsg").text('').hide();
+            $("#cellphoneErrorMsg").text('').hide();
+            $("#otpErrorMsgNew").text('').hide();
+
+        }
+
+        function changePlaceHolderText(selector, placeholderSelector) {
+            if (selector == 'idPassword' || selector == 'idOTP') {
+                $('#' + placeholderSelector).attr('placeholder', 'תעודת זהות');
+            }
+            else {
+                $('#' + placeholderSelector).attr('placeholder', 'אחר');
+            }
+        }
+       
+    </script>
+</head>
+<body onload="myLoad()" >
+    <form name="form1" method="post" action="LoginForHomepageNew.aspx" id="form1" target="_parent" onsubmit="return submitit(this)">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTgzNzUzNjMzNQ9kFgICAw9kFgICBQ9kFgQCBQ8PZBYCHgdvbmZvY3VzBQlEZWxsYWxsKClkAgYPD2QWBB4Kb25rZXlwcmVzcwUeY2FwTG9ja0N1cnJlbnRQYXNzKGV2ZW50LHRoaXMpHgZvbmJsdXIFD2Nsb3NlVG9vbFRpcCgpO2QYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgQFCmlkUGFzc3dvcmQFDGVsc2VQYXNzd29yZAUFaWRPVFAFB2Vsc2VPVFDeFgZglvaiECGCUjLQfBtj+j5DhA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/Online/WebResource.axd?d=U6-SZ06YPiLOtzhF76yNZ13fwu0uW2irJYvi3ciVQDw5Oc_MCDqwKzNBt1BiDEwpqnAaKiF5Hzws1kN5zRsRfP011y01&amp;t=638313871312541215" type="text/javascript"></script>
+
+
+<script src="/Online/ScriptResource.axd?d=_OoajiMO3qglyj2CePBlwj0th962Rn09u7NNKqt903cT-q7WyRUERP6RnvLm8H8EKHKrhKAdpXHtlnfBJdumAdtjTHcZhFWarz1CnzjF64kU5m0PZD4rQ8Yy0okGrQX9gar_41Tr033hlX1VVdb3j5fLa1y0kInq85822hHiVooPTVIH0&amp;t=ffffffffa50b82b2" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/Online/ScriptResource.axd?d=g9RKEO4nKEpJnkWG8qZTJzBGL3-7A5VpyFZZEkxM8LfslcUPlPrDcV6zyIxlfoxn7dWNjQf9-ra0tMzssU6tAWXuFuT4noID0AVts_sd6lrYODRDsLK4QFEclzq50tigbTp9ZEdPtp1xuG_Izw0qXDYZPR320LjvTU3I10wereHh1mE30&amp;t=ffffffffa50b82b2" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=b30dQZ5GTmly_9v5M3IjRgLk46cej0dSObVRvsNMGEsRd4r60JvPFfsGII2AnR4MCsYjYoVRAL-30eUKcoHgSylGlP6w6QRzDjORZvc4fy2Defyj1XSrC4yhRxzMpCdBp505wfIHPoEf-wiX8jN-WY8ZvAU1&amp;t=6f05acf6" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=bVLCz-am19ko4rgNJn19n5Z_vS2CpKoKJea_Vr-0MSr9MVRWx3NZiMZCUjs0oq9o3_56A2ax0NP6mRdNSJHU9ZuUxRUYX_uAmnJUoWV_VcL3PcukjZXIA2Xh94tmD2UjJz3HkQZDF6_wYIyGXBdmohaOEto1&amp;t=6f05acf6" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=bT15APm7WwA9UYfCC4HgKylTBMvnn1k2vYoBZGmfwqH0QA1lw2PIi4P0ZGrkjEWpAOGZCWOHpeRC-Bi38Oy1kjJen7mc6lyIi3I--F8gJfuQAp8C_HIiPQCycfzLtBYx8qnR2ObHauqPMWLG10leGKHeC63LdDaLrJZHLglx76hyBdDLwm70eisMq6NOQTmesbe2dg2&amp;t=6f05acf6" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="0538E6F3" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWEAKXgO/yCgKllv3eCgLItt35DgLjr43gAwKw47i8AQKRkPyaBwLFz+DZCALC9/ChAwKM54rGBgK7q7GGCAKtq9qeBgKM2J44AvrgyMgFAuPDidQGApH7jLoEAry8h5AGsSbylmmETxTDzZ0Vj37vn0u3CNU=" />
+</div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', document.getElementById('form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls([], [], [], 90);
+//]]>
+</script>
+
+        
+        <div id="pnlFields">
+	
+            <div class="Login">
+                <div class="form-popupNew" style="display:block;margin-top:0px;">
+                
+                <input type="password" style="display: none;" />
+                <input name="ClientResilution" type="hidden" id="ClientResilution" />
+                <input type="hidden" name="HiddenFieldPhonePrefixes" id="HiddenFieldPhonePrefixes" value="050,051,052,053,054,055,056,057,058" />
+                <input name="clientIsJavaapprove" type="hidden" id="clientIsJavaapprove" value="True" />
+               
+                <div class="" style="">
+                  <div class="tabsNew">
+				   <ul class="nav nav-tabs toggle" id="loginTabs" role="tablist">
+				<li class="nav-item tabNewStyle" role="presentation" >
+						            <button class="nav-link active" id="loginWithPassword-tab"
+                                        data-bs-toggle="tab" data-bs-target="#loginWithPassword"
+                                        type="button" role="tab" aria-controls="loginWithPassword" 
+                                        aria-selected="true" onclick="displayLoginWithPasswordNew()">כניסה עם סיסמה</button>
+					            </li>
+					            <li class="nav-item tabNewStyle" role="presentation">
+						            <button class="nav-link" id="loginWithSMS-tab" data-bs-toggle="tab"
+                                        data-bs-target="#loginWithSMS" type="button" role="tab" aria-controls="loginWithSMS"
+                                        aria-selected="false" onclick="displayLoginWithOtpStepOneNew()">כניסה עם קוד ב - SMS</button>
+					            </li>
+				            </ul>
+                         <div  class="login-form">
+                        <div id="divLoginWithPasswordNew">
+				    <div class="custom-radio-btns" style="text-align:right">
+						    <div class="form-check">
+							    <input value="id" name="RadioButtonList1" type="radio" id="idPassword" class="form-check-input" onclick="changePlaceHolderText('idPassword','IdNumTextBox')" checked="checked" />
+							    <label class="form-check-label tabNewStyle" for="idPassword">
+								   תעודת זהות
+							    </label>
+						    </div>
+						    <div class="form-check">
+							    <input value="else" name="RadioButtonList1" type="radio" id="elsePassword" class="form-check-input" onclick="changePlaceHolderText('elsePassword','IdNumTextBox')" />
+							    <label class="form-check-label tabNewStyle" for="elsePassword">
+								    אחר
+							    </label>
+						    </div>
+					    </div>
+            
+					    <input name="IdNumTextBox" type="text" maxlength="9" id="IdNumTextBox" title="הכנס כאן תעודת זהות" class="form-control marginSmall" type="text" name="IdNumTextBox" placeholder="תעודת זהות" onfocus="Dellall()" />
+                                         <span id="idErrorMsg" class="errorMsg"></span>
+                            <label class="label tabNewStyle" for="IdNumTextBox">
+                                </label>
+					    <div class="tab-content" id="loginTabsContent">
+						    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="loginWith-tab">
+							    <input name="PasswordTextBox" type="password" maxlength="20" id="PasswordTextBox" class="form-control" name="PasswordTextBox" placeholder="סיסמה" onkeypress="capLockCurrentPass(event,this)" onblur="closeToolTip();" />
+                               <span style="color:#2E567A;font-size:14px;padding-right:8px;"><input type="checkbox" onclick="ShowHidePassword(this);" /> הצג את הסיסמה</span>
+                                  <span id="passErrorMsgNew" class="errorMsg"></span>
+							    <div class="submit">
+								    <a id="changePasswordLink" href="ChangePassword.aspx" target="_blank">שכחתי סיסמה</a>
+								    <input type="submit" name="Button1" value="כניסה" onclick="goToOnlineWithoutKeyBoard();" id="Button1" class="btn-primary" type="submit" title="כניסה" style="outline:none;border:none;" />
+                                    
+                                    <input type="submit" name="Button2" value="כניסה" id="Button2" class="loginEnter pointer" title="כניסה" style="display: none;" />
+							    </div>
+                               
+
+						    </div>
+						    <script type="text/javascript">
+                                function ShowHidePassword(checkbox) {
+                                    var passwordField = document.getElementById('PasswordTextBox');
+                                        if (checkbox.checked) {
+                                            passwordField.type = "text";
+                                        } else {
+                                            passwordField.type = "password";
+                                        }
+                                    }
+
+                            </script>					
+					    </div>
+                    </div>
+                        <div id="divLoginWithOtpStepOneNew" style="display:none">                    
+                           <div class="custom-radio-btns" style="text-align:right">
+						            <div class="form-check">
+							            <input value="id" name="RadioButtonListForOTP" type="radio" id="idOTP" class="form-check-input" onclick="changePlaceHolderText('idOTP','TextBoxIdNumForOTP')" checked="checked" />
+                                        <label class="form-check-label" for="idOTP">תעודת זהות</label>
+						            </div>
+
+						            <div class="form-check">
+							            <input value="else" name="RadioButtonListForOTP" type="radio" id="elseOTP" class="form-check-input" onclick="changePlaceHolderText('elseOTP','TextBoxIdNumForOTP')" />
+							            <label class="form-check-label" for="elseOTP">
+								            אחר
+							            </label>
+						            </div>
+                        </div>
+                             <input name="TextBoxIdNumForOTP" type="text" maxlength="9" id="TextBoxIdNumForOTP" class="form-control" name="TextBoxIdNumForOTP" placeholder="תעודת זהות" />
+                               <span id="idForOtpErrorMsg" class="errorMsg" style="text-align:right;"></span>
+                            	<input name="TextBoxCellphone" type="text" maxlength="11" id="TextBoxCellphone" class="form-control" type="tel" name="TextBoxCellphone" placeholder="טלפון נייד" />
+									<span id="spnTechnicalsupport" style="color:#2E567A;font-size:15px;padding-right:8px;display:none;"><a href='https://www.leumit.co.il/leumit-for-you/otp/' target="_blank">נתקלת בקושי להתחבר?</a></span>
+                               <span id="cellphoneErrorMsg" class="errorMsg" style="text-align:right;"></span>
+                              <div class="submit" style="margin-top:15%;">
+								    <input type="submit" name="ButtonSendCellPhoneNew" value="שלח" id="ButtonSendCellPhoneNew" type="submit" class="btn-primary" title="שלח" style="outline:none;border:none;" />
+							    </div>
+                            </div>
+							  
+                 
+					            </div>
+                      	<div class="registerNew">
+                             <a id="howtojoin" href="CreateOnlineUser.aspx" target="_blank">רישום לשירותי אונליין</a>					        
+				        </div>  
+                         </div>
+                      
+                      </div>                    
+                     
+                   
+                </div>
+                <div id="divKeyboard" style="float: left; margin-left: 20px; margin-top: -10px;">
+                </div>
+                <div id="toolTipDiv" style="display: none;" class="tooltipStyle">
+                </div>
+                <div>
+                    <input type="hidden" name="hfKeyboard" id="hfKeyboard" value="0" />
+                    <span id="TextLangeType1" style="font-weight: 400; font-size: 10px; color: Red;"></span>
+                </div>
+            </div>
+            </div>
+            
+            
+            
+        
+</div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.initialize();
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.FilteredTextBoxBehavior, {"ValidChars":"0123456789","id":"IdFilteredTextBoxExtender"}, null, null, $get("IdNumTextBox"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.FilteredTextBoxBehavior, {"ValidChars":"0123456789-","id":"FilteredTextBoxExtender1"}, null, null, $get("TextBoxCellphone"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.FilteredTextBoxBehavior, {"ValidChars":"0123456789","id":"FilteredTextBoxExtender3"}, null, null, $get("TextBoxIdNumForOTP"));
+});
+//]]>
+</script>
+</form>
+</body>
+</html>
+

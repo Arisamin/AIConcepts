@@ -1,0 +1,6 @@
+2026/02/24-11:42:07.903 12e58 Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/MANIFEST-000001
+2026/02/24-11:42:07.910 12e58 Recovering log #62
+2026/02/24-11:42:07.913 12e58 Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/000062.log 
+2026/02/24-11:42:21.968 12838 Level-0 table #66: started
+2026/02/24-11:42:21.975 12838 Level-0 table #66: 53482 bytes OK
+2026/02/24-11:42:21.977 12838 Delete type=0 #62

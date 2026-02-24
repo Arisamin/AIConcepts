@@ -21,8 +21,8 @@ class LeumitSelectors:
     NEW_APPOINTMENT_BUTTON = "button:has-text('תור חדש'), a:has-text('קביעת תור')"
     
     # Appointment search selectors
-    NEW_SEARCH_BUTTON = ".appointments_large_button_text, div:has-text('בצע חיפוש חדש')"
-    DOCTORS_THERAPISTS_BUTTON = ".appointments_large_button_text:has-text('רופאים ומטפלים'), div:has-text('רופאים ומטפלים')"
+    NEW_SEARCH_BUTTON = "div.appointments_large_button_text, div[onclick*='newSearch']"
+    DOCTORS_THERAPISTS_BUTTON = "div.appointments_large_button_text, div[onclick*='doctor'], div[onclick*='Doctor']"
     
     # Search form fields
     SEARCH_DOCTOR_INPUT = "input[placeholder*='תמחום טיפול'], input[placeholder*='חפש']"

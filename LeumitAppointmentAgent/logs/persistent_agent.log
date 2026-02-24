@@ -1,0 +1,44 @@
+2026-02-23 20:46:38,431 - ============================================================
+2026-02-23 20:46:38,431 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-23 20:46:38,439 - ============================================================
+2026-02-23 20:46:38,439 - 
+2026-02-23 20:46:42,229 - Browser profile locked! Attempting to clear stale lock files...
+2026-02-23 20:46:45,710 - Browser profile locked! Attempting to clear stale lock files...
+2026-02-23 20:46:45,710 - Browser profile still locked. Close existing browser windows or delete .browser_profile/
+2026-02-23 20:46:45,710 - Error: BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> C:\Users\smogb\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --no-sandbox --disable-blink-features=AutomationControlled --start-maximized --user-data-dir=C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile --remote-debugging-pipe about:blank
+<launched> pid=82704
+Call log:
+  - <launching> C:\Users\smogb\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --no-sandbox --disable-blink-features=AutomationControlled --start-maximized --user-data-dir=C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile --remote-debugging-pipe about:blank
+  - <launched> pid=82704
+  - [pid=82704] <gracefully close start>
+  - [pid=82704] <kill>
+  - [pid=82704] <will force kill>
+  - [pid=82704] taskkill stderr: ERROR: The process "82704" not found.
+  - [pid=82704] <process did exit: exitCode=2147483651, signal=null>
+  - [pid=82704] starting temporary directories cleanup
+  - [pid=82704] finished temporary directories cleanup
+  - [pid=82704] <gracefully close end>
+
+2026-02-23 20:59:27,171 - TEST_MESSAGE_1771873167
+2026-02-23 20:59:27,373 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 01:46:19,119 - TEST_MESSAGE_1771890379
+2026-02-24 01:46:19,322 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 01:55:43,974 - TEST_MESSAGE_1771890943
+2026-02-24 01:55:44,177 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 02:15:20,351 - TEST_MESSAGE_1771892120
+2026-02-24 02:15:20,553 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 02:17:50,563 - TEST_MESSAGE_1771892270
+2026-02-24 02:17:50,766 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 09:16:17,784 - TEST_MESSAGE_1771917377
+2026-02-24 09:16:17,986 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 09:17:59,103 - TEST_MESSAGE_1771917479
+2026-02-24 09:17:59,304 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 09:32:11,804 - TEST_MESSAGE_1771918331
+2026-02-24 09:32:12,006 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 10:57:25,515 - TEST_MESSAGE_1771923445
+2026-02-24 10:57:25,718 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
+2026-02-24 11:40:18,733 - TEST_MESSAGE_1771926018
+2026-02-24 11:40:18,936 - Hebrew test: ג'ודית הלפר - פסיכיאטריה
