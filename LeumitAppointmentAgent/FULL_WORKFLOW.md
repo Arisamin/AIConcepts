@@ -79,8 +79,8 @@ ELSE:
 - Time in 24-hour format
 - Both values logged for verification
 
-### Step 3.2: Validate Date Range (PENDING FEATURE)
-**Expected Logic** (not yet implemented):
+### Step 3.2: Validate Date Range ✅ IMPLEMENTED
+**Logic** (Now Active):
 ```
 date_from: 2026-02-23
 date_to:   2026-04-03
@@ -88,11 +88,58 @@ date_to:   2026-04-03
 IF selected_date within range:
     → Proceed to click appointment button
 ELSE:
-    → Navigate calendar to find valid date
-    → OR return error if no valid dates available
+    → Execute fallback workflow (see Step 3.2a below)
 ```
 
-**Current Status**: Agent reads date but doesn't validate range yet
+**Date Format Handling:**
+- Calendar shows: `DD.MM.YY` (e.g., `01.06.26`)
+- Parse as: Split by `.` → `day.month.year`
+- Convert: `YY → YYYY` (two-digit → four-digit year)
+- Compare: `01.06.2026` against `date_from` and `date_to`
+
+**Example Validation:**
+```python
+# Input: "01.06.26" (June 1, 2026)
+selected_date_obj = datetime(2026, 6, 1)
+date_from = datetime(2026, 2, 23)
+date_to = datetime(2026, 4, 3)
+
+# Result: June 1 is OUTSIDE range [Feb 23 - Apr 3]
+# Action: Execute fallback workflow
+```
+
+### Step 3.2a: Fallback Workflow for Out-of-Range Appointments
+
+**Scenario**: Selected appointment date is outside the requested date_from/date_to range
+
+**Fallback Steps:**
+
+| Step | Action | Wait | Details |
+|------|--------|------|---------|
+| 3.2a | **Refresh Page** | N/A | Clear calendar state and return to selection |
+| 3.2b | **Take Screenshot** | N/A | Capture state after refresh for debugging |
+| 3.2c | **Wait 15 Minutes** | 900s | Allow system to provide new appointments |
+| 3.2d | **Refresh Page Again** | N/A | Check for new available appointments |
+| 3.2e | **Take Screenshot** | N/A | Verify post-wait state |
+| 3.2f | **Check Recovery Point** | N/A | Verify we're back at "זימון תורים" button |
+
+**Recovery Point Detection (Step 3.2f):**
+```
+IF "זימון תורים" button is visible:
+    → Return status: retry_later (wait 5 sec before retry)
+    → Message: "No appointments in requested range. Waited 15 min. Retrying search."
+    
+ELSE:
+    → Session may have expired
+    → Return status: error with requires_login=true
+    → Message: "Session expired. Restarting from beginning."
+```
+
+**Return Statuses:**
+- `retry_later` - Session valid, will check again in 5 seconds
+- `error` - Session expired, requires login restart
+
+**Current Status**: ✅ Implemented and tested
 
 ### Step 3.3: Find Appointment Type Button
 **Container:** `#divCalendarButtonsBoxForDoctor`
@@ -337,56 +384,90 @@ The workflow encounters two different date formats:
 
 ---
 
-## Logging Output Example
+## Logging Output Examples
+
+### Scenario A: Appointment Within Date Range (Normal Flow)
 
 ```
-Step 9: Navigate calendar to find available date
-  Date range: 2026-02-23 to 2026-04-03
-  📸 Initial calendar screenshot: calendar_initial_142530.png
+Step 9: Validate calendar date is within requested range
+======================================================================
+  Requested date range: 23.02.2026 to 03.04.2026
+  Step 9.2: Taking full screenshot of calendar page...
+  ✓ Full-page screenshot: calendar_full_page_142530.png
   
-  → Reading pre-selected appointment from calendar
-  ✓ Pre-selected appointment: Date=01.06.26, Time=13:30
-  📸 Screenshot: calendar_preselected_142530.png
+  Step 9.3: Reading pre-selected appointment from calendar...
+  ✓ Calendar shows: Date=01.03.26, Time=13:30
   
-  → Looking for appointment type button (זמן לטלפון/וידאו/מרפאה)...
+  Step 9.4: Checking if selected date is within boundaries...
+  ✓ Selected date 01.03.26 is WITHIN boundaries
+
+======================================================================
+  DATE WITHIN RANGE - Proceeding with appointment booking
+======================================================================
+Step 10: Looking for appointment type button...
   → Trying pattern: #divCalendarButtonsBoxForDoctor .appointments_large_button_blue_2
   ✓ Found appointment button: 'זמן לוידאו'
-  
-  → Clicking appointment button: 'זמן לוידאו'
-  ✓ Clicked appointment button
-  📸 Screenshot after appointment button click: appointment_type_clicked_142532.png
-  
-  → Entering multi-step approval process...
-  
+
+Step 11: Entering multi-step approval process...
   → Step 1: Looking for continuation button...
-  → Trying pattern: div#divContinueToShowMessage
   ✓ Found element, checking visibility...
   ✓ Element is visible
   → Clicking button...
   ✓ Button clicked successfully
-  → Wait 1 second for next screen...
   📸 Screenshot: approval_step_1_142533.png
-  
+
   → Step 2: Looking for continuation button...
-  → Trying pattern: div#divContinueToFillPhone
-  ✓ Found element, checking visibility...
-  ✓ Element is visible
-  → Clicking button...
-  ✓ Button clicked successfully
-  📸 Screenshot: approval_step_2_142534.png
-  
-  → Step 3: Looking for continuation button...
   ✓ SMS validation screen reached
   ⏸ Awaiting SMS verification from user
+```
+
+### Scenario B: Appointment Outside Date Range (Fallback Workflow)
+
+```
+Step 9: Validate calendar date is within requested range
+======================================================================
+  Requested date range: 23.02.2026 to 03.04.2026
+  Step 9.2: Taking full screenshot of calendar page...
+  ✓ Full-page screenshot: calendar_full_page_142530.png
   
-  ✓ Pre-selected appointment: Date=01.06.26, Time=13:30
-  ✓ Return Status: awaiting_sms_verification
-  ✓ Message: Appointment date found. SMS sent to phone. Please verify using the code sent.
+  Step 9.3: Reading pre-selected appointment from calendar...
+  ✓ Calendar shows: Date=01.06.26, Time=13:30
+  
+  Step 9.4: Checking if selected date is within boundaries...
+  ✗ Selected date 01.06.26 (01.06.2026) is OUTSIDE boundaries
+     Valid range: 23.02.2026 to 03.04.2026
+
+====================================================================
+  DATE OUT OF RANGE - Starting retry workflow
+====================================================================
+  Step 9.5a: Refreshing page...
+  ✓ Page refreshed
+  
+  Step 9.5b: Taking screenshot after refresh...
+  ✓ Screenshot: calendar_refreshed_142531.png
+  
+  Step 9.5c: Waiting 15 minutes before retry...
+  ⏸ Sleeping for 900 seconds (15 minutes)...
+  ✓ 15-minute wait completed
+  
+  Step 9.5d: Refreshing page again...
+  ✓ Page refreshed
+  
+  Step 9.5e: Taking screenshot after second refresh...
+  ✓ Screenshot: calendar_after_wait_142532.png
+  
+  Step 9.5f: Checking if back at appointments page...
+  ✓ Found 'זימון תורים' button - returning to known workflow point
+  → Will retry search_doctor command from the beginning
+
+✓ Return Status: retry_later
+✓ Message: No appointments available in requested range. Waited 15 minutes and returned to appointments page. Retrying search.
+✓ Retry after: 5 seconds
 ```
 
 ---
 
-## Workflow Flowchart
+## Workflow Flowchart (ASCII - Readable in All Viewers)
 
 ```
 START
@@ -401,11 +482,30 @@ START
   ↓
 [5] Read Pre-Selected Date/Time
   ↓
-[6] Find Appointment Type Button
-  ↓
-[7] Click Appointment Button
-  ↓
-[8] Enter Approval Loop (max 10 steps)
+[6] VALIDATE DATE IN RANGE?
+  │
+  ├─→ YES: Date within [date_from, date_to]
+  │         ↓
+  │       [7] Find Appointment Type Button
+  │         ↓
+  │       [8] Click Appointment Button
+  │         ↓
+  │       [9] Enter Approval Loop (max 10 steps)
+  │           (See SMS/Continuation Logic Below)
+  │
+  └─→ NO: Date OUTSIDE [date_from, date_to]
+          ↓
+        [7a] FALLBACK WORKFLOW - No Valid Appointment
+          ├─→ Step 7a.1: Refresh page
+          ├─→ Step 7a.2: Take screenshot
+          ├─→ Step 7a.3: Wait 15 minutes (900s)
+          ├─→ Step 7a.4: Refresh page again
+          ├─→ Step 7a.5: Take screenshot
+          └─→ Step 7a.6: Check for "זימון תורים" button
+              ├─→ Found & Visible → Return retry_later → WAIT 5s → RESTART
+              └─→ Not Found → Session expired → Return error → requires_login=true → RESTART FROM BEGIN
+
+[Approval Loop Logic] (if date within range):
   ├─→ Check for SMS Validation Screen
   │    ├─→ SMS Found → Return awaiting_sms_verification → END
   │    ├─→ Not Found, Step < 10 → Continue
@@ -417,12 +517,86 @@ START
   │    └─→ Not Found → Return error → END
   │
   └─→ Take Screenshot & Wait 1 second
-  
-ERROR PATHS:
-  - Login fails (3 retries) → END with error
-  - Calendar fails to load → END with error
-  - Appointment button not found → END with error
-  - Browser crash/timeout → END with error
+```
+
+---
+
+## Workflow Flowchart (Mermaid Diagram - Interactive Visualization)
+
+```mermaid
+graph TD
+    A["🟢 START"] --> B["Step 1: Launch Browser"]
+    B --> C{"Step 2: Already Logged In?"}
+    C -->|No| D["Step 3: Google OAuth Login"]
+    D --> E{"Login Successful?"}
+    E -->|No| F["❌ ERROR: Login Failed<br/>Retry Max 3 Times"]
+    F --> |Retry| D
+    E -->|Yes| G["Step 4: Navigate to 'זימון תורים'"]
+    C -->|Yes| G
+    
+    G --> H["Step 5: Select Doctor/Service"]
+    H --> I["Step 6: Wait for Calendar to Load"]
+    I --> J["Step 7: Take Full Screenshot"]
+    J --> K["Step 8: Read Pre-Selected Date/Time<br/>Format: DD.MM.YY<br/>Element: LabelSelectedDate"]
+    K --> L{"Step 9: Validate Date<br/>In Range?<br/>date_from ≤ selected_date ≤ date_to"}
+    
+    L -->|✅ YES - Date Within Range| M["Step 10: Find Appointment Type Button<br/>Patterns:<br/>• זמן לוידאו Video<br/>• זמן לטלפון Phone<br/>• זמן למרפאה Clinic"]
+    M --> N{"Button Found?"}
+    N -->|No| O["❌ ERROR: Appointment Button Not Found"]
+    O --> END1["🔴 END: Error"]
+    
+    N -->|Yes| P["Step 11: Click Appointment Button"]
+    P --> Q["Step 12: Wait 2 Seconds"]
+    Q --> R["Step 13: Take Screenshot"]
+    R --> S["Step 14: Enter Multi-Step Approval Loop<br/>Max 10 Steps"]
+    
+    S --> T["Loop Iteration"]
+    T --> U{"Step A: SMS Validation<br/>Screen Detected?"}
+    U -->|✅ YES| V["✅ SMS Reached<br/>awaiting_sms_verification"]
+    V --> END2["🟡 END: Awaiting User SMS"]
+    
+    U -->|No| W{"Step B: Find Continuation Button<br/>Patterns:<br/>• divContinueToShowMessage<br/>• divContinueToFillPhone<br/>• divValidatePhone<br/>• divSaveAppointment"}
+    W -->|Not Found| X["Try Next Pattern"]
+    X -->|Still Not Found| Y["❌ ERROR: No Continuation Button"]
+    Y --> END3["🔴 END: Error"]
+    
+    W -->|Found| Z{"Button Visible?"}
+    Z -->|Not Visible| X
+    Z -->|✅ Visible| AA["Step C: Click Button"]
+    AA --> AB["Step D: Wait 1 Second"]
+    AB --> AC["Step E: Take Screenshot"]
+    AC --> AD{"Step Count < 10?"}
+    AD -->|Yes| T
+    AD -->|No| AE["awaiting_completion"]
+    AE --> END4["🟡 END: Awaiting User"]
+    
+    L -->|❌ NO - Date Out of Range| AF["⚠️  FALLBACK WORKFLOW"]
+    AF --> AG["Step 9.5a: Refresh Page"]
+    AG --> AH["Step 9.5b: Take Screenshot"]
+    AH --> AI["Step 9.5c: Wait 15 Minutes<br/>900 Seconds"]
+    AI --> AJ["Step 9.5d: Refresh Page Again"]
+    AJ --> AK["Step 9.5e: Take Screenshot"]
+    AK --> AL{"Step 9.5f: 'זימון תורים'<br/>Button Found?"}
+    
+    AL -->|✅ YES| AM["Session Valid<br/>Return: retry_later<br/>Wait 5s, Try Again"]
+    AM --> AN["🔄 RESTART: Back to Step 4"]
+    
+    AL -->|No| AO["⚠️  Session Expired<br/>Return: error<br/>requires_login=true"]
+    AO --> AP["🔄 RESTART: Back to Step 1"]
+    
+    AN --> G
+    AP --> B
+    
+    style A fill:#90EE90
+    style END1 fill:#FFB6C6
+    style END2 fill:#FFE5B4
+    style END3 fill:#FFB6C6
+    style END4 fill:#FFE5B4
+    style AF fill:#FFD700
+    style AM fill:#87CEEB
+    style AO fill:#FFD700
+    style V fill:#FFE5B4
+    style AE fill:#FFE5B4
 ```
 
 ---
@@ -449,20 +623,26 @@ ERROR PATHS:
 ### ✅ Implemented
 - Login state detection
 - Calendar date/time reading
+- **Date range validation (NEW)** - Validates selected date against date_from/date_to
+- **Fallback workflow for out-of-range dates (NEW)** - Refresh→Wait 15min→Check recovery
 - Appointment button finding and clicking
 - Multi-step approval process (up to 10 steps)
 - SMS validation screen detection
 - Proper error handling and logging
-- Screenshot capture at key points
-- 9 comprehensive tests
+- Screenshot capture at key points (full-page mode)
+- 9 comprehensive tests (including date validation tests)
 
 ### ⏳ Pending Features
-- Date range validation (agent accepts dates outside specified range)
 - Save appointment confirmation detection
 - Success status determination
-- Calendar navigation for out-of-range dates
+- Calendar navigation for in-range but unavailable dates (future enhancement)
 
-### 🔧 Recent Fixes
+### 🔧 Recent Fixes & Updates
+- ✅ Added date range validation (Step 3.2)
+- ✅ Implemented fallback workflow for out-of-range appointments (Step 3.2a-f)
+- ✅ Added session recovery detection (check for "זימון תורים" button)
+- ✅ Enabled full-page screenshots for better debugging
+- ✅ Enhanced logging with 70-character separators for clarity
 - Button detection patterns improved (10 patterns instead of 5)
 - Removed restrictive `:not([style*="display: none"])` constraints
 - Enhanced visibility verification before clicking
