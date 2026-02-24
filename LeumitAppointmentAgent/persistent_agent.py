@@ -820,6 +820,34 @@ class PersistentAgent:
                         
                         logger.info(f"  ✓ Pre-selected appointment: Date={selected_date.strip()}, Time={selected_time.strip()}")
                         
+                        # CRITICAL: Validate selected date is within the requested range
+                        logger.info("  → Validating selected date against requested date range...")
+                        try:
+                            # Parse selected date: format is DD.MM.YY (e.g., "01.06.26")
+                            selected_date_str = selected_date.strip()
+                            parts = selected_date_str.split('.')
+                            if len(parts) == 3:
+                                day, month, year = parts
+                                # Convert YY to YYYY: add 20 prefix if needed
+                                year_full = f"20{year}" if len(year) == 2 else year
+                                selected_date_obj = dt.strptime(f"{day}.{month}.{year_full}", "%d.%m.%Y")
+                                
+                                # Check if date is within range
+                                if selected_date_obj < date_from or selected_date_obj > date_to:
+                                    logger.warning(f"  ✗ Selected date {selected_date_str} ({selected_date_obj.strftime('%Y-%m-%d')}) is OUTSIDE range {date_from.strftime('%Y-%m-%d')} to {date_to.strftime('%Y-%m-%d')}")
+                                    logger.info(f"  ⏸ No appointments available in requested date range. Retrying in 15 minutes...")
+                                    return {
+                                        "status": "retry_later",
+                                        "message": f"No appointments available in date range {date_from.strftime('%d.%m.%Y')} to {date_to.strftime('%d.%m.%Y')}. Retry in 15 minutes.",
+                                        "retry_after_seconds": 900
+                                    }
+                                else:
+                                    logger.info(f"  ✓ Selected date {selected_date_str} ({selected_date_obj.strftime('%Y-%m-%d')}) is within range ✓")
+                            else:
+                                logger.warning(f"  ⚠ Could not parse selected date format: {selected_date_str}")
+                        except Exception as e:
+                            logger.warning(f"  ⚠ Date validation error: {e}")
+                        
                         # Take screenshot to see the calendar state
                         logger.info("  → Taking screenshot of calendar with pre-selected appointment...")
                         try:
