@@ -26,15 +26,51 @@ pid = os.getpid()
 time_str = datetime.now().strftime("%H-%m")
 LOG_FILE = LOGS_DIR / f"persistent_agent_{pid}_{time_str}.log"
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(message)s",
-    handlers=[
-        logging.FileHandler(LOG_FILE, encoding="utf-8"),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
+# Configure logging with a console-only Hebrew mapping
+HEBREW_CONSOLE_MAP = {
+    "ברגעים אלה נשלחת אליך הודעת": "bergaim ele nishleha eleycha hodaat",
+    "אנא לחץ על הקישור והזין מספר ת": "ana lehatz al hakishur vehazen mispar TZ",
+    "בצע חיפוש חדש": "batza hipus hadash",
+    "רופאים ומטפלים": "rofim vemetaplim",
+    "זמן לוידאו": "zamen levideo",
+    "זמן לטלפון": "zamen letelefon",
+    "זמן למרפאה": "zamen lemirpaa",
+    "זימון תורים": "zimun torim",
+    "אזור אישי": "ezor ishi",
+    "זמן תור": "zamen tor",
+    "שמור וסיים": "shmor vesayem",
+    "לאומית": "leumit",
+    "חפש": "hapes",
+    "שלח": "shlah",
+    "המשך": "hanshech",
+    "ז": "Z",
+    "ת": "T",
+}
+
+
+class ConsoleSafeFormatter(logging.Formatter):
+    def __init__(self, fmt: str, mapping: dict[str, str]):
+        super().__init__(fmt)
+        self._mapping = sorted(mapping.items(), key=lambda item: len(item[0]), reverse=True)
+
+    def format(self, record: logging.LogRecord) -> str:
+        message = super().format(record)
+        for hebrew, replacement in self._mapping:
+            message = message.replace(hebrew, replacement)
+        return message.encode("cp1252", errors="replace").decode("cp1252")
+
+
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.propagate = False
+
+file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
+file_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
+
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setFormatter(ConsoleSafeFormatter("%(asctime)s - %(message)s", HEBREW_CONSOLE_MAP))
+
+logger.handlers = [file_handler, console_handler]
 
 load_dotenv()
 
@@ -767,30 +803,18 @@ class PersistentAgent:
                     logger.warning(f"  📸 Error screenshot: {screenshot_path.name}")
                     return {"status": "error", "message": "Failed to click זמן תור button"}
                 
-                # Step 9: Validate appointment date is within the requested range
-                logger.info("Step 9: Validate calendar date is within requested range")
-                logger.info("=" * 70)
+                # Step 16: Wait for Calendar Page
+                logger.info("Step 16: Wait for Calendar Page (2 seconds)")
+                await asyncio.sleep(2)
                 
-                # Parse date range from command
+                # Step 17: VALIDATE DATE IN RANGE?
+                logger.info("Step 17: VALIDATE DATE IN RANGE?")
+                logger.info("  Reading pre-selected appointment from calendar...")
+                # Step 17 (cont'd): Reading pre-selected appointment date from calendar
                 from datetime import datetime as dt
                 date_from = dt.strptime(cmd["params"].get("date_from", "2026-02-23"), "%Y-%m-%d")
                 date_to = dt.strptime(cmd["params"].get("date_to", "2026-04-03"), "%Y-%m-%d")
-                logger.info(f"  Requested date range: {date_from.strftime('%d.%m.%Y')} to {date_to.strftime('%d.%m.%Y')}")
-                
-                # Step 9.1: Wait for calendar to fully load
-                await asyncio.sleep(2)
-                
-                # Step 9.2: Take full screenshot of calendar page (including bottom elements)
-                logger.info("  Step 9.2: Taking full screenshot of calendar page...")
-                try:
-                    screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_full_page_{datetime.now().strftime('%H%M%S')}.png"
-                    await self.page.screenshot(path=str(screenshot_path), full_page=True)
-                    logger.info(f"  ✓ Full-page screenshot: {screenshot_path.name}")
-                except Exception as e:
-                    logger.warning(f"  ⚠ Could not take full screenshot: {e}")
-                
-                # Step 9.3: Read the pre-selected appointment date from calendar
-                logger.info("  Step 9.3: Reading pre-selected appointment from calendar...")
+                logger.info(f"  Date range to validate against: {date_from.strftime('%d.%m.%Y')} to {date_to.strftime('%d.%m.%Y')}")
                 try:
                     selected_date_elem = self.page.locator("#ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedDate")
                     selected_time_elem = self.page.locator("#ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedTime")
@@ -807,7 +831,7 @@ class PersistentAgent:
                     return {"status": "error", "message": f"Could not read calendar date: {e}"}
                 
                 # Step 9.4: Validate selected date is within requested boundaries
-                logger.info("  Step 9.4: Checking if selected date is within boundaries...")
+                logger.info("  Checking if selected date is within boundaries...")
                 date_within_range = False
                 try:
                     # Parse selected date: format is DD.MM.YY (e.g., "01.06.26")
@@ -837,16 +861,17 @@ class PersistentAgent:
                     logger.warning("  DATE OUT OF RANGE - Starting retry workflow")
                     logger.warning("  " + "=" * 68)
                     
-                    # Step 9.5a: Refresh page
-                    logger.info("  Step 9.5a: Refreshing page...")
+                    # Step 100: Refresh page
+                    logger.info("Step 100: Refresh page")
+                    logger.info("  Reloading the calendar page...")
                     try:
-                        await self.page.reload()
-                        logger.info("  ✓ Page refreshed")
+                        await self.page.reload(wait_until="domcontentloaded")
+                        logger.info("  ✓ Page refreshed successfully")
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not refresh page: {e}")
                     
-                    # Step 9.5b: Take screenshot after refresh
-                    logger.info("  Step 9.5b: Taking screenshot after refresh...")
+                    # Step 101: Take screenshot (post-refresh)
+                    logger.info("Step 101: Take screenshot (post-refresh)")
                     try:
                         screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_refreshed_{datetime.now().strftime('%H%M%S')}.png"
                         await self.page.screenshot(path=str(screenshot_path), full_page=True)
@@ -854,22 +879,23 @@ class PersistentAgent:
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not take screenshot: {e}")
                     
-                    # Step 9.5c: Wait 15 minutes
-                    logger.info("  Step 9.5c: Waiting 15 minutes before retry...")
-                    logger.info("  ⏸ Sleeping for 900 seconds (15 minutes)...")
+                    # Step 102: Wait 15 minutes (900s)
+                    logger.info("Step 102: Wait 15 minutes (900s)")
+                    logger.info("  ⏸ Sleeping for 900 seconds (15 minutes) to allow appointments to refresh...")
                     await asyncio.sleep(900)
                     logger.info("  ✓ 15-minute wait completed")
                     
-                    # Step 9.5d: Refresh page again
-                    logger.info("  Step 9.5d: Refreshing page again...")
+                    # Step 103: Refresh page again
+                    logger.info("Step 103: Refresh page again")
+                    logger.info("  Reloading the calendar page after wait...")
                     try:
-                        await self.page.reload()
-                        logger.info("  ✓ Page refreshed")
+                        await self.page.reload(wait_until="domcontentloaded")
+                        logger.info("  ✓ Page refreshed successfully")
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not refresh page: {e}")
                     
-                    # Step 9.5e: Take screenshot after second refresh
-                    logger.info("  Step 9.5e: Taking screenshot after second refresh...")
+                    # Step 104: Take screenshot (post-wait)
+                    logger.info("Step 104: Take screenshot (post-wait)")
                     try:
                         screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_after_wait_{datetime.now().strftime('%H%M%S')}.png"
                         await self.page.screenshot(path=str(screenshot_path), full_page=True)
@@ -877,8 +903,8 @@ class PersistentAgent:
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not take screenshot: {e}")
                     
-                    # Step 9.5f: Check if "זימון תורים" button is available
-                    logger.info("  Step 9.5f: Checking if back at appointments page...")
+                    # Step 105: Check for "זימון תורים" button
+                    logger.info("Step 105: Check for 'זימון תורים' button")
                     try:
                         zimon_btn = self.page.locator('div:has-text("זימון תורים")').first
                         if await zimon_btn.count() > 0 and await zimon_btn.is_visible():
@@ -912,8 +938,8 @@ class PersistentAgent:
                 logger.info("  DATE WITHIN RANGE - Proceeding with appointment booking")
                 logger.info("  " + "=" * 68)
                 
-                # Step 10: Look for appointment type button (זמן לטלפון/וידאו/מרפאה)
-                logger.info("Step 10: Looking for appointment type button...")
+                # Step 18: Find Appointment Type Button
+                logger.info("Step 18: Find Appointment Type Button (זמן לוידאו/זמן לטלפון/זמן למרפאה)")
                 
                 try:
                     # Look for the appointment button in divCalendarButtonsBoxForDoctor
@@ -952,10 +978,17 @@ class PersistentAgent:
                         }
                     
                     # Click the appointment button
-                    logger.info(f"  → Clicking appointment button: '{appointment_btn_text}'")
+                    logger.info("Step 19: Click Appointment Button")
+                    logger.info(f"  Clicking: '{appointment_btn_text}'")
                     await appointment_btn.click(timeout=5000)
                     logger.info(f"  ✓ Clicked appointment button")
+                    
+                    # Step 20: Wait 2 Seconds
+                    logger.info("Step 20: Wait 2 Seconds")
                     await asyncio.sleep(2)
+                    
+                    # Step 21: Take Screenshot
+                    logger.info("Step 21: Take Screenshot")
                     
                     # Take screenshot to see the approval screen
                     screenshot_path = Path(__file__).parent / "screenshots" / f"appointment_type_clicked_{datetime.now().strftime('%H%M%S')}.png"
@@ -966,8 +999,8 @@ class PersistentAgent:
                     logger.error(f"  ✗ Error finding appointment button: {e}")
                     return {"status": "error", "message": f"Failed to find appointment button: {e}"}
                 
-                # Step 11: Enter multi-step approval process
-                logger.info("Step 11: Entering multi-step approval process (המשך buttons)")
+                # Step 22: Enter multi-step approval process
+                logger.info("Step 22: Enter Multi-Step Approval Loop (Max 10 Steps)")
                 logger.info("  → Clicking continuation buttons until SMS validation...")
                 
                 step_count = 0
@@ -1289,7 +1322,7 @@ class PersistentAgent:
                                     if isinstance(result, dict) and result.get("status") == "retry_later":
                                         retry_seconds = result.get("retry_after_seconds", 900)  # Default 15 minutes
                                         logger.info("")
-                                        logger.info(f"⏰ {result.get('message', 'Retrying later...')}")
+                                        logger.info(f"Command will retry after delay: {result.get('message', 'Retrying later...')}")
                                         logger.info(f"   Waiting {retry_seconds} seconds ({retry_seconds // 60} minutes) before retry...")
                                         await asyncio.sleep(retry_seconds)
                                         # DON'T update hash - command should retry after sleep
@@ -1303,10 +1336,10 @@ class PersistentAgent:
                                         # Command succeeded - update hash to prevent re-execution
                                         self.last_command_hash = cmd_hash
                                         self.last_file_mtime = file_mtime
-                                        logger.info("✅ Command completed successfully")
+                                        logger.info("Command completed successfully")
                                     else:
                                         # Command failed - DON'T update hash to allow retry
-                                        logger.warning("⚠️  Command failed, will retry on next cycle")
+                                        logger.warning("Command failed, will retry on next cycle")
                                         logger.info("   To skip this command, modify commands.json")
                                     
                                     self.save_state({
