@@ -12,6 +12,7 @@ import traceback
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
+from otp_listener import OTPListener
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
@@ -337,38 +338,125 @@ class PersistentAgent:
             logger.info("=" * 60)
             logger.info("⏳ WAITING FOR OTP VERIFICATION")
             logger.info("=" * 60)
-            logger.info("Please complete OTP verification in the browser window")
-            logger.info("Agent will continue once you're logged in...")
+            logger.info("Waiting for OTP code from phone notifications...")
+            logger.info("Agent will auto-fill OTP when received.")
             logger.info("")
-            
-            # Wait for successful login by checking for "זימון תורים" button
+            # Start OTP listener
+            otp_listener = OTPListener()
+            otp_listener.start()
             max_wait = 300  # 5 minutes
             waited = 0
             check_interval = 2
-            
+            otp_code = None
             while waited < max_wait:
-                await asyncio.sleep(check_interval)
+                # Try to get OTP from listener
+                otp_code = otp_listener.get_latest_otp(timeout=check_interval)
                 waited += check_interval
-                
-                # Check if "זימון תורים" button appeared (logged in)
-                try:
-                    await self.page.get_by_text("זימון תורים").first.wait_for(timeout=1000, state="visible")
-                    logger.info(f"✓ Login successful! Found 'זימון תורים' button")
-                    self.logged_in = True
-                    logger.info("")
-                    return True
-                except:
-                    pass  # Button not yet visible, keep waiting
-                
-                # Show progress every 30 seconds
+                if otp_code:
+                    logger.info(f"✓ OTP code received: {otp_code}")
+                    # Re-find login frame as it may have been detached
+                    try:
+                        # Wait a bit for OTP field to appear
+                        await asyncio.sleep(1)
+                        
+                        # Find the login frame again
+                        frames = self.page.frames
+                        current_login_frame = None
+                        for frame in frames:
+                            if "LoginForHomepageNew" in frame.url:
+                                current_login_frame = frame
+                                logger.info(f"  Found login frame: {frame.url}")
+                                break
+                        
+                        if not current_login_frame:
+                            logger.warning("Login frame not found, trying main page")
+                            current_login_frame = self.page
+                        
+                        # Try multiple selectors for OTP input
+                        otp_input = None
+                        otp_selectors = [
+                            "#TextBoxOTP",
+                            "input[type='text'][id*='OTP']",
+                            "input[type='text'][name*='OTP']",
+                            "input[placeholder*='קוד']",
+                        ]
+                        
+                        for selector in otp_selectors:
+                            try:
+                                otp_input = await current_login_frame.query_selector(selector)
+                                if otp_input:
+                                    logger.info(f"  Found OTP input with selector: {selector}")
+                                    break
+                            except:
+                                pass
+                        
+                        if otp_input:
+                            await otp_input.fill(otp_code)
+                            logger.info("✓ OTP field filled")
+                            # Submit OTP - try multiple button selectors
+                            submit_btn = None
+                            submit_selectors = [
+                                "span.button_text:has-text('כניסה למערכת')",
+                                "span:has-text('כניסה למערכת')",
+                                "input[type='submit']",
+                                "button[type='submit']",
+                            ]
+                            
+                            for selector in submit_selectors:
+                                try:
+                                    submit_btn = await current_login_frame.query_selector(selector)
+                                    if submit_btn:
+                                        logger.info(f"  Found submit button with selector: {selector}")
+                                        break
+                                except:
+                                    pass
+                            
+                            if submit_btn:
+                                await submit_btn.click()
+                                logger.info("✓ OTP submit button clicked")
+                            else:
+                                logger.warning("OTP submit button not found!")
+                        else:
+                            logger.warning("OTP input field not found with any selector!")
+                            # Log available input fields for debugging
+                            inputs = await current_login_frame.query_selector_all("input[type='text']")
+                            logger.info(f"  Available text inputs: {len(inputs)}")
+                            for i, inp in enumerate(inputs[:5]):
+                                inp_id = await inp.get_attribute("id")
+                                inp_name = await inp.get_attribute("name")
+                                inp_placeholder = await inp.get_attribute("placeholder")
+                                logger.info(f"    [{i}] id={inp_id}, name={inp_name}, placeholder={inp_placeholder}")
+                    except Exception as e:
+                        logger.error(f"Error auto-filling OTP: {e}")
+                    # Wait for login to complete
+                    await asyncio.sleep(5)
+                    try:
+                        await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
+                        logger.info(f"✓ Login successful! Found 'זימון תורים' button")
+                        self.logged_in = True
+                        logger.info("")
+                        otp_listener.stop()
+                        return True
+                    except:
+                        logger.info("Waiting for login completion after OTP...")
+                else:
+                    # Check if already logged in (in case OTP was auto-processed)
+                    try:
+                        await self.page.get_by_text("זימון תורים").first.wait_for(timeout=1000, state="visible")
+                        logger.info(f"✓ Login successful! Found 'זימון תורים' button")
+                        self.logged_in = True
+                        logger.info("")
+                        otp_listener.stop()
+                        return True
+                    except:
+                        pass
                 if waited % 30 == 0:
                     logger.info(f"Still waiting for OTP... ({waited}s / {max_wait}s)")
-            
+            otp_listener.stop()
             logger.error("Login timeout - OTP not verified in time")
             return False
-            
         except Exception as e:
-            logger.error(f"Login error: {e}")
+            logger.error(f"Error in login flow: {e}")
             import traceback
             traceback.print_exc()
             return False
