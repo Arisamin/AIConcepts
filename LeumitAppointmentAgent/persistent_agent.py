@@ -949,9 +949,14 @@ class PersistentAgent:
                     logger.warning("  DATE OUT OF RANGE - Starting retry workflow")
                     logger.warning("  " + "=" * 68)
                     
+                    # FALLBACK WORKFLOW: Step 100 - Step 105
+                    logger.warning("")
+                    logger.warning("=" * 70)
+                    logger.warning("FALLBACK WORKFLOW TRIGGERED - DATE OUT OF RANGE")
+                    logger.warning("=" * 70)
+                    
                     # Step 100: Refresh page
                     logger.info("Step 100: Refresh page")
-                    logger.info("  Reloading the calendar page...")
                     try:
                         await self.page.reload(wait_until="domcontentloaded")
                         logger.info("  ✓ Page refreshed successfully")
@@ -961,21 +966,23 @@ class PersistentAgent:
                     # Step 101: Take screenshot (post-refresh)
                     logger.info("Step 101: Take screenshot (post-refresh)")
                     try:
-                        screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_refreshed_{datetime.now().strftime('%H%M%S')}.png"
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"step101_after_refresh_{datetime.now().strftime('%H%M%S')}.png"
                         await self.page.screenshot(path=str(screenshot_path), full_page=True)
                         logger.info(f"  ✓ Screenshot: {screenshot_path.name}")
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not take screenshot: {e}")
                     
                     # Step 102: Wait 15 minutes (900s)
-                    logger.info("Step 102: Wait 15 minutes (900s)")
-                    logger.info("  ⏸ Sleeping for 900 seconds (15 minutes) to allow appointments to refresh...")
-                    await asyncio.sleep(900)
+                    logger.info("Step 102: Wait 15 minutes (900 seconds)")
+                    logger.info("  💤 Sleeping for 15 minutes to allow appointments to refresh...")
+                    for remaining in range(900, 0, -60):
+                        await asyncio.sleep(60)
+                        if remaining > 60:
+                            logger.info(f"     Time remaining: {remaining - 60}s ({(remaining - 60) // 60}m)")
                     logger.info("  ✓ 15-minute wait completed")
                     
                     # Step 103: Refresh page again
                     logger.info("Step 103: Refresh page again")
-                    logger.info("  Reloading the calendar page after wait...")
                     try:
                         await self.page.reload(wait_until="domcontentloaded")
                         logger.info("  ✓ Page refreshed successfully")
@@ -985,7 +992,7 @@ class PersistentAgent:
                     # Step 104: Take screenshot (post-wait)
                     logger.info("Step 104: Take screenshot (post-wait)")
                     try:
-                        screenshot_path = Path(__file__).parent / "screenshots" / f"calendar_after_wait_{datetime.now().strftime('%H%M%S')}.png"
+                        screenshot_path = Path(__file__).parent / "screenshots" / f"step104_after_wait_{datetime.now().strftime('%H%M%S')}.png"
                         await self.page.screenshot(path=str(screenshot_path), full_page=True)
                         logger.info(f"  ✓ Screenshot: {screenshot_path.name}")
                     except Exception as e:
@@ -993,210 +1000,246 @@ class PersistentAgent:
                     
                     # Step 105: Check for "זימון תורים" button
                     logger.info("Step 105: Check for 'זימון תורים' button")
+                    zimon_found = False
                     try:
-                        zimon_btn = self.page.locator('div:has-text("זימון תורים")').first
-                        if await zimon_btn.count() > 0 and await zimon_btn.is_visible():
-                            logger.info("  ✓ Found 'זימון תורים' button - returning to known workflow point")
-                            logger.info("  → Will retry search_doctor command from the beginning")
-                            # Return retry signal - command will be re-executed
+                        zimon_patterns = [
+                            'div:has-text("זימון תורים")',
+                            'span:has-text("זימון תורים")',
+                            'a:has-text("זימון תורים")',
+                            'button:has-text("זימון תורים")',
+                        ]
+                        
+                        for pattern in zimon_patterns:
+                            try:
+                                zimon_btn = self.page.locator(pattern).first
+                                if await zimon_btn.count() > 0 and await zimon_btn.is_visible():
+                                    logger.info(f"  ✓ Found 'זימון תורים' button using pattern: {pattern}")
+                                    zimon_found = True
+                                    break
+                            except:
+                                pass
+                        
+                        if zimon_found:
+                            logger.info("  → Session is valid. Returning retry_later status.")
                             return {
                                 "status": "retry_later",
-                                "message": f"No appointments available in requested range. Waited 15 minutes and returned to appointments page. Retrying search.",
+                                "message": "No appointments in range. Waited 15min and checked recovery point. Retrying search.",
                                 "retry_after_seconds": 5
                             }
                         else:
                             logger.warning("  ✗ 'זימון תורים' button not found after wait")
-                            logger.info("  → Starting workflow from the beginning (Google login)")
-                            # Start over from beginning
+                            logger.info("  → Session expired. Requires re-login.")
                             return {
                                 "status": "error",
-                                "message": "No valid appointments found. Session may have expired. Restarting from beginning.",
+                                "message": "Session expired during fallback workflow. Re-login required.",
                                 "requires_login": True
                             }
                     except Exception as e:
-                        logger.warning(f"  ⚠ Could not check for zimon button: {e}")
+                        logger.warning(f"  ⚠ Error checking for zimon button: {e}")
                         return {
                             "status": "error",
-                            "message": f"Could not verify page state after wait: {e}",
+                            "message": f"Could not verify session state after wait: {e}",
                             "requires_login": False
                         }
                 
                 # DATE IS WITHIN BOUNDARIES - Continue with appointment booking
-                logger.info("  " + "=" * 68)
-                logger.info("  DATE WITHIN RANGE - Proceeding with appointment booking")
-                logger.info("  " + "=" * 68)
+                logger.info("")
+                logger.info("=" * 70)
+                logger.info("DATE WITHIN RANGE - PROCEEDING WITH APPOINTMENT BOOKING")
+                logger.info("=" * 70)
+                logger.info("")
                 
                 # Step 18: Find Appointment Type Button
                 logger.info("Step 18: Find Appointment Type Button (זמן לוידאו/זמן לטלפון/זמן למרפאה)")
                 
-                try:
-                    # Look for the appointment button in divCalendarButtonsBoxForDoctor
-                    # The button has class "appointments_large_button_blue_2" with text inside
-                    appointment_btn_patterns = [
-                        '#divCalendarButtonsBoxForDoctor .appointments_large_button_blue_2',
-                        '.appointment_calendar_buttons_box .appointments_large_button_blue_2',
-                        'div:has-text("זמן לוידאו")',
-                        'div:has-text("זמן לטלפון")',
-                        'div:has-text("זמן למרפאה")',
-                    ]
-                    
-                    appointment_btn = None
-                    appointment_btn_text = None
-                    
-                    for pattern in appointment_btn_patterns:
-                        try:
-                            logger.debug(f"  → Trying pattern: {pattern}")
-                            btn = self.page.locator(pattern).first
-                            if await btn.count() > 0:
-                                btn_text = await btn.text_content()
-                                logger.info(f"  ✓ Found appointment button: '{btn_text.strip()}'")
-                                appointment_btn = btn
-                                appointment_btn_text = btn_text.strip()
-                                break
-                        except Exception as e:
-                            logger.debug(f"  → Pattern '{pattern}' failed: {e}")
-                            continue
-                    
-                    if not appointment_btn:
-                        logger.error("  ✗ Could not find appointment type button")
-                        return {
-                            "status": "error",
-                            "message": "Could not find appointment type button",
-                            "requires_login": False
-                        }
-                    
-                    # Click the appointment button
-                    logger.info("Step 19: Click Appointment Button")
-                    logger.info(f"  Clicking: '{appointment_btn_text}'")
-                    await appointment_btn.click(timeout=5000)
-                    logger.info(f"  ✓ Clicked appointment button")
-                    
-                    # Step 20: Wait 2 Seconds
-                    logger.info("Step 20: Wait 2 Seconds")
-                    await asyncio.sleep(2)
-                    
-                    # Step 21: Take Screenshot
-                    logger.info("Step 21: Take Screenshot")
-                    
-                    # Take screenshot to see the approval screen
-                    screenshot_path = Path(__file__).parent / "screenshots" / f"appointment_type_clicked_{datetime.now().strftime('%H%M%S')}.png"
-                    await self.page.screenshot(path=str(screenshot_path), full_page=True)
-                    logger.info(f"  📸 Screenshot after appointment button click: {screenshot_path.name}")
-                    
-                except Exception as e:
-                    logger.error(f"  ✗ Error finding appointment button: {e}")
-                    return {"status": "error", "message": f"Failed to find appointment button: {e}"}
+                appointment_btn = None
+                appointment_btn_text = None
                 
-                # Step 22: Enter multi-step approval process
+                # Multiple patterns to find the appointment button
+                appointment_patterns = [
+                    'div#divCalendarButtonsBoxForDoctor .appointments_large_button_blue_2',
+                    '.appointment_calendar_buttons_box .appointments_large_button_blue_2',
+                    'div:has-text("זמן לוידאו")',
+                    'div:has-text("זמן לטלפון")',
+                    'div:has-text("זמן למרפאה")',
+                    'span:has-text("זמן לוידאו")',
+                    'span:has-text("זמן לטלפון")',
+                    'span:has-text("זמן למרפאה")',
+                ]
+                
+                for pattern in appointment_patterns:
+                    try:
+                        logger.debug(f"  → Trying pattern: {pattern}")
+                        btn = self.page.locator(pattern).first
+                        if await btn.count() > 0 and await btn.is_visible():
+                            btn_text = await btn.text_content()
+                            logger.info(f"  ✓ Found appointment button: '{btn_text.strip()}'")
+                            appointment_btn = btn
+                            appointment_btn_text = btn_text.strip()
+                            break
+                    except Exception as e:
+                        logger.debug(f"  → Pattern '{pattern}' failed: {str(e)[:80]}")
+                        continue
+                
+                if not appointment_btn:
+                    logger.error("  ✗ Could not find appointment type button")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step18_error_{datetime.now().strftime('%H%M%S')}.png"
+                    await self.page.screenshot(path=str(screenshot_path))
+                    logger.error(f"  📸 Error screenshot: {screenshot_path.name}")
+                    return {
+                        "status": "error",
+                        "message": "Could not find appointment type button",
+                        "requires_login": False
+                    }
+                
+                # Step 19: Click Appointment Button
+                logger.info("Step 19: Click Appointment Button")
+                logger.info(f"  Clicking: '{appointment_btn_text}'")
+                try:
+                    await appointment_btn.click(timeout=5000)
+                    logger.info("  ✓ Appointment button clicked")
+                except Exception as e:
+                    logger.error(f"  ✗ Failed to click appointment button: {e}")
+                    return {"status": "error", "message": f"Failed to click appointment button: {e}"}
+                
+                # Step 20: Wait 2 Seconds
+                logger.info("Step 20: Wait 2 Seconds")
+                await asyncio.sleep(2)
+                
+                # Step 21: Take Screenshot
+                logger.info("Step 21: Take Screenshot")
+                screenshot_path = Path(__file__).parent / "screenshots" / f"step21_after_appointment_click_{datetime.now().strftime('%H%M%S')}.png"
+                try:
+                    await self.page.screenshot(path=str(screenshot_path), full_page=True)
+                    logger.info(f"  📸 Screenshot: {screenshot_path.name}")
+                except Exception as e:
+                    logger.warning(f"  ⚠ Could not take screenshot: {e}")
+                
+                # Step 22: Enter Multi-Step Approval Loop (Max 10 Steps)
                 logger.info("Step 22: Enter Multi-Step Approval Loop (Max 10 Steps)")
-                logger.info("  → Clicking continuation buttons until SMS validation...")
+                logger.info("  Clicking continuation buttons and checking for SMS validation...")
+                logger.info("")
                 
                 step_count = 0
-                max_steps = 10  # Prevent infinite loops
+                max_steps = 10
                 sms_validation_reached = False
                 
                 while step_count < max_steps:
                     step_count += 1
-                    logger.info(f"  → Step {step_count}: Looking for continuation button...")
+                    logger.info(f"  ├─ Approval Loop Step {step_count}/10")
                     
-                    # Check if we've reached SMS validation screen
+                    # Step A: Check for SMS Validation Screen
+                    logger.info(f"    ├─ Step A: Check for SMS validation screen")
                     try:
-                        sms_validation_elem = self.page.locator('div.appointments_approve_video_validation_row_1')
-                        if await sms_validation_elem.count() > 0:
-                            # CRITICAL: Must check visibility - element exists in DOM but may not be displayed
-                            is_sms_visible = await sms_validation_elem.is_visible()
-                            logger.debug(f"      SMS validation element found, is_visible: {is_sms_visible}")
-                            
-                            if is_sms_visible:
-                                sms_text = await sms_validation_elem.text_content()
-                                logger.debug(f"      SMS element text: {sms_text[:100]}")
-                                
-                                # Check if element contains actual SMS message content
-                                if sms_text and ("SMS" in sms_text or "ת.ז" in sms_text):
-                                    logger.info(f"  ✓ SMS validation screen reached: '{sms_text.strip()}'")
-                                    logger.info("  ⏸ SMS sent to phone - manual intervention required")
+                        sms_patterns = [
+                            'div.appointments_approve_video_validation_row_1:visible',
+                            'div:has-text("ברגעים אלה נשלחת אליך הודעת"):visible',
+                            'div:has-text("SMS"):visible',
+                        ]
+                        
+                        for pattern in sms_patterns:
+                            try:
+                                sms_elem = self.page.locator(pattern).first
+                                if await sms_elem.count() > 0:
+                                    sms_text = await sms_elem.text_content()
+                                    logger.info(f"    │  ✓ SMS validation screen detected!")
+                                    logger.info(f"    │  Message: {sms_text.strip()[:80]}")
                                     sms_validation_reached = True
                                     break
-                                else:
-                                    logger.debug(f"      SMS element visible but no SMS message text found yet")
-                            else:
-                                logger.debug(f"      SMS validation element exists but is hidden")
+                            except:
+                                pass
+                        
+                        if sms_validation_reached:
+                            break
                     except Exception as e:
-                        logger.debug(f"      SMS check error: {str(e)[:100]}")
-                        pass
+                        logger.debug(f"    ├─ SMS check error: {str(e)[:60]}")
                     
-                    # Look for the next "המשך" button - use multiple patterns with increasing flexibility
-                    continue_patterns = [
-                        # ID-based patterns (most specific)
-                        'div#divContinueToShowMessage',
-                        'div#divContinueToFillPhone',
-                        'div#divValidatePhone',
-                        'div#divSaveAppointment',
-                        # Class-based patterns
-                        '.appointments_large_button_blue_2:has-text("המשך")',
-                        '.appointments_large_button_blue_2:has-text("שמור וסיים")',
-                        # Generic patterns
-                        'div[onclick*="continue"]:visible',
-                        'div[onclick*="Validate"]:visible',
-                        'div[onclick*="Show"]:visible',
+                    # Step B: Find Continuation Button (4 patterns)
+                    logger.info(f"    ├─ Step B: Find continuation button")
+                    
+                    button_patterns = [
+                        ('pattern1_id', 'div#divContinueToShowMessage'),
+                        ('pattern2_id', 'div#divContinueToFillPhone'),
+                        ('pattern3_id', 'div#divValidatePhone'),
+                        ('pattern4_id', 'div#divSaveAppointment'),
+                        ('pattern5_class', '.appointments_large_button_blue_2:has-text("המשך")'),
+                        ('pattern6_class', '.appointments_large_button_blue_2:has-text("שמור וסיים")'),
                     ]
                     
                     button_clicked = False
+                    button_text = None
                     
-                    for pattern in continue_patterns:
+                    for pattern_name, pattern in button_patterns:
                         try:
-                            logger.debug(f"    → Trying pattern: {pattern}")
-                            cont_btn = self.page.locator(pattern).first
-                            if await cont_btn.count() > 0:
-                                is_visible = await cont_btn.is_visible()
-                                logger.debug(f"      Found element, is_visible: {is_visible}")
-                                
+                            logger.debug(f"    │  → Trying {pattern_name}: {pattern}")
+                            btn = self.page.locator(pattern).first
+                            if await btn.count() > 0:
+                                is_visible = await btn.is_visible()
                                 if is_visible:
-                                    btn_text = await cont_btn.text_content()
-                                    logger.info(f"    ✓ Found button at step {step_count}: '{btn_text.strip()}'")
+                                    button_text = await btn.text_content()
+                                    logger.info(f"    │  ✓ Found button ({pattern_name}): '{button_text.strip()}'")
                                     
-                                    await cont_btn.click(timeout=5000)
-                                    logger.info(f"    ✓ Clicked button")
+                                    # Step C: Click Button
+                                    logger.info(f"    ├─ Step C: Click button")
+                                    await btn.click(timeout=5000)
+                                    logger.info(f"    │  ✓ Button clicked")
+                                    
+                                    # Step D: Wait 1 Second
+                                    logger.info(f"    ├─ Step D: Wait 1 second")
                                     await asyncio.sleep(1)
                                     
-                                    # Take screenshot after each button click
-                                    screenshot_path = Path(__file__).parent / "screenshots" / f"approval_step_{step_count}_{datetime.now().strftime('%H%M%S')}.png"
-                                    await self.page.screenshot(path=str(screenshot_path), full_page=True)
-                                    logger.info(f"    📸 Screenshot: {screenshot_path.name}")
+                                    # Step E: Take Screenshot
+                                    logger.info(f"    ├─ Step E: Take screenshot")
+                                    step_screenshot_path = Path(__file__).parent / "screenshots" / f"step22_approval_{step_count}_{datetime.now().strftime('%H%M%S')}.png"
+                                    try:
+                                        await self.page.screenshot(path=str(step_screenshot_path), full_page=True)
+                                        logger.info(f"    │  📸 {step_screenshot_path.name}")
+                                    except:
+                                        pass
                                     
                                     button_clicked = True
                                     break
                                 else:
-                                    logger.debug(f"      Element found but not visible")
+                                    logger.debug(f"    │  ⚠ Element found but not visible")
                         except Exception as e:
-                            logger.debug(f"    Pattern '{pattern}' failed: {str(e)[:100]}")
-                            continue
+                            logger.debug(f"    │  ✗ {pattern_name} failed: {str(e)[:60]}")
                     
                     if not button_clicked:
-                        logger.warning(f"  ⚠ No more continuation buttons found at step {step_count}")
+                        logger.info(f"    └─ No continuation button found - approval loop ended")
                         break
                 
-                # Check if SMS validation was reached
+                logger.info("")
+                
+                # Check result of approval loop
                 if sms_validation_reached:
-                    # We've successfully reached the SMS validation stage
-                    logger.info("  ✓ SMS validation reached - awaiting user verification")
-                    screenshot_path = Path(__file__).parent / "screenshots" / f"sms_validation_{datetime.now().strftime('%H%M%S')}.png"
-                    await self.page.screenshot(path=str(screenshot_path), full_page=True)
-                    logger.info(f"  📸 SMS validation screenshot: {screenshot_path.name}")
+                    logger.info("✓ SMS VALIDATION SCREEN REACHED")
+                    logger.info("")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step_sms_validation_{datetime.now().strftime('%H%M%S')}.png"
+                    try:
+                        await self.page.screenshot(path=str(screenshot_path), full_page=True)
+                        logger.info(f"📸 SMS validation screenshot: {screenshot_path.name}")
+                    except:
+                        pass
                     
                     return {
                         "status": "awaiting_sms_verification",
-                        "message": "Appointment date found. SMS sent to phone. Please verify using the code sent.",
+                        "message": "Appointment approved. SMS sent to phone. Enter code to confirm.",
                         "screenshot": str(screenshot_path)
                     }
                 else:
-                    # Approval process completed but SMS not reached
-                    logger.warning("  ⚠ Approval process completed but SMS validation not reached")
-                    screenshot_path = Path(__file__).parent / "screenshots" / f"approval_final_{datetime.now().strftime('%H%M%S')}.png"
-                    await self.page.screenshot(path=str(screenshot_path), full_page=True)
+                    logger.warning("⚠ APPROVAL LOOP COMPLETED WITHOUT SMS VALIDATION")
+                    logger.info("Workflow may have progressed differently or reached unexpected state")
+                    logger.info("")
+                    screenshot_path = Path(__file__).parent / "screenshots" / f"step_approval_final_{datetime.now().strftime('%H%M%S')}.png"
+                    try:
+                        await self.page.screenshot(path=str(screenshot_path), full_page=True)
+                        logger.info(f"📸 Final state screenshot: {screenshot_path.name}")
+                    except:
+                        pass
+                    
                     return {
                         "status": "awaiting_completion",
-                        "message": "Approval process completed. Please check browser for next steps.",
+                        "message": "Appointment approval workflow completed. Check browser for next steps.",
                         "screenshot": str(screenshot_path)
                     }
             
