@@ -1455,8 +1455,20 @@ class PersistentAgent:
                                         logger.info("")
                                         logger.info(f"Command will retry after delay: {result.get('message', 'Retrying later...')}")
                                         logger.info(f"   Waiting {retry_seconds} seconds ({retry_seconds // 60} minutes) before retry...")
+                                        
+                                        # IMPORTANT: Update hash NOW before sleeping
+                                        # This prevents infinite "command changed" detection in the next loop iteration
+                                        # We've already executed this command once, sleep, and want to retry naturally on next cycle
+                                        self.last_command_hash = cmd_hash
+                                        self.last_file_mtime = file_mtime
+                                        
                                         await asyncio.sleep(retry_seconds)
-                                        # DON'T update hash - command should retry after sleep
+                                        
+                                        # After sleep, RESET the hash so command re-executes on next cycle
+                                        # This allows the fallback workflow to complete and then search again
+                                        self.last_command_hash = None
+                                        self.last_file_mtime = None
+                                        
                                         logger.info("   Retry time reached, command will re-execute on next cycle")
                                         continue  # Skip to next iteration
                                     
