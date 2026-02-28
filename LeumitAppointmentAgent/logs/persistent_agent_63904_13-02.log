@@ -1,0 +1,73 @@
+2026-02-24 13:40:46,630 - ============================================================
+2026-02-24 13:40:46,630 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-24 13:40:46,630 - ============================================================
+2026-02-24 13:40:46,630 - 
+2026-02-24 13:40:48,142 - ✓ Loaded session state: logged_in=True
+2026-02-24 13:40:48,147 - ✓ Browser initialized
+2026-02-24 13:40:48,149 - 
+2026-02-24 13:40:48,171 - ✓ Socket server listening on localhost:5556
+2026-02-24 13:40:48,173 - 
+2026-02-24 13:40:48,174 - Agent ready! Send commands via:
+2026-02-24 13:40:48,174 -   Socket: Connect to localhost:5556
+2026-02-24 13:40:48,174 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-24 13:40:48,174 - 
+2026-02-24 13:40:48,174 - To start, send login command:
+2026-02-24 13:40:48,175 -   {"action": "login"}
+2026-02-24 13:40:48,175 - 
+2026-02-24 13:40:48,175 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-24 13:40:48,175 - DEBUG: File exists: True
+2026-02-24 13:40:48,176 - DEBUG: Loaded command: search_doctor
+2026-02-24 13:40:48,176 - DEBUG: Loaded command: search_doctor
+2026-02-24 13:40:48,177 - DEBUG: Command hash: -5325224984119686007, Last hash: None
+2026-02-24 13:40:48,177 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-24 13:40:48,177 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-24 13:40:48,177 - 
+2026-02-24 13:40:48,177 - ============================================================
+2026-02-24 13:40:48,177 - COMMAND: search_doctor
+2026-02-24 13:40:48,178 - ============================================================
+2026-02-24 13:40:48,178 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-24 13:40:48,179 - 
+2026-02-24 13:40:48,180 - Executing action: search_doctor
+2026-02-24 13:40:48,180 - Starting doctor search:
+2026-02-24 13:40:48,180 -   Specialty: פסיכיאטריה
+2026-02-24 13:40:48,181 -   Doctor: ג'ודית הלפר
+2026-02-24 13:40:48,206 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-24 13:40:48,206 - Step 0: Checking login state...
+2026-02-24 13:40:51,215 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-24 13:40:51,219 -   → Need to perform login before continuing
+2026-02-24 13:40:51,222 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-24 13:40:51,222 - 
+2026-02-24 13:40:51,222 - ⚠️  Command requires login. Attempting login first...
+2026-02-24 13:40:51,223 - ============================================================
+2026-02-24 13:40:51,223 - LOGIN FLOW
+2026-02-24 13:40:51,223 - ============================================================
+2026-02-24 13:40:51,223 - 
+2026-02-24 13:40:51,223 - Step 1: Navigating to Google...
+2026-02-24 13:40:52,528 - Step 2: Searching for 'לאומית'...
+2026-02-24 13:40:55,995 - Step 3: Clicking Leumit link...
+2026-02-24 13:41:01,345 - Step 4: Checking login state...
+2026-02-24 13:41:01,382 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-24 13:41:01,384 - Step 5: Clicking 'אזור אישי' button...
+2026-02-24 13:41:09,556 - Step 6: Checking if login modal appeared or already logged in...
+2026-02-24 13:41:12,574 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-24 13:41:12,577 - Step 7: Looking for login form...
+2026-02-24 13:41:12,588 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-24 13:41:14,596 - Looking for login form fields...
+2026-02-24 13:41:14,630 - ✓ Found both input fields
+2026-02-24 13:41:14,631 -   Filling ID field...
+2026-02-24 13:41:14,647 -   ✓ ID entered: 032661936
+2026-02-24 13:41:14,649 -   Filling phone field...
+2026-02-24 13:41:14,674 -   ✓ Phone entered: 0547535758
+2026-02-24 13:41:15,108 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-24 13:41:15,110 - Clicking 'שלח' button...
+2026-02-24 13:41:18,121 - Could not click שלח button via text: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for get_by_text("שלח").first
+    - locator resolved to <input value="שלח" title="שלח" type="submit" class="btn-primary" id="ButtonSendCellPhoneNew" name="ButtonSendCellPhoneNew"/>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - performing click action
+

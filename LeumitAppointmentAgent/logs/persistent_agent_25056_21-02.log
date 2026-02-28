@@ -1,0 +1,1071 @@
+2026-02-27 21:47:07,108 - ============================================================
+2026-02-27 21:47:07,108 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-27 21:47:07,108 - ============================================================
+2026-02-27 21:47:07,108 - 
+2026-02-27 21:47:08,763 - ✓ Loaded session state: logged_in=True
+2026-02-27 21:47:08,763 - ✓ Browser initialized
+2026-02-27 21:47:08,763 - 
+2026-02-27 21:47:08,780 - ✓ Socket server listening on localhost:5556
+2026-02-27 21:47:08,780 - 
+2026-02-27 21:47:08,780 - Agent ready! Send commands via:
+2026-02-27 21:47:08,780 -   Socket: Connect to localhost:5556
+2026-02-27 21:47:08,780 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 21:47:08,780 - 
+2026-02-27 21:47:08,781 - To start, send login command:
+2026-02-27 21:47:08,781 -   {"action": "login"}
+2026-02-27 21:47:08,781 - 
+2026-02-27 21:47:08,781 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 21:47:08,781 - DEBUG: File exists: True
+2026-02-27 21:47:08,782 - DEBUG: Loaded command: search_doctor
+2026-02-27 21:47:08,782 - DEBUG: Loaded command: search_doctor
+2026-02-27 21:47:08,782 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 21:47:08,782 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 21:47:08,782 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 21:47:08,782 - 
+2026-02-27 21:47:08,782 - ============================================================
+2026-02-27 21:47:08,783 - COMMAND: search_doctor
+2026-02-27 21:47:08,783 - ============================================================
+2026-02-27 21:47:08,783 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 21:47:08,783 - 
+2026-02-27 21:47:08,783 - Executing action: search_doctor
+2026-02-27 21:47:08,783 - Starting doctor search:
+2026-02-27 21:47:08,783 -   Specialty: פסיכיאטריה
+2026-02-27 21:47:08,783 -   Doctor: ג'ודית הלפר
+2026-02-27 21:47:08,783 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 21:47:08,783 - Step 0: Checking login state...
+2026-02-27 21:47:11,804 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-27 21:47:11,804 -   → Need to perform login before continuing
+2026-02-27 21:47:11,805 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-27 21:47:11,805 - 
+2026-02-27 21:47:11,805 - ⚠️  Command requires login. Attempting login first...
+2026-02-27 21:47:11,805 - ============================================================
+2026-02-27 21:47:11,805 - LOGIN FLOW
+2026-02-27 21:47:11,805 - ============================================================
+2026-02-27 21:47:11,805 - 
+2026-02-27 21:47:11,805 - Step 1: Navigating to Google...
+2026-02-27 21:47:13,193 - Step 2: Searching for 'לאומית'...
+2026-02-27 21:47:16,710 - Step 3: Clicking Leumit link...
+2026-02-27 21:47:22,109 - Step 4: Checking login state...
+2026-02-27 21:47:22,163 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-27 21:47:22,164 - Step 5: Clicking 'אזור אישי' button...
+2026-02-27 21:47:30,363 - Step 6: Checking if login modal appeared or already logged in...
+2026-02-27 21:47:33,375 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-27 21:47:33,376 - Step 7: Looking for login form...
+2026-02-27 21:47:33,389 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:47:35,391 - Looking for login form fields...
+2026-02-27 21:47:35,436 - ✓ Found both input fields
+2026-02-27 21:47:35,437 -   Filling ID field...
+2026-02-27 21:47:35,460 -   ✓ ID entered: 032661936
+2026-02-27 21:47:35,460 -   Filling phone field...
+2026-02-27 21:47:35,480 -   ✓ Phone entered: 0547535758
+2026-02-27 21:47:35,990 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-27 21:47:35,990 - Clicking 'שלח' button...
+2026-02-27 21:47:39,001 - Could not click שלח button via text: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for get_by_text("שלח").first
+    - locator resolved to <input value="שלח" title="שלח" type="submit" class="btn-primary" id="ButtonSendCellPhoneNew" name="ButtonSendCellPhoneNew"/>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - performing click action
+    - click action done
+    - waiting for scheduled navigations to finish
+
+2026-02-27 21:47:39,171 - Could not find submit button
+2026-02-27 21:47:39,172 - Checking if already logged in before OTP wait...
+2026-02-27 21:47:42,182 -   → Not logged in yet, need OTP verification
+2026-02-27 21:47:42,182 - 
+2026-02-27 21:47:42,183 - ============================================================
+2026-02-27 21:47:42,183 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-27 21:47:42,183 - ============================================================
+2026-02-27 21:47:42,183 - Waiting for OTP code from phone notifications...
+2026-02-27 21:47:42,183 - Agent will auto-fill OTP when received.
+2026-02-27 21:47:42,183 - 
+2026-02-27 21:47:42,371 - ✓ OTP code received: 76011
+2026-02-27 21:47:43,375 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:47:43,395 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:47:43,416 - ✓ OTP field filled
+2026-02-27 21:47:43,431 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-27 21:47:43,739 - ✓ OTP submit button clicked
+2026-02-27 21:47:51,751 - Waiting for login completion after OTP...
+2026-02-27 21:47:51,751 - ✓ OTP code received: 79449
+2026-02-27 21:47:52,758 - Login frame not found, trying main page
+2026-02-27 21:47:52,780 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:47:52,799 - ✓ OTP field filled
+2026-02-27 21:47:52,810 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-27 21:47:53,014 - ✓ OTP submit button clicked
+2026-02-27 21:48:01,026 - Waiting for login completion after OTP...
+2026-02-27 21:48:01,026 - ✓ OTP code received: 76011
+2026-02-27 21:48:02,033 - Login frame not found, trying main page
+2026-02-27 21:48:02,054 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:48:02,073 - ✓ OTP field filled
+2026-02-27 21:48:02,084 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-27 21:48:02,340 - ✓ OTP submit button clicked
+2026-02-27 21:48:10,350 - Waiting for login completion after OTP...
+2026-02-27 21:48:10,350 - ✓ OTP code received: 79449
+2026-02-27 21:48:11,359 - Login frame not found, trying main page
+2026-02-27 21:48:11,378 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:48:11,398 - ✓ OTP field filled
+2026-02-27 21:48:11,411 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-27 21:48:11,653 - ✓ OTP submit button clicked
+2026-02-27 21:48:19,675 - Waiting for login completion after OTP...
+2026-02-27 21:48:19,675 - ✓ OTP code received: 86168
+2026-02-27 21:48:20,682 - Login frame not found, trying main page
+2026-02-27 21:48:20,702 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:48:20,724 - ✓ OTP field filled
+2026-02-27 21:48:20,735 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-27 21:48:23,361 - ✓ OTP submit button clicked
+2026-02-27 21:48:28,427 - ✓ Login successful! Found 'זימון תורים' button
+2026-02-27 21:48:28,427 - 
+2026-02-27 21:48:28,427 - ✅ Login successful! Will retry command on next cycle...
+2026-02-27 21:48:28,429 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 21:48:28,430 - DEBUG: File exists: True
+2026-02-27 21:48:28,430 - DEBUG: Loaded command: search_doctor
+2026-02-27 21:48:28,430 - DEBUG: Loaded command: search_doctor
+2026-02-27 21:48:28,431 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 21:48:28,431 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 21:48:28,431 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 21:48:28,431 - 
+2026-02-27 21:48:28,431 - ============================================================
+2026-02-27 21:48:28,432 - COMMAND: search_doctor
+2026-02-27 21:48:28,432 - ============================================================
+2026-02-27 21:48:28,432 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 21:48:28,432 - 
+2026-02-27 21:48:28,432 - Executing action: search_doctor
+2026-02-27 21:48:28,432 - Starting doctor search:
+2026-02-27 21:48:28,432 -   Specialty: פסיכיאטריה
+2026-02-27 21:48:28,432 -   Doctor: ג'ודית הלפר
+2026-02-27 21:48:28,432 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 21:48:28,432 - Step 0: Checking login state...
+2026-02-27 21:48:28,460 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 21:48:28,460 - Step 1: Click 'זימון תורים'
+2026-02-27 21:48:32,489 -   ✓ Clicked 'זימון תורים'
+2026-02-27 21:48:32,636 -   📸 Screenshot: after_zimon_torim_214832.png
+2026-02-27 21:48:32,637 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 21:48:32,637 -   → Trying strategy: onclick
+2026-02-27 21:48:32,827 -   ✓ Clicked 'בצע חיפוש חדש' (strategy: onclick)
+2026-02-27 21:48:32,941 -   📸 Screenshot: after_new_search_214832.png
+2026-02-27 21:48:32,941 -   → Waiting for search page to load...
+2026-02-27 21:48:37,955 - Step 3: Click 'רופאים ומטפלים'
+2026-02-27 21:48:37,956 -   → Trying strategy: text
+2026-02-27 21:48:40,346 -   ✓ Clicked 'רופאים ומטפלים' (strategy: text)
+2026-02-27 21:48:40,347 - Step 4: Select specialty 'פסיכיאטריה'
+2026-02-27 21:48:40,347 -   → Trying strategy: select2_input
+2026-02-27 21:48:42,182 -   ✓ Typed 'פסיכיאטריה' in search field
+2026-02-27 21:48:44,439 -   ✓ Selected specialty 'פסיכיאטריה' from dropdown (strategy: select2_input)
+2026-02-27 21:48:44,572 -   📸 Screenshot: after_specialty_214844.png
+2026-02-27 21:48:44,573 - Step 5: Select subcategory 'כל תתי התחומים'
+2026-02-27 21:48:45,705 -   ✓ Selected subcategory 'כל תתי התחומים' using strategy: select2_input
+2026-02-27 21:48:45,824 -   📸 Screenshot: after_subcategory_214845.png
+2026-02-27 21:48:45,824 - Step 6: Filter by doctor name 'ג'ודית הלפר'
+2026-02-27 21:48:45,825 -   → Trying strategy: placeholder
+2026-02-27 21:48:46,865 -   ✓ Doctor name 'ג'ודית הלפר' entered (strategy: placeholder)
+2026-02-27 21:48:47,004 -   📸 Screenshot: after_doctor_name_214846.png
+2026-02-27 21:48:47,005 - Step 7: Click 'חפש'
+2026-02-27 21:48:50,147 - ✓ Search complete - results should be displayed
+2026-02-27 21:48:50,266 - 📸 Search results screenshot: search_results.png
+2026-02-27 21:48:50,266 - Step 8: Click 'זמן תור' button
+2026-02-27 21:48:50,455 -   ✓ Clicked using strategy: span_id
+2026-02-27 21:48:52,584 -   📸 After click screenshot: after_zaman_click_214852.png
+2026-02-27 21:48:52,585 - Step 16: Wait for Calendar Page (2 seconds)
+2026-02-27 21:48:54,598 - Step 17: VALIDATE DATE IN RANGE?
+2026-02-27 21:48:54,598 -   Reading pre-selected appointment from calendar...
+2026-02-27 21:48:54,620 -   Date range to validate against: 23.02.2026 to 03.04.2026
+2026-02-27 21:48:54,676 -   ✓ Calendar shows: Date=01.06.26, Time=13:50
+2026-02-27 21:48:54,676 -   Checking if selected date is within boundaries...
+2026-02-27 21:48:54,677 -   ✗ Selected date 01.06.26 (01.06.2026) is OUTSIDE boundaries
+2026-02-27 21:48:54,677 -      Valid range: 23.02.2026 to 03.04.2026
+2026-02-27 21:48:54,677 -   ====================================================================
+2026-02-27 21:48:54,677 -   DATE OUT OF RANGE - Starting retry workflow
+2026-02-27 21:48:54,677 -   ====================================================================
+2026-02-27 21:48:54,677 - Step 100: Refresh page
+2026-02-27 21:48:54,677 -   Reloading the calendar page...
+2026-02-27 21:48:55,176 -   ✓ Page refreshed successfully
+2026-02-27 21:48:55,177 - Step 101: Take screenshot (post-refresh)
+2026-02-27 21:48:55,786 -   ✓ Screenshot: calendar_refreshed_214855.png
+2026-02-27 21:48:55,786 - Step 102: Wait 15 minutes (900s)
+2026-02-27 21:48:55,786 -   ⏸ Sleeping for 900 seconds (15 minutes) to allow appointments to refresh...
+2026-02-27 22:03:55,795 -   ✓ 15-minute wait completed
+2026-02-27 22:03:55,795 - Step 103: Refresh page again
+2026-02-27 22:03:55,795 -   Reloading the calendar page after wait...
+2026-02-27 22:03:56,610 -   ✓ Page refreshed successfully
+2026-02-27 22:03:56,611 - Step 104: Take screenshot (post-wait)
+2026-02-27 22:03:57,833 -   ✓ Screenshot: calendar_after_wait_220356.png
+2026-02-27 22:03:57,833 - Step 105: Check for 'זימון תורים' button
+2026-02-27 22:03:57,897 -   ✓ Found 'זימון תורים' button - returning to known workflow point
+2026-02-27 22:03:57,897 -   → Will retry search_doctor command from the beginning
+2026-02-27 22:03:57,898 - Result: {'status': 'retry_later', 'message': 'No appointments available in requested range. Waited 15 minutes and returned to appointments page. Retrying search.', 'retry_after_seconds': 5}
+2026-02-27 22:03:57,898 - 
+2026-02-27 22:03:57,898 - Command will retry after delay: No appointments available in requested range. Waited 15 minutes and returned to appointments page. Retrying search.
+2026-02-27 22:03:57,898 -    Waiting 5 seconds (0 minutes) before retry...
+2026-02-27 22:04:02,903 -    Retry time reached, command will re-execute on next cycle
+2026-02-27 22:04:02,903 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:04:02,904 - DEBUG: File exists: True
+2026-02-27 22:04:02,904 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:04:02,905 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:04:02,905 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:04:02,905 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:04:02,905 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:04:02,906 - 
+2026-02-27 22:04:02,906 - ============================================================
+2026-02-27 22:04:02,906 - COMMAND: search_doctor
+2026-02-27 22:04:02,906 - ============================================================
+2026-02-27 22:04:02,906 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:04:02,906 - 
+2026-02-27 22:04:02,906 - Executing action: search_doctor
+2026-02-27 22:04:02,906 - Starting doctor search:
+2026-02-27 22:04:02,907 -   Specialty: פסיכיאטריה
+2026-02-27 22:04:02,907 -   Doctor: ג'ודית הלפר
+2026-02-27 22:04:02,907 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:04:02,907 - Step 0: Checking login state...
+2026-02-27 22:04:02,938 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:04:02,938 - Step 1: Click 'זימון תורים'
+2026-02-27 22:04:06,170 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:04:06,295 -   📸 Screenshot: after_zimon_torim_220406.png
+2026-02-27 22:04:06,296 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:04:06,296 -   → Trying strategy: onclick
+2026-02-27 22:04:11,304 -   → Trying strategy: text_in_div
+2026-02-27 22:04:16,311 -   → Trying strategy: parent_div
+2026-02-27 22:04:21,327 -   → Trying strategy: text
+2026-02-27 22:04:26,346 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:04:26,488 -   📸 Error screenshot: step2_error_220426.png
+2026-02-27 22:04:26,488 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:04:26,488 - Command failed, will retry on next cycle
+2026-02-27 22:04:26,489 -    To skip this command, modify commands.json
+2026-02-27 22:04:26,490 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:04:26,490 - DEBUG: File exists: True
+2026-02-27 22:04:26,491 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:04:26,491 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:04:26,491 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:04:26,492 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:04:26,492 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:04:26,492 - 
+2026-02-27 22:04:26,492 - ============================================================
+2026-02-27 22:04:26,492 - COMMAND: search_doctor
+2026-02-27 22:04:26,492 - ============================================================
+2026-02-27 22:04:26,492 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:04:26,492 - 
+2026-02-27 22:04:26,492 - Executing action: search_doctor
+2026-02-27 22:04:26,492 - Starting doctor search:
+2026-02-27 22:04:26,492 -   Specialty: פסיכיאטריה
+2026-02-27 22:04:26,493 -   Doctor: ג'ודית הלפר
+2026-02-27 22:04:26,493 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:04:26,493 - Step 0: Checking login state...
+2026-02-27 22:04:26,522 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:04:26,523 - Step 1: Click 'זימון תורים'
+2026-02-27 22:04:29,604 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:04:29,740 -   📸 Screenshot: after_zimon_torim_220429.png
+2026-02-27 22:04:29,740 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:04:29,740 -   → Trying strategy: onclick
+2026-02-27 22:04:34,756 -   → Trying strategy: text_in_div
+2026-02-27 22:04:39,768 -   → Trying strategy: parent_div
+2026-02-27 22:04:44,778 -   → Trying strategy: text
+2026-02-27 22:04:49,795 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:04:49,913 -   📸 Error screenshot: step2_error_220449.png
+2026-02-27 22:04:49,914 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:04:49,914 - Command failed, will retry on next cycle
+2026-02-27 22:04:49,914 -    To skip this command, modify commands.json
+2026-02-27 22:04:49,916 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:04:49,916 - DEBUG: File exists: True
+2026-02-27 22:04:49,917 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:04:49,917 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:04:49,917 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:04:49,917 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:04:49,917 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:04:49,917 - 
+2026-02-27 22:04:49,918 - ============================================================
+2026-02-27 22:04:49,918 - COMMAND: search_doctor
+2026-02-27 22:04:49,918 - ============================================================
+2026-02-27 22:04:49,918 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:04:49,918 - 
+2026-02-27 22:04:49,918 - Executing action: search_doctor
+2026-02-27 22:04:49,918 - Starting doctor search:
+2026-02-27 22:04:49,918 -   Specialty: פסיכיאטריה
+2026-02-27 22:04:49,918 -   Doctor: ג'ודית הלפר
+2026-02-27 22:04:49,918 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:04:49,918 - Step 0: Checking login state...
+2026-02-27 22:04:49,966 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:04:49,966 - Step 1: Click 'זימון תורים'
+2026-02-27 22:04:53,033 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:04:53,137 -   📸 Screenshot: after_zimon_torim_220453.png
+2026-02-27 22:04:53,138 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:04:53,138 -   → Trying strategy: onclick
+2026-02-27 22:04:58,151 -   → Trying strategy: text_in_div
+2026-02-27 22:05:03,164 -   → Trying strategy: parent_div
+2026-02-27 22:05:08,178 -   → Trying strategy: text
+2026-02-27 22:05:13,183 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:05:13,305 -   📸 Error screenshot: step2_error_220513.png
+2026-02-27 22:05:13,306 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:05:13,306 - Command failed, will retry on next cycle
+2026-02-27 22:05:13,306 -    To skip this command, modify commands.json
+2026-02-27 22:05:13,307 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:05:13,308 - DEBUG: File exists: True
+2026-02-27 22:05:13,308 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:05:13,309 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:05:13,309 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:05:13,309 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:05:13,309 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:05:13,309 - 
+2026-02-27 22:05:13,309 - ============================================================
+2026-02-27 22:05:13,309 - COMMAND: search_doctor
+2026-02-27 22:05:13,309 - ============================================================
+2026-02-27 22:05:13,310 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:05:13,310 - 
+2026-02-27 22:05:13,310 - Executing action: search_doctor
+2026-02-27 22:05:13,310 - Starting doctor search:
+2026-02-27 22:05:13,310 -   Specialty: פסיכיאטריה
+2026-02-27 22:05:13,310 -   Doctor: ג'ודית הלפר
+2026-02-27 22:05:13,310 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:05:13,310 - Step 0: Checking login state...
+2026-02-27 22:05:13,335 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:05:13,335 - Step 1: Click 'זימון תורים'
+2026-02-27 22:05:16,399 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:05:16,503 -   📸 Screenshot: after_zimon_torim_220516.png
+2026-02-27 22:05:16,504 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:05:16,504 -   → Trying strategy: onclick
+2026-02-27 22:05:21,510 -   → Trying strategy: text_in_div
+2026-02-27 22:05:26,523 -   → Trying strategy: parent_div
+2026-02-27 22:05:31,545 -   → Trying strategy: text
+2026-02-27 22:05:36,554 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:05:36,691 -   📸 Error screenshot: step2_error_220536.png
+2026-02-27 22:05:36,691 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:05:36,691 - Command failed, will retry on next cycle
+2026-02-27 22:05:36,691 -    To skip this command, modify commands.json
+2026-02-27 22:05:36,693 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:05:36,694 - DEBUG: File exists: True
+2026-02-27 22:05:36,695 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:05:36,695 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:05:36,696 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:05:36,696 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:05:36,696 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:05:36,696 - 
+2026-02-27 22:05:36,696 - ============================================================
+2026-02-27 22:05:36,696 - COMMAND: search_doctor
+2026-02-27 22:05:36,697 - ============================================================
+2026-02-27 22:05:36,697 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:05:36,697 - 
+2026-02-27 22:05:36,697 - Executing action: search_doctor
+2026-02-27 22:05:36,697 - Starting doctor search:
+2026-02-27 22:05:36,697 -   Specialty: פסיכיאטריה
+2026-02-27 22:05:36,697 -   Doctor: ג'ודית הלפר
+2026-02-27 22:05:36,698 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:05:36,698 - Step 0: Checking login state...
+2026-02-27 22:05:36,726 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:05:36,726 - Step 1: Click 'זימון תורים'
+2026-02-27 22:05:39,797 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:05:39,902 -   📸 Screenshot: after_zimon_torim_220539.png
+2026-02-27 22:05:39,903 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:05:39,903 -   → Trying strategy: onclick
+2026-02-27 22:05:44,908 -   → Trying strategy: text_in_div
+2026-02-27 22:05:49,917 -   → Trying strategy: parent_div
+2026-02-27 22:05:54,925 -   → Trying strategy: text
+2026-02-27 22:05:59,933 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:06:00,129 -   📸 Error screenshot: step2_error_220559.png
+2026-02-27 22:06:00,129 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:06:00,130 - Command failed, will retry on next cycle
+2026-02-27 22:06:00,130 -    To skip this command, modify commands.json
+2026-02-27 22:06:00,131 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:06:00,132 - DEBUG: File exists: True
+2026-02-27 22:06:00,132 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:06:00,132 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:06:00,133 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:06:00,133 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:06:00,133 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:06:00,133 - 
+2026-02-27 22:06:00,133 - ============================================================
+2026-02-27 22:06:00,133 - COMMAND: search_doctor
+2026-02-27 22:06:00,133 - ============================================================
+2026-02-27 22:06:00,133 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:06:00,134 - 
+2026-02-27 22:06:00,134 - Executing action: search_doctor
+2026-02-27 22:06:00,134 - Starting doctor search:
+2026-02-27 22:06:00,134 -   Specialty: פסיכיאטריה
+2026-02-27 22:06:00,134 -   Doctor: ג'ודית הלפר
+2026-02-27 22:06:00,134 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:06:00,134 - Step 0: Checking login state...
+2026-02-27 22:06:00,169 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:06:00,169 - Step 1: Click 'זימון תורים'
+2026-02-27 22:06:03,232 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:06:03,352 -   📸 Screenshot: after_zimon_torim_220603.png
+2026-02-27 22:06:03,353 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:06:03,353 -   → Trying strategy: onclick
+2026-02-27 22:06:08,357 -   → Trying strategy: text_in_div
+2026-02-27 22:06:13,365 -   → Trying strategy: parent_div
+2026-02-27 22:06:18,372 -   → Trying strategy: text
+2026-02-27 22:06:23,382 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:06:23,536 -   📸 Error screenshot: step2_error_220623.png
+2026-02-27 22:06:23,536 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:06:23,537 - Command failed, will retry on next cycle
+2026-02-27 22:06:23,537 -    To skip this command, modify commands.json
+2026-02-27 22:06:23,538 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:06:23,539 - DEBUG: File exists: True
+2026-02-27 22:06:23,539 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:06:23,540 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:06:23,540 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:06:23,540 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:06:23,540 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:06:23,540 - 
+2026-02-27 22:06:23,540 - ============================================================
+2026-02-27 22:06:23,540 - COMMAND: search_doctor
+2026-02-27 22:06:23,540 - ============================================================
+2026-02-27 22:06:23,540 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:06:23,541 - 
+2026-02-27 22:06:23,541 - Executing action: search_doctor
+2026-02-27 22:06:23,541 - Starting doctor search:
+2026-02-27 22:06:23,541 -   Specialty: פסיכיאטריה
+2026-02-27 22:06:23,541 -   Doctor: ג'ודית הלפר
+2026-02-27 22:06:23,541 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:06:23,541 - Step 0: Checking login state...
+2026-02-27 22:06:23,567 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:06:23,568 - Step 1: Click 'זימון תורים'
+2026-02-27 22:06:26,627 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:06:26,757 -   📸 Screenshot: after_zimon_torim_220626.png
+2026-02-27 22:06:26,757 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:06:26,757 -   → Trying strategy: onclick
+2026-02-27 22:06:31,772 -   → Trying strategy: text_in_div
+2026-02-27 22:06:36,783 -   → Trying strategy: parent_div
+2026-02-27 22:06:41,795 -   → Trying strategy: text
+2026-02-27 22:06:46,799 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:06:46,923 -   📸 Error screenshot: step2_error_220646.png
+2026-02-27 22:06:46,923 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:06:46,923 - Command failed, will retry on next cycle
+2026-02-27 22:06:46,923 -    To skip this command, modify commands.json
+2026-02-27 22:06:46,925 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:06:46,925 - DEBUG: File exists: True
+2026-02-27 22:06:46,926 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:06:46,926 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:06:46,927 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:06:46,927 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:06:46,927 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:06:46,927 - 
+2026-02-27 22:06:46,927 - ============================================================
+2026-02-27 22:06:46,927 - COMMAND: search_doctor
+2026-02-27 22:06:46,927 - ============================================================
+2026-02-27 22:06:46,927 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:06:46,927 - 
+2026-02-27 22:06:46,927 - Executing action: search_doctor
+2026-02-27 22:06:46,928 - Starting doctor search:
+2026-02-27 22:06:46,928 -   Specialty: פסיכיאטריה
+2026-02-27 22:06:46,928 -   Doctor: ג'ודית הלפר
+2026-02-27 22:06:46,928 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:06:46,928 - Step 0: Checking login state...
+2026-02-27 22:06:46,953 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:06:46,953 - Step 1: Click 'זימון תורים'
+2026-02-27 22:06:50,011 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:06:50,133 -   📸 Screenshot: after_zimon_torim_220650.png
+2026-02-27 22:06:50,133 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:06:50,133 -   → Trying strategy: onclick
+2026-02-27 22:06:55,147 -   → Trying strategy: text_in_div
+2026-02-27 22:07:00,153 -   → Trying strategy: parent_div
+2026-02-27 22:07:05,162 -   → Trying strategy: text
+2026-02-27 22:07:10,172 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:07:10,286 -   📸 Error screenshot: step2_error_220710.png
+2026-02-27 22:07:10,286 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:07:10,286 - Command failed, will retry on next cycle
+2026-02-27 22:07:10,286 -    To skip this command, modify commands.json
+2026-02-27 22:07:10,287 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:07:10,287 - DEBUG: File exists: True
+2026-02-27 22:07:10,288 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:07:10,288 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:07:10,289 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:07:10,289 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:07:10,289 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:07:10,289 - 
+2026-02-27 22:07:10,289 - ============================================================
+2026-02-27 22:07:10,289 - COMMAND: search_doctor
+2026-02-27 22:07:10,290 - ============================================================
+2026-02-27 22:07:10,290 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:07:10,290 - 
+2026-02-27 22:07:10,290 - Executing action: search_doctor
+2026-02-27 22:07:10,290 - Starting doctor search:
+2026-02-27 22:07:10,290 -   Specialty: פסיכיאטריה
+2026-02-27 22:07:10,290 -   Doctor: ג'ודית הלפר
+2026-02-27 22:07:10,290 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:07:10,290 - Step 0: Checking login state...
+2026-02-27 22:07:10,315 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:07:10,315 - Step 1: Click 'זימון תורים'
+2026-02-27 22:07:13,383 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:07:13,521 -   📸 Screenshot: after_zimon_torim_220713.png
+2026-02-27 22:07:13,521 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:07:13,521 -   → Trying strategy: onclick
+2026-02-27 22:07:18,528 -   → Trying strategy: text_in_div
+2026-02-27 22:07:23,537 -   → Trying strategy: parent_div
+2026-02-27 22:07:28,543 -   → Trying strategy: text
+2026-02-27 22:07:33,554 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:07:33,689 -   📸 Error screenshot: step2_error_220733.png
+2026-02-27 22:07:33,689 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:07:33,689 - Command failed, will retry on next cycle
+2026-02-27 22:07:33,690 -    To skip this command, modify commands.json
+2026-02-27 22:07:33,691 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:07:33,692 - DEBUG: File exists: True
+2026-02-27 22:07:33,692 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:07:33,692 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:07:33,693 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:07:33,693 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:07:33,693 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:07:33,693 - 
+2026-02-27 22:07:33,693 - ============================================================
+2026-02-27 22:07:33,693 - COMMAND: search_doctor
+2026-02-27 22:07:33,693 - ============================================================
+2026-02-27 22:07:33,693 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:07:33,694 - 
+2026-02-27 22:07:33,694 - Executing action: search_doctor
+2026-02-27 22:07:33,694 - Starting doctor search:
+2026-02-27 22:07:33,694 -   Specialty: פסיכיאטריה
+2026-02-27 22:07:33,694 -   Doctor: ג'ודית הלפר
+2026-02-27 22:07:33,694 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:07:33,694 - Step 0: Checking login state...
+2026-02-27 22:07:33,719 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:07:33,719 - Step 1: Click 'זימון תורים'
+2026-02-27 22:07:36,775 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:07:36,887 -   📸 Screenshot: after_zimon_torim_220736.png
+2026-02-27 22:07:36,887 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:07:36,887 -   → Trying strategy: onclick
+2026-02-27 22:07:41,895 -   → Trying strategy: text_in_div
+2026-02-27 22:07:46,909 -   → Trying strategy: parent_div
+2026-02-27 22:07:51,928 -   → Trying strategy: text
+2026-02-27 22:07:56,933 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:07:57,054 -   📸 Error screenshot: step2_error_220756.png
+2026-02-27 22:07:57,054 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:07:57,055 - Command failed, will retry on next cycle
+2026-02-27 22:07:57,055 -    To skip this command, modify commands.json
+2026-02-27 22:07:57,057 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:07:57,057 - DEBUG: File exists: True
+2026-02-27 22:07:57,058 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:07:57,058 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:07:57,058 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:07:57,058 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:07:57,058 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:07:57,058 - 
+2026-02-27 22:07:57,059 - ============================================================
+2026-02-27 22:07:57,059 - COMMAND: search_doctor
+2026-02-27 22:07:57,059 - ============================================================
+2026-02-27 22:07:57,059 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:07:57,059 - 
+2026-02-27 22:07:57,059 - Executing action: search_doctor
+2026-02-27 22:07:57,059 - Starting doctor search:
+2026-02-27 22:07:57,059 -   Specialty: פסיכיאטריה
+2026-02-27 22:07:57,059 -   Doctor: ג'ודית הלפר
+2026-02-27 22:07:57,059 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:07:57,059 - Step 0: Checking login state...
+2026-02-27 22:07:57,086 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:07:57,086 - Step 1: Click 'זימון תורים'
+2026-02-27 22:08:00,142 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:08:00,272 -   📸 Screenshot: after_zimon_torim_220800.png
+2026-02-27 22:08:00,272 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:08:00,272 -   → Trying strategy: onclick
+2026-02-27 22:08:05,293 -   → Trying strategy: text_in_div
+2026-02-27 22:08:10,302 -   → Trying strategy: parent_div
+2026-02-27 22:08:15,309 -   → Trying strategy: text
+2026-02-27 22:08:20,317 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:08:20,437 -   📸 Error screenshot: step2_error_220820.png
+2026-02-27 22:08:20,438 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:08:20,438 - Command failed, will retry on next cycle
+2026-02-27 22:08:20,438 -    To skip this command, modify commands.json
+2026-02-27 22:08:20,439 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:08:20,440 - DEBUG: File exists: True
+2026-02-27 22:08:20,440 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:08:20,440 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:08:20,441 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:08:20,441 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:08:20,441 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:08:20,441 - 
+2026-02-27 22:08:20,441 - ============================================================
+2026-02-27 22:08:20,441 - COMMAND: search_doctor
+2026-02-27 22:08:20,441 - ============================================================
+2026-02-27 22:08:20,441 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:08:20,442 - 
+2026-02-27 22:08:20,442 - Executing action: search_doctor
+2026-02-27 22:08:20,442 - Starting doctor search:
+2026-02-27 22:08:20,442 -   Specialty: פסיכיאטריה
+2026-02-27 22:08:20,442 -   Doctor: ג'ודית הלפר
+2026-02-27 22:08:20,442 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:08:20,442 - Step 0: Checking login state...
+2026-02-27 22:08:20,469 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:08:20,469 - Step 1: Click 'זימון תורים'
+2026-02-27 22:08:23,533 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:08:23,654 -   📸 Screenshot: after_zimon_torim_220823.png
+2026-02-27 22:08:23,654 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:08:23,654 -   → Trying strategy: onclick
+2026-02-27 22:08:28,663 -   → Trying strategy: text_in_div
+2026-02-27 22:08:33,677 -   → Trying strategy: parent_div
+2026-02-27 22:08:38,685 -   → Trying strategy: text
+2026-02-27 22:08:43,691 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:08:43,808 -   📸 Error screenshot: step2_error_220843.png
+2026-02-27 22:08:43,809 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:08:43,809 - Command failed, will retry on next cycle
+2026-02-27 22:08:43,809 -    To skip this command, modify commands.json
+2026-02-27 22:08:43,810 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:08:43,810 - DEBUG: File exists: True
+2026-02-27 22:08:43,811 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:08:43,811 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:08:43,811 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:08:43,812 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:08:43,812 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:08:43,812 - 
+2026-02-27 22:08:43,812 - ============================================================
+2026-02-27 22:08:43,812 - COMMAND: search_doctor
+2026-02-27 22:08:43,812 - ============================================================
+2026-02-27 22:08:43,812 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:08:43,812 - 
+2026-02-27 22:08:43,812 - Executing action: search_doctor
+2026-02-27 22:08:43,812 - Starting doctor search:
+2026-02-27 22:08:43,812 -   Specialty: פסיכיאטריה
+2026-02-27 22:08:43,813 -   Doctor: ג'ודית הלפר
+2026-02-27 22:08:43,813 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:08:43,813 - Step 0: Checking login state...
+2026-02-27 22:08:43,842 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:08:43,842 - Step 1: Click 'זימון תורים'
+2026-02-27 22:08:46,896 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:08:47,067 -   📸 Screenshot: after_zimon_torim_220846.png
+2026-02-27 22:08:47,067 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:08:47,068 -   → Trying strategy: onclick
+2026-02-27 22:08:52,079 -   → Trying strategy: text_in_div
+2026-02-27 22:08:57,083 -   → Trying strategy: parent_div
+2026-02-27 22:09:02,091 -   → Trying strategy: text
+2026-02-27 22:09:07,108 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:09:07,257 -   📸 Error screenshot: step2_error_220907.png
+2026-02-27 22:09:07,257 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:09:07,257 - Command failed, will retry on next cycle
+2026-02-27 22:09:07,257 -    To skip this command, modify commands.json
+2026-02-27 22:09:07,259 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:09:07,260 - DEBUG: File exists: True
+2026-02-27 22:09:07,261 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:09:07,261 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:09:07,262 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:09:07,262 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:09:07,262 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:09:07,262 - 
+2026-02-27 22:09:07,262 - ============================================================
+2026-02-27 22:09:07,263 - COMMAND: search_doctor
+2026-02-27 22:09:07,263 - ============================================================
+2026-02-27 22:09:07,263 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:09:07,263 - 
+2026-02-27 22:09:07,263 - Executing action: search_doctor
+2026-02-27 22:09:07,263 - Starting doctor search:
+2026-02-27 22:09:07,263 -   Specialty: פסיכיאטריה
+2026-02-27 22:09:07,263 -   Doctor: ג'ודית הלפר
+2026-02-27 22:09:07,263 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:09:07,264 - Step 0: Checking login state...
+2026-02-27 22:09:07,293 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:09:07,294 - Step 1: Click 'זימון תורים'
+2026-02-27 22:09:10,367 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:09:10,500 -   📸 Screenshot: after_zimon_torim_220910.png
+2026-02-27 22:09:10,501 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:09:10,501 -   → Trying strategy: onclick
+2026-02-27 22:09:15,509 -   → Trying strategy: text_in_div
+2026-02-27 22:09:20,523 -   → Trying strategy: parent_div
+2026-02-27 22:09:25,530 -   → Trying strategy: text
+2026-02-27 22:09:30,542 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:09:30,658 -   📸 Error screenshot: step2_error_220930.png
+2026-02-27 22:09:30,658 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:09:30,658 - Command failed, will retry on next cycle
+2026-02-27 22:09:30,658 -    To skip this command, modify commands.json
+2026-02-27 22:09:30,659 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:09:30,659 - DEBUG: File exists: True
+2026-02-27 22:09:30,660 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:09:30,660 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:09:30,660 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:09:30,660 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:09:30,660 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:09:30,660 - 
+2026-02-27 22:09:30,661 - ============================================================
+2026-02-27 22:09:30,661 - COMMAND: search_doctor
+2026-02-27 22:09:30,661 - ============================================================
+2026-02-27 22:09:30,661 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:09:30,661 - 
+2026-02-27 22:09:30,661 - Executing action: search_doctor
+2026-02-27 22:09:30,661 - Starting doctor search:
+2026-02-27 22:09:30,661 -   Specialty: פסיכיאטריה
+2026-02-27 22:09:30,661 -   Doctor: ג'ודית הלפר
+2026-02-27 22:09:30,661 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:09:30,661 - Step 0: Checking login state...
+2026-02-27 22:09:30,684 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:09:30,684 - Step 1: Click 'זימון תורים'
+2026-02-27 22:09:33,747 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:09:33,868 -   📸 Screenshot: after_zimon_torim_220933.png
+2026-02-27 22:09:33,868 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:09:33,868 -   → Trying strategy: onclick
+2026-02-27 22:09:38,879 -   → Trying strategy: text_in_div
+2026-02-27 22:09:43,891 -   → Trying strategy: parent_div
+2026-02-27 22:09:48,907 -   → Trying strategy: text
+2026-02-27 22:09:53,923 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:09:54,048 -   📸 Error screenshot: step2_error_220953.png
+2026-02-27 22:09:54,048 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:09:54,048 - Command failed, will retry on next cycle
+2026-02-27 22:09:54,049 -    To skip this command, modify commands.json
+2026-02-27 22:09:54,050 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:09:54,050 - DEBUG: File exists: True
+2026-02-27 22:09:54,051 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:09:54,051 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:09:54,051 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:09:54,052 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:09:54,052 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:09:54,052 - 
+2026-02-27 22:09:54,052 - ============================================================
+2026-02-27 22:09:54,052 - COMMAND: search_doctor
+2026-02-27 22:09:54,052 - ============================================================
+2026-02-27 22:09:54,052 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:09:54,052 - 
+2026-02-27 22:09:54,052 - Executing action: search_doctor
+2026-02-27 22:09:54,053 - Starting doctor search:
+2026-02-27 22:09:54,053 -   Specialty: פסיכיאטריה
+2026-02-27 22:09:54,053 -   Doctor: ג'ודית הלפר
+2026-02-27 22:09:54,053 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:09:54,053 - Step 0: Checking login state...
+2026-02-27 22:09:54,077 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:09:54,077 - Step 1: Click 'זימון תורים'
+2026-02-27 22:09:57,146 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:09:57,286 -   📸 Screenshot: after_zimon_torim_220957.png
+2026-02-27 22:09:57,287 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:09:57,287 -   → Trying strategy: onclick
+2026-02-27 22:10:02,304 -   → Trying strategy: text_in_div
+2026-02-27 22:10:07,313 -   → Trying strategy: parent_div
+2026-02-27 22:10:12,322 -   → Trying strategy: text
+2026-02-27 22:10:17,330 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:10:17,449 -   📸 Error screenshot: step2_error_221017.png
+2026-02-27 22:10:17,449 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:10:17,449 - Command failed, will retry on next cycle
+2026-02-27 22:10:17,449 -    To skip this command, modify commands.json
+2026-02-27 22:10:17,451 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:10:17,451 - DEBUG: File exists: True
+2026-02-27 22:10:17,452 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:10:17,452 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:10:17,452 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:10:17,452 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:10:17,452 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:10:17,452 - 
+2026-02-27 22:10:17,453 - ============================================================
+2026-02-27 22:10:17,453 - COMMAND: search_doctor
+2026-02-27 22:10:17,453 - ============================================================
+2026-02-27 22:10:17,453 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:10:17,453 - 
+2026-02-27 22:10:17,453 - Executing action: search_doctor
+2026-02-27 22:10:17,453 - Starting doctor search:
+2026-02-27 22:10:17,453 -   Specialty: פסיכיאטריה
+2026-02-27 22:10:17,454 -   Doctor: ג'ודית הלפר
+2026-02-27 22:10:17,454 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:10:17,454 - Step 0: Checking login state...
+2026-02-27 22:10:17,502 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:10:17,502 - Step 1: Click 'זימון תורים'
+2026-02-27 22:10:20,554 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:10:20,683 -   📸 Screenshot: after_zimon_torim_221020.png
+2026-02-27 22:10:20,683 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:10:20,683 -   → Trying strategy: onclick
+2026-02-27 22:10:25,689 -   → Trying strategy: text_in_div
+2026-02-27 22:10:30,694 -   → Trying strategy: parent_div
+2026-02-27 22:10:35,706 -   → Trying strategy: text
+2026-02-27 22:10:40,712 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:10:40,857 -   📸 Error screenshot: step2_error_221040.png
+2026-02-27 22:10:40,857 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:10:40,858 - Command failed, will retry on next cycle
+2026-02-27 22:10:40,858 -    To skip this command, modify commands.json
+2026-02-27 22:10:40,859 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:10:40,860 - DEBUG: File exists: True
+2026-02-27 22:10:40,860 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:10:40,860 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:10:40,861 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:10:40,861 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:10:40,861 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:10:40,861 - 
+2026-02-27 22:10:40,861 - ============================================================
+2026-02-27 22:10:40,861 - COMMAND: search_doctor
+2026-02-27 22:10:40,861 - ============================================================
+2026-02-27 22:10:40,861 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:10:40,861 - 
+2026-02-27 22:10:40,861 - Executing action: search_doctor
+2026-02-27 22:10:40,862 - Starting doctor search:
+2026-02-27 22:10:40,862 -   Specialty: פסיכיאטריה
+2026-02-27 22:10:40,862 -   Doctor: ג'ודית הלפר
+2026-02-27 22:10:40,862 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:10:40,862 - Step 0: Checking login state...
+2026-02-27 22:10:40,889 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:10:40,889 - Step 1: Click 'זימון תורים'
+2026-02-27 22:10:43,944 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:10:44,066 -   📸 Screenshot: after_zimon_torim_221043.png
+2026-02-27 22:10:44,066 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:10:44,066 -   → Trying strategy: onclick
+2026-02-27 22:10:49,071 -   → Trying strategy: text_in_div
+2026-02-27 22:10:54,079 -   → Trying strategy: parent_div
+2026-02-27 22:10:59,095 -   → Trying strategy: text
+2026-02-27 22:11:04,111 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:11:04,262 -   📸 Error screenshot: step2_error_221104.png
+2026-02-27 22:11:04,262 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:11:04,262 - Command failed, will retry on next cycle
+2026-02-27 22:11:04,262 -    To skip this command, modify commands.json
+2026-02-27 22:11:04,264 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:11:04,265 - DEBUG: File exists: True
+2026-02-27 22:11:04,265 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:11:04,266 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:11:04,266 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:11:04,266 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:11:04,266 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:11:04,266 - 
+2026-02-27 22:11:04,266 - ============================================================
+2026-02-27 22:11:04,266 - COMMAND: search_doctor
+2026-02-27 22:11:04,266 - ============================================================
+2026-02-27 22:11:04,267 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:11:04,267 - 
+2026-02-27 22:11:04,267 - Executing action: search_doctor
+2026-02-27 22:11:04,267 - Starting doctor search:
+2026-02-27 22:11:04,267 -   Specialty: פסיכיאטריה
+2026-02-27 22:11:04,267 -   Doctor: ג'ודית הלפר
+2026-02-27 22:11:04,267 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:11:04,267 - Step 0: Checking login state...
+2026-02-27 22:11:04,293 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:11:04,293 - Step 1: Click 'זימון תורים'
+2026-02-27 22:11:07,337 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:11:07,450 -   📸 Screenshot: after_zimon_torim_221107.png
+2026-02-27 22:11:07,450 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:11:07,450 -   → Trying strategy: onclick
+2026-02-27 22:11:12,471 -   → Trying strategy: text_in_div
+2026-02-27 22:11:17,478 -   → Trying strategy: parent_div
+2026-02-27 22:11:22,494 -   → Trying strategy: text
+2026-02-27 22:11:27,510 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:11:27,633 -   📸 Error screenshot: step2_error_221127.png
+2026-02-27 22:11:27,634 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:11:27,634 - Command failed, will retry on next cycle
+2026-02-27 22:11:27,634 -    To skip this command, modify commands.json
+2026-02-27 22:11:27,635 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:11:27,636 - DEBUG: File exists: True
+2026-02-27 22:11:27,636 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:11:27,637 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:11:27,637 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:11:27,637 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:11:27,637 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:11:27,637 - 
+2026-02-27 22:11:27,637 - ============================================================
+2026-02-27 22:11:27,637 - COMMAND: search_doctor
+2026-02-27 22:11:27,637 - ============================================================
+2026-02-27 22:11:27,638 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:11:27,638 - 
+2026-02-27 22:11:27,638 - Executing action: search_doctor
+2026-02-27 22:11:27,638 - Starting doctor search:
+2026-02-27 22:11:27,638 -   Specialty: פסיכיאטריה
+2026-02-27 22:11:27,638 -   Doctor: ג'ודית הלפר
+2026-02-27 22:11:27,638 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:11:27,638 - Step 0: Checking login state...
+2026-02-27 22:11:27,666 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:11:27,667 - Step 1: Click 'זימון תורים'
+2026-02-27 22:11:30,769 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:11:30,869 -   📸 Screenshot: after_zimon_torim_221130.png
+2026-02-27 22:11:30,870 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:11:30,870 -   → Trying strategy: onclick
+2026-02-27 22:11:35,876 -   → Trying strategy: text_in_div
+2026-02-27 22:11:40,886 -   → Trying strategy: parent_div
+2026-02-27 22:11:45,894 -   → Trying strategy: text
+2026-02-27 22:11:50,902 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:11:51,032 -   📸 Error screenshot: step2_error_221150.png
+2026-02-27 22:11:51,033 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:11:51,033 - Command failed, will retry on next cycle
+2026-02-27 22:11:51,033 -    To skip this command, modify commands.json
+2026-02-27 22:11:51,034 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:11:51,035 - DEBUG: File exists: True
+2026-02-27 22:11:51,035 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:11:51,035 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:11:51,036 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:11:51,036 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:11:51,036 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:11:51,036 - 
+2026-02-27 22:11:51,036 - ============================================================
+2026-02-27 22:11:51,036 - COMMAND: search_doctor
+2026-02-27 22:11:51,036 - ============================================================
+2026-02-27 22:11:51,036 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:11:51,036 - 
+2026-02-27 22:11:51,036 - Executing action: search_doctor
+2026-02-27 22:11:51,036 - Starting doctor search:
+2026-02-27 22:11:51,037 -   Specialty: פסיכיאטריה
+2026-02-27 22:11:51,037 -   Doctor: ג'ודית הלפר
+2026-02-27 22:11:51,037 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:11:51,037 - Step 0: Checking login state...
+2026-02-27 22:11:51,062 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:11:51,062 - Step 1: Click 'זימון תורים'
+2026-02-27 22:11:54,176 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:11:54,297 -   📸 Screenshot: after_zimon_torim_221154.png
+2026-02-27 22:11:54,297 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:11:54,297 -   → Trying strategy: onclick
+2026-02-27 22:11:59,311 -   → Trying strategy: text_in_div
+2026-02-27 22:12:04,324 -   → Trying strategy: parent_div
+2026-02-27 22:12:09,335 -   → Trying strategy: text
+2026-02-27 22:12:14,352 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:12:14,480 -   📸 Error screenshot: step2_error_221214.png
+2026-02-27 22:12:14,480 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:12:14,480 - Command failed, will retry on next cycle
+2026-02-27 22:12:14,480 -    To skip this command, modify commands.json
+2026-02-27 22:12:14,482 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:12:14,482 - DEBUG: File exists: True
+2026-02-27 22:12:14,483 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:12:14,483 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:12:14,483 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:12:14,483 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:12:14,483 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:12:14,484 - 
+2026-02-27 22:12:14,484 - ============================================================
+2026-02-27 22:12:14,484 - COMMAND: search_doctor
+2026-02-27 22:12:14,484 - ============================================================
+2026-02-27 22:12:14,484 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:12:14,484 - 
+2026-02-27 22:12:14,484 - Executing action: search_doctor
+2026-02-27 22:12:14,484 - Starting doctor search:
+2026-02-27 22:12:14,484 -   Specialty: פסיכיאטריה
+2026-02-27 22:12:14,484 -   Doctor: ג'ודית הלפר
+2026-02-27 22:12:14,484 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:12:14,485 - Step 0: Checking login state...
+2026-02-27 22:12:14,507 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:12:14,508 - Step 1: Click 'זימון תורים'
+2026-02-27 22:12:17,557 -   ✓ Clicked 'זימון תורים'
+2026-02-27 22:12:17,681 -   📸 Screenshot: after_zimon_torim_221217.png
+2026-02-27 22:12:17,681 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-27 22:12:17,681 -   → Trying strategy: onclick
+2026-02-27 22:12:22,685 -   → Trying strategy: text_in_div
+2026-02-27 22:12:27,701 -   → Trying strategy: parent_div
+2026-02-27 22:12:32,718 -   → Trying strategy: text
+2026-02-27 22:12:37,729 -   ✗ All strategies failed to click 'בצע חיפוש חדש'
+2026-02-27 22:12:37,863 -   📸 Error screenshot: step2_error_221237.png
+2026-02-27 22:12:37,863 - Result: {'status': 'error', 'message': 'Failed to click בצע חיפוש חדש - all strategies exhausted'}
+2026-02-27 22:12:37,864 - Command failed, will retry on next cycle
+2026-02-27 22:12:37,864 -    To skip this command, modify commands.json
+2026-02-27 22:12:37,865 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 22:12:37,865 - DEBUG: File exists: True
+2026-02-27 22:12:37,866 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:12:37,866 - DEBUG: Loaded command: search_doctor
+2026-02-27 22:12:37,866 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-27 22:12:37,867 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 22:12:37,867 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 22:12:37,867 - 
+2026-02-27 22:12:37,867 - ============================================================
+2026-02-27 22:12:37,867 - COMMAND: search_doctor
+2026-02-27 22:12:37,867 - ============================================================
+2026-02-27 22:12:37,867 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 22:12:37,867 - 
+2026-02-27 22:12:37,868 - Executing action: search_doctor
+2026-02-27 22:12:37,868 - Starting doctor search:
+2026-02-27 22:12:37,868 -   Specialty: פסיכיאטריה
+2026-02-27 22:12:37,868 -   Doctor: ג'ודית הלפר
+2026-02-27 22:12:37,868 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 22:12:37,868 - Step 0: Checking login state...
+2026-02-27 22:12:37,892 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-27 22:12:37,893 - Step 1: Click 'זימון תורים'
+2026-02-27 22:12:40,933 -   ✓ Clicked 'זימון תורים'
+2026-02-28 11:00:23,830 -   ✗ Failed to click 'זימון תורים': Page.screenshot: Timeout 30000ms exceeded.
+Call log:
+  - taking page screenshot
+  - waiting for fonts to load...
+  - fonts loaded
+
+2026-02-28 11:00:23,830 - Result: {'status': 'error', 'message': 'Failed to click appointments button: Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n'}
+2026-02-28 11:00:23,831 - Command failed, will retry on next cycle
+2026-02-28 11:00:23,835 -    To skip this command, modify commands.json
+2026-02-28 11:00:23,856 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-28 11:00:23,856 - DEBUG: File exists: True
+2026-02-28 11:00:23,857 - DEBUG: Loaded command: search_doctor
+2026-02-28 11:00:23,857 - DEBUG: Loaded command: search_doctor
+2026-02-28 11:00:23,860 - DEBUG: Command hash: -9139036073082474883, Last hash: None
+2026-02-28 11:00:23,861 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-28 11:00:23,862 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-28 11:00:23,862 - 
+2026-02-28 11:00:23,862 - ============================================================
+2026-02-28 11:00:23,862 - COMMAND: search_doctor
+2026-02-28 11:00:23,862 - ============================================================
+2026-02-28 11:00:23,862 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-28 11:00:23,862 - 
+2026-02-28 11:00:23,862 - Executing action: search_doctor
+2026-02-28 11:00:23,862 - Starting doctor search:
+2026-02-28 11:00:23,862 -   Specialty: פסיכיאטריה
+2026-02-28 11:00:23,862 -   Doctor: ג'ודית הלפר
+2026-02-28 11:00:23,862 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-28 11:00:23,863 - Step 0: Checking login state...
+2026-02-28 11:00:26,880 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-28 11:00:26,881 -   → Need to perform login before continuing
+2026-02-28 11:00:26,881 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-28 11:00:26,881 - 
+2026-02-28 11:00:26,881 - ⚠️  Command requires login. Attempting login first...
+2026-02-28 11:00:26,881 - ============================================================
+2026-02-28 11:00:26,881 - LOGIN FLOW
+2026-02-28 11:00:26,882 - ============================================================
+2026-02-28 11:00:26,882 - 
+2026-02-28 11:00:26,882 - Step 1: Navigating to Google...
+2026-02-28 11:00:34,196 - Step 2: Searching for 'לאומית'...
+2026-02-28 11:00:39,483 - Step 3: Clicking Leumit link...
+2026-02-28 11:00:44,909 - Step 4: Checking login state...
+2026-02-28 11:00:44,985 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-28 11:00:44,985 - Step 5: Clicking 'אזור אישי' button...
+2026-02-28 11:00:53,240 - Step 6: Checking if login modal appeared or already logged in...
+2026-02-28 11:00:56,249 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-28 11:00:56,249 - Step 7: Looking for login form...
+2026-02-28 11:00:56,259 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-28 11:00:58,263 - Looking for login form fields...
+2026-02-28 11:02:15,261 - ✓ Found both input fields
+2026-02-28 11:02:15,262 -   Filling ID field...
+2026-02-28 11:02:15,455 -   ✓ ID entered: 032661936
+2026-02-28 11:02:15,455 -   Filling phone field...
+2026-02-28 11:02:15,532 -   ✓ Phone entered: 0547535758
+2026-02-28 11:02:16,070 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-28 11:02:16,070 - Clicking 'שלח' button...
+2026-02-28 11:02:17,541 - ✓ Submit button clicked
+2026-02-28 11:02:19,553 - Checking if already logged in before OTP wait...
+2026-02-28 11:02:22,579 -   → Not logged in yet, need OTP verification
+2026-02-28 11:02:22,580 - 
+2026-02-28 11:02:22,580 - ============================================================
+2026-02-28 11:02:22,580 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-28 11:02:22,580 - ============================================================
+2026-02-28 11:02:22,580 - Waiting for OTP code from phone notifications...
+2026-02-28 11:02:22,580 - Agent will auto-fill OTP when received.
+2026-02-28 11:02:22,580 - 
+2026-02-28 11:02:22,699 - ✓ OTP code received: 76011
+2026-02-28 11:02:23,706 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-28 11:02:23,719 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:02:23,735 - ✓ OTP field filled
+2026-02-28 11:02:23,742 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:02:23,974 - ✓ OTP submit button clicked
+2026-02-28 11:02:31,998 - Waiting for login completion after OTP...
+2026-02-28 11:02:31,998 - ✓ OTP code received: 79449
+2026-02-28 11:02:33,003 - Login frame not found, trying main page
+2026-02-28 11:02:33,017 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:02:33,035 - ✓ OTP field filled
+2026-02-28 11:02:33,044 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:02:33,220 - ✓ OTP submit button clicked
+2026-02-28 11:02:41,238 - Waiting for login completion after OTP...
+2026-02-28 11:02:41,238 - ✓ OTP code received: 86168
+2026-02-28 11:02:42,251 - Login frame not found, trying main page
+2026-02-28 11:02:42,266 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:02:42,280 - ✓ OTP field filled
+2026-02-28 11:02:42,288 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:02:42,439 - ✓ OTP submit button clicked
+2026-02-28 11:02:50,457 - Waiting for login completion after OTP...
+2026-02-28 11:02:50,457 - ✓ OTP code received: 76011
+2026-02-28 11:02:51,465 - Login frame not found, trying main page
+2026-02-28 11:02:51,477 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:02:51,492 - ✓ OTP field filled
+2026-02-28 11:02:51,499 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:02:51,638 - ✓ OTP submit button clicked
+2026-02-28 11:02:59,652 - Waiting for login completion after OTP...
+2026-02-28 11:02:59,652 - ✓ OTP code received: 79449
+2026-02-28 11:03:00,657 - Login frame not found, trying main page
+2026-02-28 11:03:00,669 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:03:00,683 - ✓ OTP field filled
+2026-02-28 11:03:00,690 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:03:00,840 - ✓ OTP submit button clicked
+2026-02-28 11:03:08,865 - Waiting for login completion after OTP...
+2026-02-28 11:03:08,866 - ✓ OTP code received: 86168
+2026-02-28 11:03:09,873 - Login frame not found, trying main page
+2026-02-28 11:03:09,887 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:03:09,901 - ✓ OTP field filled
+2026-02-28 11:03:09,909 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:03:10,056 - ✓ OTP submit button clicked
+2026-02-28 11:03:18,077 - Waiting for login completion after OTP...
+2026-02-28 11:03:18,078 - ✓ OTP code received: 76011
+2026-02-28 11:03:19,084 - Login frame not found, trying main page
+2026-02-28 11:03:19,097 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:03:19,110 - ✓ OTP field filled
+2026-02-28 11:03:19,117 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:03:19,294 - ✓ OTP submit button clicked
+2026-02-28 11:03:27,322 - Waiting for login completion after OTP...
+2026-02-28 11:03:27,322 - ✓ OTP code received: 79449
+2026-02-28 11:03:28,333 - Login frame not found, trying main page
+2026-02-28 11:03:28,346 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-28 11:03:28,359 - ✓ OTP field filled
+2026-02-28 11:03:28,365 -   Found submit button with selector: span.button_text:has-text('כניסה למערכת')
+2026-02-28 11:03:28,511 - ✓ OTP submit button clicked

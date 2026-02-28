@@ -1,0 +1,24 @@
+2026-02-24 15:18:26,214 - ============================================================
+2026-02-24 15:18:26,214 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-24 15:18:26,215 - ============================================================
+2026-02-24 15:18:26,215 - 
+2026-02-24 15:18:30,200 - Browser profile locked! Attempting to clear stale lock files...
+2026-02-24 15:18:34,084 - Browser profile locked! Attempting to clear stale lock files...
+2026-02-24 15:18:34,084 - Browser profile still locked. Close existing browser windows or delete .browser_profile/
+2026-02-24 15:18:34,085 - Error: BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> C:\Users\smogb\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --no-sandbox --disable-blink-features=AutomationControlled --start-maximized --user-data-dir=C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile --remote-debugging-pipe about:blank
+<launched> pid=54888
+Call log:
+  - <launching> C:\Users\smogb\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --no-sandbox --disable-blink-features=AutomationControlled --start-maximized --user-data-dir=C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile --remote-debugging-pipe about:blank
+  - <launched> pid=54888
+  - [pid=54888] <gracefully close start>
+  - [pid=54888] <kill>
+  - [pid=54888] <will force kill>
+  - [pid=54888] taskkill stderr: ERROR: The process "54888" not found.
+  - [pid=54888] <process did exit: exitCode=2147483651, signal=null>
+  - [pid=54888] starting temporary directories cleanup
+  - [pid=54888] finished temporary directories cleanup
+  - [pid=54888] <gracefully close end>
+

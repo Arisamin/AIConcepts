@@ -1,0 +1,142 @@
+2026-02-24 15:33:10,967 - ============================================================
+2026-02-24 15:33:10,968 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-24 15:33:10,968 - ============================================================
+2026-02-24 15:33:10,968 - 
+2026-02-24 15:33:12,562 - ✓ Loaded session state: logged_in=True
+2026-02-24 15:33:12,566 - ✓ Browser initialized
+2026-02-24 15:33:12,569 - 
+2026-02-24 15:33:12,588 - ✓ Socket server listening on localhost:5556
+2026-02-24 15:33:12,590 - 
+2026-02-24 15:33:12,590 - Agent ready! Send commands via:
+2026-02-24 15:33:12,591 -   Socket: Connect to localhost:5556
+2026-02-24 15:33:12,591 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-24 15:33:12,591 - 
+2026-02-24 15:33:12,591 - To start, send login command:
+2026-02-24 15:33:12,591 -   {"action": "login"}
+2026-02-24 15:33:12,591 - 
+2026-02-24 15:33:12,591 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-24 15:33:12,591 - DEBUG: File exists: True
+2026-02-24 15:33:12,592 - DEBUG: Loaded command: search_doctor
+2026-02-24 15:33:12,592 - DEBUG: Loaded command: search_doctor
+2026-02-24 15:33:12,592 - DEBUG: Command hash: -9124976513622552875, Last hash: None
+2026-02-24 15:33:12,593 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-24 15:33:12,593 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-24 15:33:12,593 - 
+2026-02-24 15:33:12,593 - ============================================================
+2026-02-24 15:33:12,593 - COMMAND: search_doctor
+2026-02-24 15:33:12,593 - ============================================================
+2026-02-24 15:33:12,593 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-24 15:33:12,595 - 
+2026-02-24 15:33:12,595 - Executing action: search_doctor
+2026-02-24 15:33:12,595 - Starting doctor search:
+2026-02-24 15:33:12,595 -   Specialty: פסיכיאטריה
+2026-02-24 15:33:12,597 -   Doctor: ג'ודית הלפר
+2026-02-24 15:33:12,635 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-24 15:33:12,635 - Step 0: Checking login state...
+2026-02-24 15:33:15,653 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-24 15:33:15,656 -   → Need to perform login before continuing
+2026-02-24 15:33:15,659 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-24 15:33:15,659 - 
+2026-02-24 15:33:15,659 - ⚠️  Command requires login. Attempting login first...
+2026-02-24 15:33:15,661 - ============================================================
+2026-02-24 15:33:15,661 - LOGIN FLOW
+2026-02-24 15:33:15,661 - ============================================================
+2026-02-24 15:33:15,661 - 
+2026-02-24 15:33:15,661 - Step 1: Navigating to Google...
+2026-02-24 15:33:17,037 - Step 2: Searching for 'לאומית'...
+2026-02-24 15:33:20,477 - Step 3: Clicking Leumit link...
+2026-02-24 15:33:25,816 - Step 4: Checking login state...
+2026-02-24 15:33:25,855 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-24 15:33:25,856 - Step 5: Clicking 'אזור אישי' button...
+2026-02-24 15:33:34,022 - Step 6: Checking if login modal appeared or already logged in...
+2026-02-24 15:33:37,040 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-24 15:33:37,042 - Step 7: Looking for login form...
+2026-02-24 15:33:37,053 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-24 15:33:39,055 - Looking for login form fields...
+2026-02-24 15:33:39,085 - ✓ Found both input fields
+2026-02-24 15:33:39,086 -   Filling ID field...
+2026-02-24 15:33:39,099 -   ✓ ID entered: 032661936
+2026-02-24 15:33:39,101 -   Filling phone field...
+2026-02-24 15:33:39,113 -   ✓ Phone entered: 0547535758
+2026-02-24 15:33:39,465 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-24 15:33:39,466 - Clicking 'שלח' button...
+2026-02-24 15:33:40,748 - ✓ Submit button clicked
+2026-02-24 15:33:42,758 - Checking if already logged in before OTP wait...
+2026-02-24 15:33:45,774 -   → Not logged in yet, need OTP verification
+2026-02-24 15:33:45,778 - 
+2026-02-24 15:33:45,778 - ============================================================
+2026-02-24 15:33:45,778 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-24 15:33:45,779 - ============================================================
+2026-02-24 15:33:45,779 - Please complete OTP verification in the browser window
+2026-02-24 15:33:45,779 - Agent will continue once you're logged in...
+2026-02-24 15:33:45,779 - 
+2026-02-24 15:33:53,878 - ✓ Login successful! Found 'זימון תורים' button
+2026-02-24 15:33:53,880 - 
+2026-02-24 15:33:53,880 - ✅ Login successful! Will retry command on next cycle...
+2026-02-24 15:33:53,884 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-24 15:33:53,884 - DEBUG: File exists: True
+2026-02-24 15:33:53,885 - DEBUG: Loaded command: search_doctor
+2026-02-24 15:33:53,885 - DEBUG: Loaded command: search_doctor
+2026-02-24 15:33:53,886 - DEBUG: Command hash: -9124976513622552875, Last hash: None
+2026-02-24 15:33:53,886 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-24 15:33:53,886 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-24 15:33:53,886 - 
+2026-02-24 15:33:53,886 - ============================================================
+2026-02-24 15:33:53,886 - COMMAND: search_doctor
+2026-02-24 15:33:53,887 - ============================================================
+2026-02-24 15:33:53,887 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-24 15:33:53,889 - 
+2026-02-24 15:33:53,889 - Executing action: search_doctor
+2026-02-24 15:33:53,889 - Starting doctor search:
+2026-02-24 15:33:53,889 -   Specialty: פסיכיאטריה
+2026-02-24 15:33:53,892 -   Doctor: ג'ודית הלפר
+2026-02-24 15:33:53,894 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-24 15:33:53,894 - Step 0: Checking login state...
+2026-02-24 15:33:53,918 -   ✓ Already logged in - 'זימון תורים' button found
+2026-02-24 15:33:53,920 - Step 1: Click 'זימון תורים'
+2026-02-24 15:33:57,734 -   ✓ Clicked 'זימון תורים'
+2026-02-24 15:33:57,862 -   📸 Screenshot: after_zimon_torim_153357.png
+2026-02-24 15:33:57,863 - Step 2: Click 'בצע חיפוש חדש'
+2026-02-24 15:33:57,865 -   → Trying strategy: onclick
+2026-02-24 15:33:57,982 -   ✓ Clicked 'בצע חיפוש חדש' (strategy: onclick)
+2026-02-24 15:33:58,104 -   📸 Screenshot: after_new_search_153357.png
+2026-02-24 15:33:58,106 -   → Waiting for search page to load...
+2026-02-24 15:34:03,121 - Step 3: Click 'רופאים ומטפלים'
+2026-02-24 15:34:03,122 -   → Trying strategy: text
+2026-02-24 15:34:05,505 -   ✓ Clicked 'רופאים ומטפלים' (strategy: text)
+2026-02-24 15:34:05,508 - Step 4: Select specialty 'פסיכיאטריה'
+2026-02-24 15:34:05,509 -   → Trying strategy: select2_input
+2026-02-24 15:34:07,193 -   ✓ Typed 'פסיכיאטריה' in search field
+2026-02-24 15:34:09,349 -   ✓ Selected specialty 'פסיכיאטריה' from dropdown (strategy: select2_input)
+2026-02-24 15:34:09,473 -   📸 Screenshot: after_specialty_153409.png
+2026-02-24 15:34:09,475 - Step 5: Select subcategory 'כל תתי התחומים'
+2026-02-24 15:34:10,574 -   ✓ Selected subcategory 'כל תתי התחומים' using strategy: select2_input
+2026-02-24 15:34:10,705 -   📸 Screenshot: after_subcategory_153410.png
+2026-02-24 15:34:10,707 - Step 6: Filter by doctor name 'ג'ודית הלפר'
+2026-02-24 15:34:10,708 -   → Trying strategy: placeholder
+2026-02-24 15:34:11,745 -   ✓ Doctor name 'ג'ודית הלפר' entered (strategy: placeholder)
+2026-02-24 15:34:11,868 -   📸 Screenshot: after_doctor_name_153411.png
+2026-02-24 15:34:11,869 - Step 7: Click 'חפש'
+2026-02-24 15:34:14,965 - ✓ Search complete - results should be displayed
+2026-02-24 15:34:15,085 - 📸 Search results screenshot: search_results.png
+2026-02-24 15:34:15,087 - Step 8: Click 'זמן תור' button
+2026-02-24 15:34:15,224 -   ✓ Clicked using strategy: span_id
+2026-02-24 15:34:17,373 -   📸 After click screenshot: after_zaman_click_153417.png
+2026-02-24 15:34:17,374 - Step 16: Wait for Calendar Page (2 seconds)
+2026-02-24 15:34:19,380 - Step 17: VALIDATE DATE IN RANGE?
+2026-02-24 15:34:19,380 -   Reading pre-selected appointment from calendar...
+2026-02-24 15:34:19,386 -   Date range to validate against: 23.02.2026 to 03.04.2026
+2026-02-24 15:34:19,421 -   ✓ Calendar shows: Date=01.06.26, Time=13:30
+2026-02-24 15:34:19,422 -   Checking if selected date is within boundaries...
+2026-02-24 15:34:19,423 -   ✗ Selected date 01.06.26 (01.06.2026) is OUTSIDE boundaries
+2026-02-24 15:34:19,424 -      Valid range: 23.02.2026 to 03.04.2026
+2026-02-24 15:34:19,424 -   ====================================================================
+2026-02-24 15:34:19,424 -   DATE OUT OF RANGE - Starting retry workflow
+2026-02-24 15:34:19,424 -   ====================================================================
+2026-02-24 15:34:19,425 - Step 100: Refresh page
+2026-02-24 15:34:19,425 -   Reloading the calendar page...
+2026-02-24 15:34:19,828 -   ✓ Page refreshed successfully
+2026-02-24 15:34:19,830 - Step 101: Take screenshot (post-refresh)
+2026-02-24 15:34:20,317 -   ✓ Screenshot: calendar_refreshed_153419.png
+2026-02-24 15:34:20,319 - Step 102: Wait 15 minutes (900s)
+2026-02-24 15:34:20,319 -   ⏸ Sleeping for 900 seconds (15 minutes) to allow appointments to refresh...

@@ -57,6 +57,7 @@ def main():
     tests = [
         ("test_agent_simple.py", "Unit Tests (Logic & Hashing)"),
         ("test_otp_listener_timestamp.py", "OTP Timestamp Extraction Tests"),
+        ("test_workflow_paths.py", "Workflow Path Tests (All Flowchart Routes)"),
         ("test_workflow_integration.py", "Workflow Integration Tests"),
         ("test_calendar_appointment.py", "Calendar & Appointment Booking Tests"),
         ("test_logging.py", "Logging Configuration Tests"),

@@ -179,23 +179,23 @@ class PersistentAgent:
         
         try:
             # Step 1: Navigate to Google
-            logger.info("Step 1: Navigating to Google...")
+            logger.info("<step_1> Step 1: Navigating to Google...")
             await self.page.goto("https://www.google.com", wait_until="domcontentloaded")
             await asyncio.sleep(1)
             
             # Step 2: Search for Leumit
-            logger.info("Step 2: Searching for 'לאומית'...")
+            logger.info("<step_2> Step 2: Searching for 'לאומית'...")
             await self.page.fill("textarea[name='q'], input[name='q']", "לאומית")
             await self.page.click("input[name='btnK']")
             await asyncio.sleep(3)
             
             # Step 3: Click Leumit link
-            logger.info("Step 3: Clicking Leumit link...")
+            logger.info("<step_3> Step 3: Clicking Leumit link...")
             await self.page.click("a[href*='leumit.co.il']")
             await asyncio.sleep(5)  # Wait for homepage to load
             
             # Step 4: Check login state per workflow
-            logger.info("Step 4: Checking login state...")
+            logger.info("<step_4> Step 4: Checking login state...")
             
             # Check for "אזור אישי" (not logged in)
             azor_ishi_found = False
@@ -226,7 +226,7 @@ class PersistentAgent:
                 return False
             
             # If we found "אזור אישי", proceed with login
-            logger.info("Step 5: Clicking 'אזור אישי' button...")
+            logger.info("<step_5> Step 5: Clicking 'אזור אישי' button...")
             try:
                 await self.page.get_by_text("אזור אישי").first.click()
             except:
@@ -236,7 +236,7 @@ class PersistentAgent:
             await asyncio.sleep(8)  # Wait for page to respond
             
             # After clicking, check if we're now logged in (button appeared) or need to login
-            logger.info("Step 6: Checking if login modal appeared or already logged in...")
+            logger.info("<step_6> Step 6: Checking if login modal appeared or already logged in...")
             try:
                 await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
                 logger.info("  ✓ Found 'זימון תורים' → Already logged in after clicking!")
@@ -246,7 +246,7 @@ class PersistentAgent:
                 logger.info("  → 'זימון תורים' not found, proceeding with login form...")
             
             # Find and fill login form
-            logger.info("Step 7: Looking for login form...")
+            logger.info("<step_7> Step 7: Looking for login form...")
             
             # Wait for the form to be visible
             await self.page.wait_for_selector("[id*='fecd8561']", timeout=5000)
@@ -592,7 +592,7 @@ class PersistentAgent:
                 logger.info(f"  Date range: {date_from} to {date_to}")
                 
                 # Step 0: Check if we're logged in by looking for the "זימון תורים" button
-                logger.info("Step 0: Checking login state...")
+                logger.info("<step_0> Step 0: Checking login state...")
                 try:
                     # Quick check if button exists (3 second timeout)
                     await self.page.get_by_text("זימון תורים").first.wait_for(timeout=3000, state="visible")
@@ -610,7 +610,7 @@ class PersistentAgent:
                     }
                 
                 # Navigate to appointments section
-                logger.info("Step 1: Click 'זימון תורים'")
+                logger.info("<step_1> Step 1: Click 'זימון תורים'")
                 try:
                     await self.page.get_by_text("זימון תורים").first.click(timeout=30000)
                     await asyncio.sleep(3)  # Wait for page transition
@@ -626,7 +626,7 @@ class PersistentAgent:
                     logger.error(f"  ✗ Failed to click 'זימון תורים': {e}")
                     return {"status": "error", "message": f"Failed to click appointments button: {e}"}
                 
-                logger.info("Step 2: Click 'בצע חיפוש חדש'")
+                logger.info("<step_2> Step 2: Click 'בצע חיפוש חדש'")
                 
                 # Try multiple selector strategies for the button
                 clicked = False
@@ -671,7 +671,7 @@ class PersistentAgent:
                 logger.info("  → Waiting for search page to load...")
                 await asyncio.sleep(5)  # Give page more time to fully render
                 
-                logger.info("Step 3: Click 'רופאים ומטפלים'")
+                logger.info("<step_3> Step 3: Click 'רופאים ומטפלים'")
                 
                 # Try multiple selector strategies
                 clicked = False
@@ -707,7 +707,7 @@ class PersistentAgent:
                     return {"status": "error", "message": "Failed to click רופאים ומטפלים - all strategies exhausted"}
                 
                 # Select specialty
-                logger.info(f"Step 4: Select specialty '{specialty}'")
+                logger.info(f"<step_4> Step 4: Select specialty '{specialty}'")
                 specialty_selected = False
                 
                 # Select2 autocomplete field - need to type and select from dropdown
@@ -760,7 +760,7 @@ class PersistentAgent:
                     return {"status": "error", "message": f"Failed to select specialty: {specialty}"}
                 
                 # Select subcategory (also Select2 dropdown)
-                logger.info(f"Step 5: Select subcategory '{subcategory}'")
+                logger.info(f"<step_5> Step 5: Select subcategory '{subcategory}'")
                 subcategory_selected = False
                 
                 subcategory_strategies = [
@@ -804,7 +804,7 @@ class PersistentAgent:
                 
                 # Fill doctor name if provided
                 if doctor_name:
-                    logger.info(f"Step 6: Filter by doctor name '{doctor_name}'")
+                    logger.info(f"<step_6> Step 6: Filter by doctor name '{doctor_name}'")
                     doctor_filled = False
                     
                     # Try multiple strategies to find and fill doctor name
@@ -842,7 +842,7 @@ class PersistentAgent:
                         logger.warning(f"  📸 Error screenshot: {screenshot_path.name}")
                 
                 # Click search
-                logger.info("Step 7: Click 'חפש'")
+                logger.info("<step_7> Step 7: Click 'חפש'")
                 await self.page.get_by_text("חפש").first.click()
                 await asyncio.sleep(3)
                 
@@ -855,7 +855,7 @@ class PersistentAgent:
                 logger.info(f"📸 Search results screenshot: {screenshot_path.name}")
                 
                 # Step 8: Click "זמן תור" button to book appointment
-                logger.info("Step 8: Click 'זמן תור' button")
+                logger.info("<step_8> Step 8: Click 'זמן תור' button")
                 zaman_button_clicked = False
                 
                 zaman_strategies = [
@@ -892,11 +892,11 @@ class PersistentAgent:
                     return {"status": "error", "message": "Failed to click זמן תור button"}
                 
                 # Step 16: Wait for Calendar Page
-                logger.info("Step 16: Wait for Calendar Page (2 seconds)")
+                logger.info("<step_16> Step 16: Wait for Calendar Page (2 seconds)")
                 await asyncio.sleep(2)
                 
                 # Step 17: VALIDATE DATE IN RANGE?
-                logger.info("Step 17: VALIDATE DATE IN RANGE?")
+                logger.info("<step_17> Step 17: VALIDATE DATE IN RANGE?")
                 logger.info("  Reading pre-selected appointment from calendar...")
                 # Step 17 (cont'd): Reading pre-selected appointment date from calendar
                 from datetime import datetime as dt
@@ -949,14 +949,14 @@ class PersistentAgent:
                     logger.warning("  DATE OUT OF RANGE - Starting retry workflow")
                     logger.warning("  " + "=" * 68)
                     
-                    # FALLBACK WORKFLOW: Step 100 - Step 105
+                    # FALLBACK WORKFLOW: Step 100 - Step 106
                     logger.warning("")
                     logger.warning("=" * 70)
                     logger.warning("FALLBACK WORKFLOW TRIGGERED - DATE OUT OF RANGE")
                     logger.warning("=" * 70)
                     
                     # Step 100: Refresh page
-                    logger.info("Step 100: Refresh page")
+                    logger.info("<step_100> Step 100: Refresh page")
                     try:
                         await self.page.reload(wait_until="domcontentloaded")
                         logger.info("  ✓ Page refreshed successfully")
@@ -964,7 +964,7 @@ class PersistentAgent:
                         logger.warning(f"  ⚠ Could not refresh page: {e}")
                     
                     # Step 101: Take screenshot (post-refresh)
-                    logger.info("Step 101: Take screenshot (post-refresh)")
+                    logger.info("<step_101> Step 101: Take screenshot (post-refresh)")
                     try:
                         screenshot_path = Path(__file__).parent / "screenshots" / f"step101_after_refresh_{datetime.now().strftime('%H%M%S')}.png"
                         await self.page.screenshot(path=str(screenshot_path), full_page=True)
@@ -973,7 +973,7 @@ class PersistentAgent:
                         logger.warning(f"  ⚠ Could not take screenshot: {e}")
                     
                     # Step 102: Wait 15 minutes (900s)
-                    logger.info("Step 102: Wait 15 minutes (900 seconds)")
+                    logger.info("<step_102> Step 102: Wait 15 minutes (900 seconds)")
                     logger.info("  💤 Sleeping for 15 minutes to allow appointments to refresh...")
                     for remaining in range(900, 0, -60):
                         await asyncio.sleep(60)
@@ -982,7 +982,7 @@ class PersistentAgent:
                     logger.info("  ✓ 15-minute wait completed")
                     
                     # Step 103: Refresh page again
-                    logger.info("Step 103: Refresh page again")
+                    logger.info("<step_103> Step 103: Refresh page again")
                     try:
                         await self.page.reload(wait_until="domcontentloaded")
                         logger.info("  ✓ Page refreshed successfully")
@@ -990,7 +990,7 @@ class PersistentAgent:
                         logger.warning(f"  ⚠ Could not refresh page: {e}")
                     
                     # Step 104: Take screenshot (post-wait)
-                    logger.info("Step 104: Take screenshot (post-wait)")
+                    logger.info("<step_104> Step 104: Take screenshot (post-wait)")
                     try:
                         screenshot_path = Path(__file__).parent / "screenshots" / f"step104_after_wait_{datetime.now().strftime('%H%M%S')}.png"
                         await self.page.screenshot(path=str(screenshot_path), full_page=True)
@@ -998,8 +998,40 @@ class PersistentAgent:
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not take screenshot: {e}")
                     
-                    # Step 105: Check for "זימון תורים" button
-                    logger.info("Step 105: Check for 'זימון תורים' button")
+                    # Step 105: Check if still on Calendar Page
+                    logger.info("<step_105> Step 105: Check if still on Calendar page")
+                    still_on_calendar = False
+                    calendar_selectors = [
+                        '#ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedDate',
+                        '#ctl00_MainContentPlaceHolder_ucAppointmentCalendar_LabelSelectedTime',
+                        '#divCalendarButtonsBoxForDoctor',
+                    ]
+                    
+                    try:
+                        for selector in calendar_selectors:
+                            try:
+                                elem = self.page.locator(selector).first
+                                if await elem.count() > 0 and await elem.is_visible():
+                                    logger.info(f"  ✓ Still on calendar page (found: {selector})")
+                                    still_on_calendar = True
+                                    break
+                            except:
+                                pass
+                        
+                        if still_on_calendar:
+                            logger.info("  → Detected calendar page. Will proceed to appointment selection (Step 18)")
+                            return {
+                                "status": "retry_later",
+                                "message": "Still on calendar page after fallback. Retry flow from appointment selection path.",
+                                "retry_after_seconds": 2
+                            }
+                        else:
+                            logger.info("  → Not on calendar page. Proceeding to Step 106...")
+                    except Exception as e:
+                        logger.warning(f"  ⚠ Error checking calendar page: {e}")
+                    
+                    # Step 106: Check for "זימון תורים" button (renamed from Step 105)
+                    logger.info("<step_106> Step 106: Check for 'זימון תורים' button")
                     zimon_found = False
                     try:
                         zimon_patterns = [
@@ -1049,8 +1081,20 @@ class PersistentAgent:
                 logger.info("=" * 70)
                 logger.info("")
                 
+                # Appointment selection retry loop - if calendar still detected after fallback, retry
+                appointment_retry = 0
+                max_retries = 2
+                
+                while appointment_retry <= max_retries:
+                    if appointment_retry > 0:
+                        logger.info("")
+                        logger.info(f"🔄 Appointment Selection Retry #{appointment_retry}...")
+                        logger.info("")
+                    
+                    appointment_retry += 1
+                
                 # Step 18: Find Appointment Type Button
-                logger.info("Step 18: Find Appointment Type Button (זמן לוידאו/זמן לטלפון/זמן למרפאה)")
+                logger.info("<step_18> Step 18: Find Appointment Type Button (זמן לוידאו/זמן לטלפון/זמן למרפאה)")
                 
                 appointment_btn = None
                 appointment_btn_text = None
@@ -1093,7 +1137,7 @@ class PersistentAgent:
                     }
                 
                 # Step 19: Click Appointment Button
-                logger.info("Step 19: Click Appointment Button")
+                logger.info("<step_19> Step 19: Click Appointment Button")
                 logger.info(f"  Clicking: '{appointment_btn_text}'")
                 try:
                     await appointment_btn.click(timeout=5000)
@@ -1103,11 +1147,11 @@ class PersistentAgent:
                     return {"status": "error", "message": f"Failed to click appointment button: {e}"}
                 
                 # Step 20: Wait 2 Seconds
-                logger.info("Step 20: Wait 2 Seconds")
+                logger.info("<step_20> Step 20: Wait 2 Seconds")
                 await asyncio.sleep(2)
                 
                 # Step 21: Take Screenshot
-                logger.info("Step 21: Take Screenshot")
+                logger.info("<step_21> Step 21: Take Screenshot")
                 screenshot_path = Path(__file__).parent / "screenshots" / f"step21_after_appointment_click_{datetime.now().strftime('%H%M%S')}.png"
                 try:
                     await self.page.screenshot(path=str(screenshot_path), full_page=True)
@@ -1116,20 +1160,27 @@ class PersistentAgent:
                     logger.warning(f"  ⚠ Could not take screenshot: {e}")
                 
                 # Step 22: Enter Multi-Step Approval Loop (Max 10 Steps)
-                logger.info("Step 22: Enter Multi-Step Approval Loop (Max 10 Steps)")
+                logger.info("<step_22> Step 22: Enter Multi-Step Approval Loop (Max 10 Steps)")
                 logger.info("  Clicking continuation buttons and checking for SMS validation...")
                 logger.info("")
                 
+                # Step 23: Initialize approval loop variables
+                logger.info("<step_23> Step 23: Initialize approval loop variables")
                 step_count = 0
                 max_steps = 10
                 sms_validation_reached = False
+                logger.info(f"  Max iterations: {max_steps}")
+                logger.info("")
+                
+                # Step 24: Start approval loop iterations
+                logger.info("<step_24> Step 24: Start approval loop iterations")
                 
                 while step_count < max_steps:
                     step_count += 1
                     logger.info(f"  ├─ Approval Loop Step {step_count}/10")
                     
                     # Step A: Check for SMS Validation Screen
-                    logger.info(f"    ├─ Step A: Check for SMS validation screen")
+                    logger.info(f"    <step_A> ├─ Step A: Check for SMS validation screen")
                     try:
                         sms_patterns = [
                             'div.appointments_approve_video_validation_row_1:visible',
@@ -1155,7 +1206,7 @@ class PersistentAgent:
                         logger.debug(f"    ├─ SMS check error: {str(e)[:60]}")
                     
                     # Step B: Find Continuation Button (4 patterns)
-                    logger.info(f"    ├─ Step B: Find continuation button")
+                    logger.info(f"    <step_B> ├─ Step B: Find continuation button")
                     
                     button_patterns = [
                         ('pattern1_id', 'div#divContinueToShowMessage'),
@@ -1180,16 +1231,16 @@ class PersistentAgent:
                                     logger.info(f"    │  ✓ Found button ({pattern_name}): '{button_text.strip()}'")
                                     
                                     # Step C: Click Button
-                                    logger.info(f"    ├─ Step C: Click button")
+                                    logger.info(f"    <step_C> ├─ Step C: Click button")
                                     await btn.click(timeout=5000)
                                     logger.info(f"    │  ✓ Button clicked")
                                     
                                     # Step D: Wait 1 Second
-                                    logger.info(f"    ├─ Step D: Wait 1 second")
+                                    logger.info(f"    <step_D> ├─ Step D: Wait 1 second")
                                     await asyncio.sleep(1)
                                     
                                     # Step E: Take Screenshot
-                                    logger.info(f"    ├─ Step E: Take screenshot")
+                                    logger.info(f"    <step_E> ├─ Step E: Take screenshot")
                                     step_screenshot_path = Path(__file__).parent / "screenshots" / f"step22_approval_{step_count}_{datetime.now().strftime('%H%M%S')}.png"
                                     try:
                                         await self.page.screenshot(path=str(step_screenshot_path), full_page=True)
@@ -1299,22 +1350,22 @@ class PersistentAgent:
                 logger.info(f"Starting appointment booking (type: {appointment_type})")
                 
                 # Click first result (soonest appointment)
-                logger.info("Step 1: Select first available slot")
+                logger.info("<step_1> Step 1: Select first available slot")
                 await self.page.locator(".appointment-result").first.click()  # Adjust selector based on actual HTML
                 await asyncio.sleep(2)
                 
                 # The calendar should open with default slot selected
-                logger.info(f"Step 2: Click '{appointment_type}'")
+                logger.info(f"<step_2> Step 2: Click '{appointment_type}'")
                 await self.page.get_by_text(appointment_type).first.click()
                 await asyncio.sleep(2)
                 
                 # Pop-up appears with appointment info
-                logger.info("Step 3: Click 'המשך' on pop-up")
+                logger.info("<step_3> Step 3: Click 'המשך' on pop-up")
                 await self.page.get_by_text("המשך").first.click()
                 await asyncio.sleep(2)
                 
                 # Final confirmation
-                logger.info("Step 4: Click 'שמור וסיים' to confirm")
+                logger.info("<step_4> Step 4: Click 'שמור וסיים' to confirm")
                 await self.page.get_by_text("שמור וסיים").first.click()
                 await asyncio.sleep(3)
                 

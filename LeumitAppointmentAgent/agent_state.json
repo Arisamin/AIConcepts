@@ -1,11 +1,10 @@
 {
   "logged_in": true,
-  "timestamp": "2026-02-24T11:44:00.116048",
-  "last_url": "https://online2.leumit.co.il/Online/Appointments/approveVideoAppointment.aspx",
+  "timestamp": "2026-02-28T19:54:48.885237",
+  "last_url": "https://online2.leumit.co.il/Online/Appointments/AppointmentCalendar.aspx",
   "last_command": "search_doctor",
   "result": {
-    "status": "awaiting_sms_verification",
-    "message": "Appointment date found. SMS sent to phone. Please verify using the code sent.",
-    "screenshot": "C:\\MyData\\Git\\AI Projects\\LeumitAppointmentAgent\\screenshots\\sms_validation_114359.png"
+    "status": "error",
+    "message": "Failed to click בצע חיפוש חדש - all strategies exhausted"
   }
 }

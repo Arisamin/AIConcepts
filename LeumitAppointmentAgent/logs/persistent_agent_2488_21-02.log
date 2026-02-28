@@ -1,0 +1,96 @@
+2026-02-27 21:09:40,449 - ============================================================
+2026-02-27 21:09:40,450 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-27 21:09:40,450 - ============================================================
+2026-02-27 21:09:40,450 - 
+2026-02-27 21:09:42,046 - ✓ Loaded session state: logged_in=True
+2026-02-27 21:09:42,046 - ✓ Browser initialized
+2026-02-27 21:09:42,046 - 
+2026-02-27 21:09:42,063 - ✓ Socket server listening on localhost:5556
+2026-02-27 21:09:42,063 - 
+2026-02-27 21:09:42,063 - Agent ready! Send commands via:
+2026-02-27 21:09:42,063 -   Socket: Connect to localhost:5556
+2026-02-27 21:09:42,064 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 21:09:42,064 - 
+2026-02-27 21:09:42,064 - To start, send login command:
+2026-02-27 21:09:42,064 -   {"action": "login"}
+2026-02-27 21:09:42,064 - 
+2026-02-27 21:09:42,064 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 21:09:42,064 - DEBUG: File exists: True
+2026-02-27 21:09:42,065 - DEBUG: Loaded command: search_doctor
+2026-02-27 21:09:42,065 - DEBUG: Loaded command: search_doctor
+2026-02-27 21:09:42,066 - DEBUG: Command hash: -3850022699662516726, Last hash: None
+2026-02-27 21:09:42,066 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 21:09:42,066 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 21:09:42,066 - 
+2026-02-27 21:09:42,066 - ============================================================
+2026-02-27 21:09:42,066 - COMMAND: search_doctor
+2026-02-27 21:09:42,066 - ============================================================
+2026-02-27 21:09:42,066 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 21:09:42,066 - 
+2026-02-27 21:09:42,067 - Executing action: search_doctor
+2026-02-27 21:09:42,067 - Starting doctor search:
+2026-02-27 21:09:42,067 -   Specialty: פסיכיאטריה
+2026-02-27 21:09:42,067 -   Doctor: ג'ודית הלפר
+2026-02-27 21:09:42,067 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 21:09:42,067 - Step 0: Checking login state...
+2026-02-27 21:09:45,077 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-27 21:09:45,077 -   → Need to perform login before continuing
+2026-02-27 21:09:45,078 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-27 21:09:45,078 - 
+2026-02-27 21:09:45,078 - ⚠️  Command requires login. Attempting login first...
+2026-02-27 21:09:45,078 - ============================================================
+2026-02-27 21:09:45,078 - LOGIN FLOW
+2026-02-27 21:09:45,078 - ============================================================
+2026-02-27 21:09:45,078 - 
+2026-02-27 21:09:45,078 - Step 1: Navigating to Google...
+2026-02-27 21:09:46,483 - Step 2: Searching for 'לאומית'...
+2026-02-27 21:09:50,040 - Step 3: Clicking Leumit link...
+2026-02-27 21:09:55,398 - Step 4: Checking login state...
+2026-02-27 21:09:55,455 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-27 21:09:55,456 - Step 5: Clicking 'אזור אישי' button...
+2026-02-27 21:10:03,661 - Step 6: Checking if login modal appeared or already logged in...
+2026-02-27 21:10:06,682 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-27 21:10:06,682 - Step 7: Looking for login form...
+2026-02-27 21:10:06,701 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:10:08,702 - Looking for login form fields...
+2026-02-27 21:10:08,747 - ✓ Found both input fields
+2026-02-27 21:10:08,747 -   Filling ID field...
+2026-02-27 21:10:08,769 -   ✓ ID entered: 032661936
+2026-02-27 21:10:08,769 -   Filling phone field...
+2026-02-27 21:10:08,789 -   ✓ Phone entered: 0547535758
+2026-02-27 21:10:09,455 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-27 21:10:09,456 - Clicking 'שלח' button...
+2026-02-27 21:10:11,090 - ✓ Submit button clicked
+2026-02-27 21:10:13,092 - Checking if already logged in before OTP wait...
+2026-02-27 21:10:16,105 -   → Not logged in yet, need OTP verification
+2026-02-27 21:10:16,106 - 
+2026-02-27 21:10:16,106 - ============================================================
+2026-02-27 21:10:16,106 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-27 21:10:16,106 - ============================================================
+2026-02-27 21:10:16,106 - Waiting for OTP code from phone notifications...
+2026-02-27 21:10:16,107 - Agent will auto-fill OTP when received.
+2026-02-27 21:10:16,107 - 
+2026-02-27 21:10:16,293 - ✓ OTP code received: 76011
+2026-02-27 21:10:17,309 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:10:17,332 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:10:17,351 - ✓ OTP field filled
+2026-02-27 21:10:25,375 - Waiting for login completion after OTP...
+2026-02-27 21:10:25,375 - ✓ OTP code received: 79449
+2026-02-27 21:10:26,381 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:10:26,397 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:10:26,411 - ✓ OTP field filled
+2026-02-27 21:10:34,433 - Waiting for login completion after OTP...
+2026-02-27 21:10:34,433 - ✓ OTP code received: 76011
+2026-02-27 21:10:35,436 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:10:35,453 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:10:35,498 - ✓ OTP field filled
+2026-02-27 21:10:43,531 - Waiting for login completion after OTP...
+2026-02-27 21:10:43,532 - ✓ OTP code received: 79449
+2026-02-27 21:10:44,534 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:10:44,552 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:10:44,567 - ✓ OTP field filled
+2026-02-27 21:10:52,845 - Waiting for login completion after OTP...
+2026-02-27 21:10:52,845 - ✓ OTP code received: 76011
+2026-02-27 21:10:53,849 -   Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 21:10:53,868 -   Found OTP input with selector: input[type='text'][id*='OTP']
+2026-02-27 21:10:53,894 - ✓ OTP field filled

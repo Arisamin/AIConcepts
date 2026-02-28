@@ -109,12 +109,15 @@ Step 17: VALIDATE DATE IN RANGE?
   └─→ NO: Date OUTSIDE [date_from, date_to]
           ↓
         FALLBACK WORKFLOW - No Valid Appointment
-          ├─→ Step 9.5a: Refresh page
-          ├─→ Step 9.5b: Take screenshot
-          ├─→ Step 9.5c: Wait 15 minutes (900s)
-          ├─→ Step 9.5d: Refresh page again
-          ├─→ Step 9.5e: Take screenshot
-          └─→ Step 9.5f: Check for "זימון תורים" button
+          ├─→ Step 100: Refresh page
+          ├─→ Step 101: Take screenshot (post-refresh)
+          ├─→ Step 102: Wait 15 minutes (900s)
+          ├─→ Step 103: Refresh page again
+          ├─→ Step 104: Take screenshot (post-wait)
+          ├─→ Step 105: Check if Still on Calendar Page?
+          │   ├─→ YES: Still on calendar page → RESTART at Step 19 (Retry appointment selection)
+          │   └─→ NO: Not on calendar page → Continue to Step 106
+          └─→ Step 106: Check for "זימון תורים" button
               ├─→ Found & Visible → Return retry_later → WAIT 5s → RESTART at Step 7
               └─→ Not Found → Session expired → Return error → RESTART at Step 1.1
 
@@ -223,17 +226,20 @@ graph TD
     BB --> END4["🟡 END: User Action"]
     
     AI -->|❌ NO - Out of Range| BC["⚠️  FALLBACK WORKFLOW"]
-    BC --> BD["Step 9.5a: Refresh Page"]
-    BD --> BE["Step 9.5b: Screenshot"]
-    BE --> BF["Step 9.5c: Wait 15 Min<br/>900 Seconds"]
-    BF --> BG["Step 9.5d: Refresh Again"]
-    BG --> BH["Step 9.5e: Screenshot"]
-    BH --> BI{"Step 9.5f: 'זימון תורים'<br/>Button Found?"}
+    BC --> BD["Step 100: Refresh Page"]
+    BD --> BE["Step 101: Screenshot"]
+    BE --> BF["Step 102: Wait 15 Min<br/>900 Seconds"]
+    BF --> BG["Step 103: Refresh Again"]
+    BG --> BH["Step 104: Screenshot"]
+    BH --> BI{"Step 105: Still on<br/>Calendar Page?"}
     
-    BI -->|✅ YES| BJ["Session Valid<br/>Return: retry_later"]
+    BI -->|✅ YES| AI
+    BI -->|No| BID{"Step 106: 'זימון תורים'<br/>Button Found?"}
+    
+    BID -->|✅ YES| BJ["Session Valid<br/>Return: retry_later"]
     BJ --> BK["🔄 RESTART at Step 7"]
     
-    BI -->|No| BL["⚠️  Session Expired<br/>Return: error"]
+    BID -->|No| BL["⚠️  Session Expired<br/>Return: error"]
     BL --> BM["🔄 RESTART at Step 1.1"]
     
     BK --> N

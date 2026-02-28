@@ -1,0 +1,83 @@
+2026-02-27 20:58:39,762 - ============================================================
+2026-02-27 20:58:39,762 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-27 20:58:39,762 - ============================================================
+2026-02-27 20:58:39,763 - 
+2026-02-27 20:58:41,819 - ✓ Loaded session state: logged_in=True
+2026-02-27 20:58:41,820 - ✓ Browser initialized
+2026-02-27 20:58:41,820 - 
+2026-02-27 20:58:41,851 - ✓ Socket server listening on localhost:5556
+2026-02-27 20:58:41,851 - 
+2026-02-27 20:58:41,851 - Agent ready! Send commands via:
+2026-02-27 20:58:41,852 -   Socket: Connect to localhost:5556
+2026-02-27 20:58:41,852 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 20:58:41,852 - 
+2026-02-27 20:58:41,852 - To start, send login command:
+2026-02-27 20:58:41,852 -   {"action": "login"}
+2026-02-27 20:58:41,852 - 
+2026-02-27 20:58:41,852 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 20:58:41,853 - DEBUG: File exists: True
+2026-02-27 20:58:41,855 - DEBUG: Loaded command: search_doctor
+2026-02-27 20:58:41,855 - DEBUG: Loaded command: search_doctor
+2026-02-27 20:58:41,856 - DEBUG: Command hash: -603354749844697533, Last hash: None
+2026-02-27 20:58:41,856 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 20:58:41,856 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 20:58:41,856 - 
+2026-02-27 20:58:41,856 - ============================================================
+2026-02-27 20:58:41,856 - COMMAND: search_doctor
+2026-02-27 20:58:41,856 - ============================================================
+2026-02-27 20:58:41,857 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 20:58:41,857 - 
+2026-02-27 20:58:41,857 - Executing action: search_doctor
+2026-02-27 20:58:41,857 - Starting doctor search:
+2026-02-27 20:58:41,857 -   Specialty: פסיכיאטריה
+2026-02-27 20:58:41,857 -   Doctor: ג'ודית הלפר
+2026-02-27 20:58:41,857 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 20:58:41,857 - Step 0: Checking login state...
+2026-02-27 20:58:44,887 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-27 20:58:44,888 -   → Need to perform login before continuing
+2026-02-27 20:58:44,888 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-27 20:58:44,888 - 
+2026-02-27 20:58:44,888 - ⚠️  Command requires login. Attempting login first...
+2026-02-27 20:58:44,888 - ============================================================
+2026-02-27 20:58:44,888 - LOGIN FLOW
+2026-02-27 20:58:44,888 - ============================================================
+2026-02-27 20:58:44,889 - 
+2026-02-27 20:58:44,889 - Step 1: Navigating to Google...
+2026-02-27 20:58:46,483 - Step 2: Searching for 'לאומית'...
+2026-02-27 20:58:49,892 - Step 3: Clicking Leumit link...
+2026-02-27 20:58:55,240 - Step 4: Checking login state...
+2026-02-27 20:58:55,300 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-27 20:58:55,300 - Step 5: Clicking 'אזור אישי' button...
+2026-02-27 20:59:03,515 - Step 6: Checking if login modal appeared or already logged in...
+2026-02-27 20:59:06,526 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-27 20:59:06,526 - Step 7: Looking for login form...
+2026-02-27 20:59:06,541 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-27 20:59:08,548 - Looking for login form fields...
+2026-02-27 20:59:08,582 - ✓ Found both input fields
+2026-02-27 20:59:08,582 -   Filling ID field...
+2026-02-27 20:59:08,605 -   ✓ ID entered: 032661936
+2026-02-27 20:59:08,605 -   Filling phone field...
+2026-02-27 20:59:08,619 -   ✓ Phone entered: 0547535758
+2026-02-27 20:59:09,003 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-27 20:59:09,004 - Clicking 'שלח' button...
+2026-02-27 20:59:10,332 - ✓ Submit button clicked
+2026-02-27 20:59:12,335 - Checking if already logged in before OTP wait...
+2026-02-27 20:59:15,339 -   → Not logged in yet, need OTP verification
+2026-02-27 20:59:15,339 - 
+2026-02-27 20:59:15,339 - ============================================================
+2026-02-27 20:59:15,339 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-27 20:59:15,339 - ============================================================
+2026-02-27 20:59:15,339 - Waiting for OTP code from phone notifications...
+2026-02-27 20:59:15,339 - Agent will auto-fill OTP when received.
+2026-02-27 20:59:15,339 - 
+2026-02-27 20:59:15,513 - ✓ OTP code received: 72219
+2026-02-27 20:59:15,520 - Error auto-filling OTP: Frame.query_selector: Frame was detached
+2026-02-27 20:59:23,542 - Waiting for login completion after OTP...
+2026-02-27 20:59:23,542 - ✓ OTP code received: 72219
+2026-02-27 20:59:23,547 - Error auto-filling OTP: Frame.query_selector: Frame was detached
+2026-02-27 20:59:31,566 - Waiting for login completion after OTP...
+2026-02-27 20:59:31,566 - ✓ OTP code received: 72219
+2026-02-27 20:59:31,572 - Error auto-filling OTP: Frame.query_selector: Frame was detached
+2026-02-27 20:59:39,594 - Waiting for login completion after OTP...
+2026-02-27 20:59:39,594 - ✓ OTP code received: 72219
+2026-02-27 20:59:39,598 - Error auto-filling OTP: Frame.query_selector: Frame was detached

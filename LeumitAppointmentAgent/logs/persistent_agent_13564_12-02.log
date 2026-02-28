@@ -1,0 +1,50 @@
+2026-02-27 12:41:29,989 - ============================================================
+2026-02-27 12:41:29,990 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-27 12:41:29,990 - ============================================================
+2026-02-27 12:41:29,990 - 
+2026-02-27 12:41:32,166 - ✓ Loaded session state: logged_in=True
+2026-02-27 12:41:32,166 - ✓ Browser initialized
+2026-02-27 12:41:32,167 - 
+2026-02-27 12:41:32,201 - ✓ Socket server listening on localhost:5556
+2026-02-27 12:41:32,201 - 
+2026-02-27 12:41:32,201 - Agent ready! Send commands via:
+2026-02-27 12:41:32,202 -   Socket: Connect to localhost:5556
+2026-02-27 12:41:32,202 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 12:41:32,202 - 
+2026-02-27 12:41:32,202 - To start, send login command:
+2026-02-27 12:41:32,202 -   {"action": "login"}
+2026-02-27 12:41:32,202 - 
+2026-02-27 12:41:32,202 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-27 12:41:32,202 - DEBUG: File exists: True
+2026-02-27 12:41:32,203 - DEBUG: Loaded command: search_doctor
+2026-02-27 12:41:32,203 - DEBUG: Loaded command: search_doctor
+2026-02-27 12:41:32,204 - DEBUG: Command hash: -2777751684407005876, Last hash: None
+2026-02-27 12:41:32,204 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-27 12:41:32,205 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-27 12:41:32,205 - 
+2026-02-27 12:41:32,205 - ============================================================
+2026-02-27 12:41:32,205 - COMMAND: search_doctor
+2026-02-27 12:41:32,205 - ============================================================
+2026-02-27 12:41:32,205 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-27 12:41:32,206 - 
+2026-02-27 12:41:32,206 - Executing action: search_doctor
+2026-02-27 12:41:32,206 - Starting doctor search:
+2026-02-27 12:41:32,206 -   Specialty: פסיכיאטריה
+2026-02-27 12:41:32,206 -   Doctor: ג'ודית הלפר
+2026-02-27 12:41:32,206 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-27 12:41:32,206 - Step 0: Checking login state...
+2026-02-27 12:41:35,216 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-27 12:41:35,216 -   → Need to perform login before continuing
+2026-02-27 12:41:35,216 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-27 12:41:35,216 - 
+2026-02-27 12:41:35,216 - ⚠️  Command requires login. Attempting login first...
+2026-02-27 12:41:35,217 - ============================================================
+2026-02-27 12:41:35,217 - LOGIN FLOW
+2026-02-27 12:41:35,217 - ============================================================
+2026-02-27 12:41:35,217 - 
+2026-02-27 12:41:35,217 - Step 1: Navigating to Google...
+2026-02-27 12:41:36,763 - Step 2: Searching for 'לאומית'...
+2026-02-27 12:41:40,245 - Step 3: Clicking Leumit link...
+2026-02-27 12:41:45,519 - Step 4: Checking login state...
+2026-02-27 12:41:45,561 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-27 12:41:45,562 - Step 5: Clicking 'אזור אישי' button...

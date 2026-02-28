@@ -1,0 +1,170 @@
+2026-02-28 21:06:51,288 - ============================================================
+2026-02-28 21:06:51,289 - PERSISTENT LEUMIT AGENT - STARTING
+2026-02-28 21:06:51,289 - ============================================================
+2026-02-28 21:06:51,289 - 
+2026-02-28 21:06:52,957 - ✓ Loaded session state: logged_in=True
+2026-02-28 21:06:52,957 - ✓ Browser initialized
+2026-02-28 21:06:52,957 - 
+2026-02-28 21:06:52,985 - ✓ Socket server listening on localhost:5556
+2026-02-28 21:06:52,985 - 
+2026-02-28 21:06:52,985 - Agent ready! Send commands via:
+2026-02-28 21:06:52,986 -   Socket: Connect to localhost:5556
+2026-02-28 21:06:52,986 -   File: Edit C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-28 21:06:52,986 - 
+2026-02-28 21:06:52,986 - To start, send login command:
+2026-02-28 21:06:52,986 -   {"action": "login"}
+2026-02-28 21:06:52,986 - 
+2026-02-28 21:06:52,986 - DEBUG: Looking for commands file at: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\commands.json
+2026-02-28 21:06:52,987 - DEBUG: File exists: True
+2026-02-28 21:06:52,987 - DEBUG: Loaded command: search_doctor
+2026-02-28 21:06:52,987 - DEBUG: Loaded command: search_doctor
+2026-02-28 21:06:52,988 - DEBUG: Command hash: -1302876871774784936, Last hash: None
+2026-02-28 21:06:52,988 - DEBUG: File mtime: 1771857653.9062178, Last mtime: None
+2026-02-28 21:06:52,988 - DEBUG: Command changed (hash or file modified), executing command
+2026-02-28 21:06:52,988 - 
+2026-02-28 21:06:52,988 - ============================================================
+2026-02-28 21:06:52,989 - COMMAND: search_doctor
+2026-02-28 21:06:52,989 - ============================================================
+2026-02-28 21:06:52,989 - Params: {'specialty': 'פסיכיאטריה', 'doctor_name': "ג'ודית הלפר", 'subcategory': 'כל תתי התחומים', 'date_from': '2026-02-23', 'date_to': '2026-04-03'}
+2026-02-28 21:06:52,989 - 
+2026-02-28 21:06:52,989 - Executing action: search_doctor
+2026-02-28 21:06:52,989 - Starting doctor search:
+2026-02-28 21:06:52,989 -   Specialty: פסיכיאטריה
+2026-02-28 21:06:52,989 -   Doctor: ג'ודית הלפר
+2026-02-28 21:06:52,989 -   Date range: 2026-02-23 to 2026-04-03
+2026-02-28 21:06:52,989 - <step_0> Step 0: Checking login state...
+2026-02-28 21:06:56,011 -   ✗ Not logged in - 'זימון תורים' button not found
+2026-02-28 21:06:56,011 -   → Need to perform login before continuing
+2026-02-28 21:06:56,011 - Result: {'status': 'error', 'message': 'Not logged in. Please send login command first: {"action": "login"}', 'requires_login': True}
+2026-02-28 21:06:56,011 - 
+2026-02-28 21:06:56,011 - ⚠️  Command requires login. Attempting login first...
+2026-02-28 21:06:56,011 - ============================================================
+2026-02-28 21:06:56,011 - LOGIN FLOW
+2026-02-28 21:06:56,011 - ============================================================
+2026-02-28 21:06:56,012 - 
+2026-02-28 21:06:56,012 - <step_1> Step 1: Navigating to Google...
+2026-02-28 21:06:57,354 - <step_2> Step 2: Searching for 'לאומית'...
+2026-02-28 21:07:00,684 - <step_3> Step 3: Clicking Leumit link...
+2026-02-28 21:07:05,976 - <step_4> Step 4: Checking login state...
+2026-02-28 21:07:06,019 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-28 21:07:06,019 - <step_5> Step 5: Clicking 'אזור אישי' button...
+2026-02-28 21:07:14,171 - <step_6> Step 6: Checking if login modal appeared or already logged in...
+2026-02-28 21:07:17,185 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-28 21:07:17,185 - <step_7> Step 7: Looking for login form...
+2026-02-28 21:07:17,196 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-28 21:07:19,209 - Looking for login form fields...
+2026-02-28 21:07:19,237 - ✓ Found both input fields
+2026-02-28 21:07:19,237 -   Filling ID field...
+2026-02-28 21:07:19,259 -   ✓ ID entered: 032661936
+2026-02-28 21:07:19,259 -   Filling phone field...
+2026-02-28 21:07:19,271 -   ✓ Phone entered: 0547535758
+2026-02-28 21:07:19,587 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-28 21:07:19,588 - Clicking 'שלח' button...
+2026-02-28 21:07:21,389 - ✓ Submit button clicked
+2026-02-28 21:07:23,402 - Checking if already logged in before OTP wait...
+2026-02-28 21:07:26,413 -   → Not logged in yet, need OTP verification
+2026-02-28 21:07:26,413 - 
+2026-02-28 21:07:26,413 - ============================================================
+2026-02-28 21:07:26,413 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-28 21:07:26,413 - ============================================================
+2026-02-28 21:07:26,413 - Waiting for OTP code from phone notifications...
+2026-02-28 21:07:26,413 - Agent will auto-fill OTP when received.
+2026-02-28 21:07:26,413 - 
+2026-02-28 21:08:11,662 - Still waiting for OTP... (30s / 300s)
+2026-02-28 21:08:56,917 - Still waiting for OTP... (60s / 300s)
+2026-02-28 21:09:42,169 - Still waiting for OTP... (90s / 300s)
+2026-02-28 21:10:27,448 - Still waiting for OTP... (120s / 300s)
+2026-02-28 21:11:12,720 - Still waiting for OTP... (150s / 300s)
+2026-02-28 21:11:57,977 - Still waiting for OTP... (180s / 300s)
+2026-02-28 21:12:43,239 - Still waiting for OTP... (210s / 300s)
+2026-02-28 21:13:28,479 - Still waiting for OTP... (240s / 300s)
+2026-02-28 21:14:13,711 - Still waiting for OTP... (270s / 300s)
+2026-02-28 21:14:58,947 - Still waiting for OTP... (300s / 300s)
+2026-02-28 21:14:58,947 - Login timeout - OTP not verified in time
+2026-02-28 21:14:58,947 - Login attempt #1 failed, will retry in 10 seconds...
+2026-02-28 21:14:58,947 - Press Ctrl+C to stop agent if needed
+2026-02-28 21:14:58,948 - 
+2026-02-28 21:14:58,948 - 🔄 Login retry attempt #1
+2026-02-28 21:14:58,948 - Waiting 10 seconds before retry...
+2026-02-28 21:15:08,957 - ============================================================
+2026-02-28 21:15:08,957 - LOGIN FLOW
+2026-02-28 21:15:08,957 - ============================================================
+2026-02-28 21:15:08,957 - 
+2026-02-28 21:15:08,957 - <step_1> Step 1: Navigating to Google...
+2026-02-28 21:15:10,342 - <step_2> Step 2: Searching for 'לאומית'...
+2026-02-28 21:15:13,807 - <step_3> Step 3: Clicking Leumit link...
+2026-02-28 21:15:19,123 - <step_4> Step 4: Checking login state...
+2026-02-28 21:15:19,165 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-28 21:15:19,165 - <step_5> Step 5: Clicking 'אזור אישי' button...
+2026-02-28 21:15:27,326 - <step_6> Step 6: Checking if login modal appeared or already logged in...
+2026-02-28 21:15:30,346 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-28 21:15:30,346 - <step_7> Step 7: Looking for login form...
+2026-02-28 21:15:30,356 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-28 21:15:32,361 - Looking for login form fields...
+2026-02-28 21:15:32,391 - ✓ Found both input fields
+2026-02-28 21:15:32,391 -   Filling ID field...
+2026-02-28 21:15:32,405 -   ✓ ID entered: 032661936
+2026-02-28 21:15:32,405 -   Filling phone field...
+2026-02-28 21:15:32,417 -   ✓ Phone entered: 0547535758
+2026-02-28 21:15:32,655 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-28 21:15:32,655 - Clicking 'שלח' button...
+2026-02-28 21:15:34,117 - ✓ Submit button clicked
+2026-02-28 21:15:36,127 - Checking if already logged in before OTP wait...
+2026-02-28 21:15:39,145 -   → Not logged in yet, need OTP verification
+2026-02-28 21:15:39,145 - 
+2026-02-28 21:15:39,145 - ============================================================
+2026-02-28 21:15:39,145 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-28 21:15:39,145 - ============================================================
+2026-02-28 21:15:39,145 - Waiting for OTP code from phone notifications...
+2026-02-28 21:15:39,146 - Agent will auto-fill OTP when received.
+2026-02-28 21:15:39,146 - 
+2026-02-28 21:16:24,431 - Still waiting for OTP... (30s / 300s)
+2026-02-28 21:17:09,721 - Still waiting for OTP... (60s / 300s)
+2026-02-28 21:17:54,999 - Still waiting for OTP... (90s / 300s)
+2026-02-28 21:18:40,278 - Still waiting for OTP... (120s / 300s)
+2026-02-28 21:19:25,551 - Still waiting for OTP... (150s / 300s)
+2026-02-28 21:20:10,841 - Still waiting for OTP... (180s / 300s)
+2026-02-28 21:20:56,090 - Still waiting for OTP... (210s / 300s)
+2026-02-28 21:21:41,346 - Still waiting for OTP... (240s / 300s)
+2026-02-28 21:22:26,576 - Still waiting for OTP... (270s / 300s)
+2026-02-28 21:23:11,810 - Still waiting for OTP... (300s / 300s)
+2026-02-28 21:23:11,810 - Login timeout - OTP not verified in time
+2026-02-28 21:23:11,810 - Login attempt #2 failed, will retry in 10 seconds...
+2026-02-28 21:23:11,810 - Press Ctrl+C to stop agent if needed
+2026-02-28 21:23:11,810 - 
+2026-02-28 21:23:11,810 - 🔄 Login retry attempt #2
+2026-02-28 21:23:11,810 - Waiting 10 seconds before retry...
+2026-02-28 21:23:21,814 - ============================================================
+2026-02-28 21:23:21,814 - LOGIN FLOW
+2026-02-28 21:23:21,814 - ============================================================
+2026-02-28 21:23:21,815 - 
+2026-02-28 21:23:21,815 - <step_1> Step 1: Navigating to Google...
+2026-02-28 21:23:23,196 - <step_2> Step 2: Searching for 'לאומית'...
+2026-02-28 21:23:26,515 - <step_3> Step 3: Clicking Leumit link...
+2026-02-28 21:23:31,828 - <step_4> Step 4: Checking login state...
+2026-02-28 21:23:31,866 -   ✓ Found 'אזור אישי' button → NOT logged in
+2026-02-28 21:23:31,867 - <step_5> Step 5: Clicking 'אזור אישי' button...
+2026-02-28 21:23:40,036 - <step_6> Step 6: Checking if login modal appeared or already logged in...
+2026-02-28 21:23:43,051 -   → 'זימון תורים' not found, proceeding with login form...
+2026-02-28 21:23:43,051 - <step_7> Step 7: Looking for login form...
+2026-02-28 21:23:43,061 - ✓ Found login frame: https://online2.leumit.co.il/Online/login/LoginForHomepageNew.aspx
+2026-02-28 21:23:45,073 - Looking for login form fields...
+2026-02-28 21:23:45,104 - ✓ Found both input fields
+2026-02-28 21:23:45,105 -   Filling ID field...
+2026-02-28 21:23:45,115 -   ✓ ID entered: 032661936
+2026-02-28 21:23:45,115 -   Filling phone field...
+2026-02-28 21:23:45,129 -   ✓ Phone entered: 0547535758
+2026-02-28 21:23:45,372 - ✓ Screenshot: C:\MyData\Git\AI Projects\LeumitAppointmentAgent\screenshots\login_form_filled.png
+2026-02-28 21:23:45,372 - Clicking 'שלח' button...
+2026-02-28 21:23:46,580 - ✓ Submit button clicked
+2026-02-28 21:23:48,593 - Checking if already logged in before OTP wait...
+2026-02-28 21:23:51,599 -   → Not logged in yet, need OTP verification
+2026-02-28 21:23:51,599 - 
+2026-02-28 21:23:51,599 - ============================================================
+2026-02-28 21:23:51,599 - ⏳ WAITING FOR OTP VERIFICATION
+2026-02-28 21:23:51,599 - ============================================================
+2026-02-28 21:23:51,599 - Waiting for OTP code from phone notifications...
+2026-02-28 21:23:51,599 - Agent will auto-fill OTP when received.
+2026-02-28 21:23:51,600 - 
+2026-02-28 21:24:36,875 - Still waiting for OTP... (30s / 300s)
+2026-02-28 21:25:22,162 - Still waiting for OTP... (60s / 300s)
