@@ -83,11 +83,13 @@ SOCKET_HOST = "localhost"
 SOCKET_PORT = 5556
 
 
+from browser_interface import BrowserInterface
+
 class PersistentAgent:
-    """Persistent browser agent that executes commands."""
-    
-    def __init__(self):
-        self.page = None
+    """Persistent browser agent that executes commands. Now supports dependency injection for browser/page."""
+
+    def __init__(self, browser: BrowserInterface = None):
+        self.page = None  # Will be set to browser interface
         self.browser = None
         self.playwright = None
         self.logged_in = False
@@ -95,67 +97,69 @@ class PersistentAgent:
         self.last_file_mtime = None
         self.socket_server = None
         self.debug_mode = os.getenv("AGENT_DEBUG", "0") == "1"
+        self._injected_browser = browser
     
     async def setup(self):
-        """Initialize browser."""
+        """Initialize browser or use injected mock browser."""
         logger.info("=" * 60)
         logger.info("PERSISTENT LEUMIT AGENT - STARTING")
         logger.info("=" * 60)
         logger.info("")
-        
-        self.playwright = await async_playwright().start()
-        
-        # Use persistent context to save cookies/session across restarts
-        user_data_dir = Path(__file__).parent / ".browser_profile"
-        user_data_dir.mkdir(exist_ok=True)
-        
-        context = None
-        lock_files = ["SingletonLock", "SingletonCookie", "SingletonSocket", "lockfile"]
-        for attempt in range(1, 3):
-            try:
-                context = await self.playwright.chromium.launch_persistent_context(
-                    str(user_data_dir),
-                    headless=False,
-                    args=[
-                        "--disable-blink-features=AutomationControlled",
-                        "--start-maximized",
-                    ]
-                )
-                break
-            except Exception as e:
-                if "Target" in str(e) or "closed" in str(e):
-                    logger.error("Browser profile locked! Attempting to clear stale lock files...")
-                    removed = []
-                    for name in lock_files:
-                        lock_path = user_data_dir / name
-                        if lock_path.exists():
-                            try:
-                                lock_path.unlink()
-                                removed.append(name)
-                            except Exception:
-                                pass
-                    if removed:
-                        logger.info(f"Removed lock files: {', '.join(removed)}")
-                    if attempt < 2:
-                        await asyncio.sleep(1)
-                        continue
-                    logger.error("Browser profile still locked. Close existing browser windows or delete .browser_profile/")
-                    logger.error(f"Error: {e}")
-                    raise
-                else:
-                    raise
 
-        if context is None:
-            raise RuntimeError("Failed to launch browser context")
-        
-        # Get or create first page
-        if len(context.pages) > 0:
-            self.page = context.pages[0]
+        if self._injected_browser is not None:
+            # Use injected browser (mock or test double)
+            self.page = self._injected_browser
+            self.browser = self._injected_browser
+            logger.info("✓ Using injected browser interface (mock or test double)")
         else:
-            self.page = await context.new_page()
-        
-        self.browser = context  # Store context as browser for compatibility
-        
+            self.playwright = await async_playwright().start()
+            # Use persistent context to save cookies/session across restarts
+            user_data_dir = Path(__file__).parent / ".browser_profile"
+            user_data_dir.mkdir(exist_ok=True)
+            context = None
+            lock_files = ["SingletonLock", "SingletonCookie", "SingletonSocket", "lockfile"]
+            for attempt in range(1, 3):
+                try:
+                    context = await self.playwright.chromium.launch_persistent_context(
+                        str(user_data_dir),
+                        headless=False,
+                        args=[
+                            "--disable-blink-features=AutomationControlled",
+                            "--start-maximized",
+                        ]
+                    )
+                    break
+                except Exception as e:
+                    if "Target" in str(e) or "closed" in str(e):
+                        logger.error("Browser profile locked! Attempting to clear stale lock files...")
+                        removed = []
+                        for name in lock_files:
+                            lock_path = user_data_dir / name
+                            if lock_path.exists():
+                                try:
+                                    lock_path.unlink()
+                                    removed.append(name)
+                                except Exception:
+                                    pass
+                        if removed:
+                            logger.info(f"Removed lock files: {', '.join(removed)}")
+                        if attempt < 2:
+                            await asyncio.sleep(1)
+                            continue
+                        logger.error("Browser profile still locked. Close existing browser windows or delete .browser_profile/")
+                        logger.error(f"Error: {e}")
+                        raise
+                    else:
+                        raise
+            if context is None:
+                raise RuntimeError("Failed to launch browser context")
+            # Get or create first page
+            if len(context.pages) > 0:
+                self.page = context.pages[0]
+            else:
+                self.page = await context.new_page()
+            self.browser = context  # Store context as browser for compatibility
+
         # Load state from file
         try:
             if STATE_FILE.exists():
@@ -166,7 +170,7 @@ class PersistentAgent:
                         logger.info("✓ Loaded session state: logged_in=True")
         except Exception as e:
             logger.warning(f"Could not load state file: {e}")
-        
+
         logger.info("✓ Browser initialized")
         logger.info("")
     
@@ -972,14 +976,21 @@ class PersistentAgent:
                     except Exception as e:
                         logger.warning(f"  ⚠ Could not take screenshot: {e}")
                     
-                    # Step 102: Wait 15 minutes (900s)
-                    logger.info("<step_102> Step 102: Wait 15 minutes (900 seconds)")
-                    logger.info("  💤 Sleeping for 15 minutes to allow appointments to refresh...")
-                    for remaining in range(900, 0, -60):
-                        await asyncio.sleep(60)
-                        if remaining > 60:
-                            logger.info(f"     Time remaining: {remaining - 60}s ({(remaining - 60) // 60}m)")
-                    logger.info("  ✓ 15-minute wait completed")
+                    # Step 102: Wait before retry (default 15 minutes / 900s)
+                    wait_seconds = int(cmd["params"].get("fallback_wait_seconds", 900))
+                    logger.info(f"<step_102> Step 102: Wait {wait_seconds} seconds before retry")
+                    if wait_seconds > 0:
+                        logger.info(f"  💤 Sleeping for {wait_seconds} seconds to allow appointments to refresh...")
+                        remaining = wait_seconds
+                        while remaining > 0:
+                            sleep_chunk = min(60, remaining)
+                            await asyncio.sleep(sleep_chunk)
+                            remaining -= sleep_chunk
+                            if remaining > 0:
+                                logger.info(f"     Time remaining: {remaining}s")
+                        logger.info("  ✓ Wait completed")
+                    else:
+                        logger.info("  ⏩ Wait skipped (fallback_wait_seconds=0)")
                     
                     # Step 103: Refresh page again
                     logger.info("<step_103> Step 103: Refresh page again")
