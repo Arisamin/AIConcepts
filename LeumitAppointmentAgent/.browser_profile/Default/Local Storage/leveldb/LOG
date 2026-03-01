@@ -1,21 +1,6 @@
-2026/02/28-21:06:52.782 a19c Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/MANIFEST-000001
-2026/02/28-21:06:52.789 a19c Recovering log #116
-2026/02/28-21:06:52.792 a19c Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/000116.log 
-2026/02/28-21:07:06.414 2f20 Level-0 table #120: started
-2026/02/28-21:07:06.420 2f20 Level-0 table #120: 47130 bytes OK
-2026/02/28-21:07:06.422 2f20 Delete type=0 #116
-2026/02/28-21:07:06.422 2f20 Compacting 4@0 + 1@1 files
-2026/02/28-21:07:06.429 2f20 Generated table #121@0: 39 keys, 47140 bytes
-2026/02/28-21:07:06.429 2f20 Compacted 4@0 + 1@1 files => 47140 bytes
-2026/02/28-21:07:06.430 2f20 compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/02/28-21:07:06.431 2f20 Delete type=2 #108
-2026/02/28-21:07:06.431 2f20 Delete type=2 #111
-2026/02/28-21:07:06.431 2f20 Delete type=2 #114
-2026/02/28-21:07:06.431 2f20 Delete type=2 #117
-2026/02/28-21:07:06.431 2f20 Delete type=2 #120
-2026/02/28-21:15:19.557 2f20 Level-0 table #123: started
-2026/02/28-21:15:19.564 2f20 Level-0 table #123: 62181 bytes OK
-2026/02/28-21:15:19.566 2f20 Delete type=0 #119
-2026/02/28-21:23:37.316 2f20 Level-0 table #125: started
-2026/02/28-21:23:37.322 2f20 Level-0 table #125: 63649 bytes OK
-2026/02/28-21:23:37.323 2f20 Delete type=0 #122
+2026/03/01-14:08:40.060 284c Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/MANIFEST-000001
+2026/03/01-14:08:40.067 284c Recovering log #159
+2026/03/01-14:08:40.070 284c Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/000159.log 
+2026/03/01-14:08:54.096 4890 Level-0 table #163: started
+2026/03/01-14:08:54.102 4890 Level-0 table #163: 78259 bytes OK
+2026/03/01-14:08:54.105 4890 Delete type=0 #159

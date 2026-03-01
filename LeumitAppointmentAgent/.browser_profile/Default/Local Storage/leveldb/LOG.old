@@ -1,6 +1,84 @@
-2026/02/28-16:25:42.593 9544 Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/MANIFEST-000001
-2026/02/28-16:25:42.600 9544 Recovering log #113
-2026/02/28-16:25:42.603 9544 Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/000113.log 
-2026/02/28-16:25:56.325 2104 Level-0 table #117: started
-2026/02/28-16:25:56.331 2104 Level-0 table #117: 62963 bytes OK
-2026/02/28-16:25:56.333 2104 Delete type=0 #113
+2026/03/01-09:58:52.553 b00 Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/MANIFEST-000001
+2026/03/01-09:58:52.565 b00 Recovering log #124
+2026/03/01-09:58:52.573 b00 Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Local Storage\leveldb/000124.log 
+2026/03/01-09:59:06.757 ad50 Level-0 table #128: started
+2026/03/01-09:59:06.763 ad50 Level-0 table #128: 61935 bytes OK
+2026/03/01-09:59:06.765 ad50 Delete type=0 #124
+2026/03/01-10:07:19.060 ad50 Level-0 table #130: started
+2026/03/01-10:07:19.067 ad50 Level-0 table #130: 53767 bytes OK
+2026/03/01-10:07:19.069 ad50 Delete type=0 #127
+2026/03/01-10:07:19.070 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-10:07:19.077 ad50 Generated table #131@0: 39 keys, 55702 bytes
+2026/03/01-10:07:19.077 ad50 Compacted 4@0 + 1@1 files => 55702 bytes
+2026/03/01-10:07:19.078 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-10:07:19.079 ad50 Delete type=2 #121
+2026/03/01-10:07:19.079 ad50 Delete type=2 #123
+2026/03/01-10:07:19.079 ad50 Delete type=2 #125
+2026/03/01-10:07:19.079 ad50 Delete type=2 #128
+2026/03/01-10:07:19.079 ad50 Delete type=2 #130
+2026/03/01-10:15:37.783 ad50 Level-0 table #133: started
+2026/03/01-10:15:37.801 ad50 Level-0 table #133: 67600 bytes OK
+2026/03/01-10:15:37.803 ad50 Delete type=0 #129
+2026/03/01-10:23:51.905 ad50 Level-0 table #135: started
+2026/03/01-10:23:51.911 ad50 Level-0 table #135: 67009 bytes OK
+2026/03/01-10:23:51.913 ad50 Delete type=0 #132
+2026/03/01-10:32:03.251 ad50 Level-0 table #137: started
+2026/03/01-10:32:03.257 ad50 Level-0 table #137: 71165 bytes OK
+2026/03/01-10:32:03.258 ad50 Delete type=0 #134
+2026/03/01-10:40:14.491 ad50 Level-0 table #139: started
+2026/03/01-10:40:14.497 ad50 Level-0 table #139: 61521 bytes OK
+2026/03/01-10:40:14.499 ad50 Delete type=0 #136
+2026/03/01-10:40:14.500 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-10:40:14.506 ad50 Generated table #140@0: 41 keys, 64205 bytes
+2026/03/01-10:40:14.506 ad50 Compacted 4@0 + 1@1 files => 64205 bytes
+2026/03/01-10:40:14.507 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-10:40:14.508 ad50 Delete type=2 #131
+2026/03/01-10:40:14.508 ad50 Delete type=2 #133
+2026/03/01-10:40:14.508 ad50 Delete type=2 #135
+2026/03/01-10:40:14.508 ad50 Delete type=2 #137
+2026/03/01-10:40:14.508 ad50 Delete type=2 #139
+2026/03/01-10:48:25.922 ad50 Level-0 table #142: started
+2026/03/01-10:48:25.927 ad50 Level-0 table #142: 51185 bytes OK
+2026/03/01-10:48:25.929 ad50 Delete type=0 #138
+2026/03/01-10:56:37.332 ad50 Level-0 table #144: started
+2026/03/01-10:56:37.340 ad50 Level-0 table #144: 51580 bytes OK
+2026/03/01-10:56:37.342 ad50 Delete type=0 #141
+2026/03/01-11:04:48.582 ad50 Level-0 table #146: started
+2026/03/01-11:04:48.588 ad50 Level-0 table #146: 45175 bytes OK
+2026/03/01-11:04:48.589 ad50 Delete type=0 #143
+2026/03/01-11:13:00.001 ad50 Level-0 table #148: started
+2026/03/01-11:13:00.007 ad50 Level-0 table #148: 66374 bytes OK
+2026/03/01-11:13:00.009 ad50 Delete type=0 #145
+2026/03/01-11:13:00.010 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-11:13:00.016 ad50 Generated table #149@0: 41 keys, 68069 bytes
+2026/03/01-11:13:00.016 ad50 Compacted 4@0 + 1@1 files => 68069 bytes
+2026/03/01-11:13:00.017 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-11:13:00.018 ad50 Delete type=2 #140
+2026/03/01-11:13:00.018 ad50 Delete type=2 #142
+2026/03/01-11:13:00.018 ad50 Delete type=2 #144
+2026/03/01-11:13:00.018 ad50 Delete type=2 #146
+2026/03/01-11:13:00.018 ad50 Delete type=2 #148
+2026/03/01-11:21:11.404 ad50 Level-0 table #151: started
+2026/03/01-11:21:11.410 ad50 Level-0 table #151: 61528 bytes OK
+2026/03/01-11:21:11.412 ad50 Delete type=0 #147
+2026/03/01-11:29:22.656 ad50 Level-0 table #153: started
+2026/03/01-11:29:22.662 ad50 Level-0 table #153: 66268 bytes OK
+2026/03/01-11:29:22.664 ad50 Delete type=0 #150
+2026/03/01-11:37:34.160 ad50 Level-0 table #155: started
+2026/03/01-11:37:34.166 ad50 Level-0 table #155: 67652 bytes OK
+2026/03/01-11:37:34.168 ad50 Delete type=0 #152
+2026/03/01-11:45:45.913 ad50 Level-0 table #157: started
+2026/03/01-11:45:45.920 ad50 Level-0 table #157: 62948 bytes OK
+2026/03/01-11:45:45.921 ad50 Delete type=0 #154
+2026/03/01-11:45:45.922 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-11:45:45.929 ad50 Generated table #158@0: 41 keys, 64520 bytes
+2026/03/01-11:45:45.929 ad50 Compacted 4@0 + 1@1 files => 64520 bytes
+2026/03/01-11:45:45.930 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-11:45:45.931 ad50 Delete type=2 #149
+2026/03/01-11:45:45.931 ad50 Delete type=2 #151
+2026/03/01-11:45:45.931 ad50 Delete type=2 #153
+2026/03/01-11:45:45.931 ad50 Delete type=2 #155
+2026/03/01-11:45:45.931 ad50 Delete type=2 #157
+2026/03/01-11:53:57.727 ad50 Level-0 table #160: started
+2026/03/01-11:53:57.734 ad50 Level-0 table #160: 67567 bytes OK
+2026/03/01-11:53:57.736 ad50 Delete type=0 #156

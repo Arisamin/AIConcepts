@@ -1,6 +1,69 @@
-2026/02/28-16:25:42.702 9544 Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Session Storage/MANIFEST-000001
-2026/02/28-16:25:42.704 9544 Recovering log #72
-2026/02/28-16:25:42.711 9544 Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Session Storage/000072.log 
-2026/02/28-16:32:47.841 2104 Level-0 table #76: started
-2026/02/28-16:32:47.851 2104 Level-0 table #76: 348995 bytes OK
-2026/02/28-16:32:47.853 2104 Delete type=0 #72
+2026/03/01-09:58:52.679 b00 Reusing MANIFEST C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Session Storage/MANIFEST-000001
+2026/03/01-09:58:52.682 b00 Recovering log #75
+2026/03/01-09:58:52.688 b00 Reusing old log C:\MyData\Git\AI Projects\LeumitAppointmentAgent\.browser_profile\Default\Session Storage/000075.log 
+2026/03/01-10:07:13.647 b00 Level-0 table #79: started
+2026/03/01-10:07:13.652 b00 Level-0 table #79: 27913 bytes OK
+2026/03/01-10:07:13.654 b00 Delete type=0 #75
+2026/03/01-10:24:11.045 ad50 Level-0 table #81: started
+2026/03/01-10:24:11.050 ad50 Level-0 table #81: 31018 bytes OK
+2026/03/01-10:24:11.051 ad50 Delete type=0 #78
+2026/03/01-10:24:11.052 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-10:24:11.069 ad50 Generated table #82@0: 1166 keys, 30022 bytes
+2026/03/01-10:24:11.069 ad50 Compacted 4@0 + 1@1 files => 30022 bytes
+2026/03/01-10:24:11.069 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-10:24:11.071 ad50 Delete type=2 #71
+2026/03/01-10:24:11.071 ad50 Delete type=2 #73
+2026/03/01-10:24:11.071 ad50 Delete type=2 #76
+2026/03/01-10:24:11.071 ad50 Delete type=2 #79
+2026/03/01-10:24:11.071 ad50 Delete type=2 #81
+2026/03/01-10:32:23.416 ad50 Level-0 table #84: started
+2026/03/01-10:32:23.422 ad50 Level-0 table #84: 25608 bytes OK
+2026/03/01-10:32:23.424 ad50 Delete type=0 #80
+2026/03/01-10:40:33.463 ad50 Level-0 table #86: started
+2026/03/01-10:40:33.469 ad50 Level-0 table #86: 23299 bytes OK
+2026/03/01-10:40:33.471 ad50 Delete type=0 #83
+2026/03/01-10:48:39.211 ad50 Level-0 table #88: started
+2026/03/01-10:48:39.217 ad50 Level-0 table #88: 23817 bytes OK
+2026/03/01-10:48:39.218 ad50 Delete type=0 #85
+2026/03/01-10:56:56.039 ad50 Level-0 table #90: started
+2026/03/01-10:56:56.046 ad50 Level-0 table #90: 23799 bytes OK
+2026/03/01-10:56:56.047 ad50 Delete type=0 #87
+2026/03/01-10:56:56.048 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-10:56:56.055 ad50 Generated table #91@0: 1186 keys, 31723 bytes
+2026/03/01-10:56:56.055 ad50 Compacted 4@0 + 1@1 files => 31723 bytes
+2026/03/01-10:56:56.056 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-10:56:56.057 ad50 Delete type=2 #82
+2026/03/01-10:56:56.057 ad50 Delete type=2 #84
+2026/03/01-10:56:56.057 ad50 Delete type=2 #86
+2026/03/01-10:56:56.057 ad50 Delete type=2 #88
+2026/03/01-10:56:56.057 ad50 Delete type=2 #90
+2026/03/01-11:05:56.036 ad50 Level-0 table #93: started
+2026/03/01-11:05:56.042 ad50 Level-0 table #93: 26205 bytes OK
+2026/03/01-11:05:56.044 ad50 Delete type=0 #89
+2026/03/01-11:13:56.042 ad50 Level-0 table #95: started
+2026/03/01-11:13:56.047 ad50 Level-0 table #95: 26073 bytes OK
+2026/03/01-11:13:56.049 ad50 Delete type=0 #92
+2026/03/01-11:21:24.783 ad50 Level-0 table #97: started
+2026/03/01-11:21:24.788 ad50 Level-0 table #97: 26235 bytes OK
+2026/03/01-11:21:24.791 ad50 Delete type=0 #94
+2026/03/01-11:29:56.027 ad50 Level-0 table #99: started
+2026/03/01-11:29:56.033 ad50 Level-0 table #99: 27129 bytes OK
+2026/03/01-11:29:56.035 ad50 Delete type=0 #96
+2026/03/01-11:29:56.036 ad50 Compacting 4@0 + 1@1 files
+2026/03/01-11:29:56.042 ad50 Generated table #100@0: 1206 keys, 34273 bytes
+2026/03/01-11:29:56.042 ad50 Compacted 4@0 + 1@1 files => 34273 bytes
+2026/03/01-11:29:56.043 ad50 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/01-11:29:56.044 ad50 Delete type=2 #91
+2026/03/01-11:29:56.045 ad50 Delete type=2 #93
+2026/03/01-11:29:56.045 ad50 Delete type=2 #95
+2026/03/01-11:29:56.045 ad50 Delete type=2 #97
+2026/03/01-11:29:56.045 ad50 Delete type=2 #99
+2026/03/01-11:37:56.030 ad50 Level-0 table #102: started
+2026/03/01-11:37:56.057 ad50 Level-0 table #102: 2722160 bytes OK
+2026/03/01-11:37:56.060 ad50 Delete type=0 #98
+2026/03/01-11:45:56.027 ad50 Level-0 table #104: started
+2026/03/01-11:45:56.033 ad50 Level-0 table #104: 27632 bytes OK
+2026/03/01-11:45:56.035 ad50 Delete type=0 #101
+2026/03/01-11:54:56.028 ad50 Level-0 table #106: started
+2026/03/01-11:54:56.035 ad50 Level-0 table #106: 30161 bytes OK
+2026/03/01-11:54:56.036 ad50 Delete type=0 #103

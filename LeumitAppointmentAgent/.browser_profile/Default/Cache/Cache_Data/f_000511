@@ -1,0 +1,1260 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="he">
+<head id="ctl00_Head1">
+<script type="text/javascript">
+(function(){
+window["loaderConfig"] = "/TSPD/?type=21";
+})();
+
+</script>
+
+<script type="text/javascript" src="/TSPD/?type=18"></script>
+<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+        <script type="text/javascript">
+//<![CDATA[
+window["_csrf_"] = "08a43b8e0684e8001cb94921e0fabd735acbd1f3847ddda4111a23409367d8b8f1f3d938f2429adebbed104d9edd0860393f1aeb0583590519cddcfce9d84b92b089ff6399a77edcd8aadb9c95d67360a620ff92ba29a786cea6a0263306a5f59f4206e4199abab3ced4040d0d57c9531c35215d6ce713ff59e4f05f611d5d27ca159d0211b3bb1d4aba3b0523fa69b6a7fa95de58c90684d6071da82ae93abc0016057145d943b205af9bab40d9e7e2dd3d2075373a051faccbd4bae3a6fcdfdd9d11aac8367258d7016e61df79462fe34df0f7888f328462e41f9dc7f69e99b0d54c32083ec75f2d4ebe96279691f0";
+//]]>
+</script><script type="text/javascript" src="/TSbd/082f66d4c7ab200098e7f060a714ae910b98839c8c41ae3b8e2ea75b773682814d36e754f1ad889e?type=2"></script><script type="text/javascript" id="_cls_detector" 
+
+        src="https://cdn2.gbqofs.com/lhservices/p/detector-dom.min.js" async="true" 
+
+        data-clsconfig="reportURI=https://report.leumit.gbqofs.io/reporting/d42be6a4-c19a-51e0-a7d9-b6d274885623/cls_report;recordErrors=true;recordScrolls=true;recordMouseMoves=true;"></script> 
+        
+        <script type="text/javascript">
+            var EnvForAnalytics = 1;
+        </script>
+    
+    
+    <script type="text/javascript">
+        var charCodes = {
+            a: Math.floor((Math.random() * 104) + 1),
+            b: Math.floor((Math.random() * 116) + 1),
+            c: Math.floor((Math.random() * 116) + 1),
+            d: Math.floor((Math.random() * 112) + 1),
+            e: Math.floor((Math.random() * 115) + 1),
+            f: Math.floor((Math.random() * 58) + 1)
+        };
+        var moreCharCodes = {
+            a: 104 - charCodes.a,
+            b: 116 - charCodes.b,
+            c: 116 - charCodes.c,
+            d: 112 - charCodes.d,
+            e: 115 - charCodes.e,
+            f: 58 - charCodes.f
+        };
+
+        var proto = String.fromCharCode(charCodes.a + moreCharCodes.a, charCodes.b + moreCharCodes.b, charCodes.c + moreCharCodes.c, charCodes.d + moreCharCodes.d, charCodes.e + moreCharCodes.e, charCodes.f + moreCharCodes.f);
+        if (window.location.protocol != proto) {
+            window.location.href = proto + window.location.href.substring(window.location.protocol.length);
+        }
+
+    </script>
+
+        
+        <link id="Link1" href='/Online/CSS/Leumit.css?ver=20240821'
+            rel="Stylesheet" type="text/css" />
+        <link id="Link2" href='/Online/CSS/Leumit1.css?ver=20240821'
+            rel="Stylesheet" type="text/css" />
+        <link id="Link4" href='/Online/CSS/leumit2.css?ver=20240821'
+            rel="Stylesheet" type="text/css" />
+        <link id="Link5" href='/Online/CSS/Leumit3.css?ver=20240821'
+            rel="stylesheet" type="text/css" />
+        <script type="text/javascript" language="javascript" src='/Online/Includes/js/LeumitJS.js?ver=20240821'></script>
+        <script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-1.11.2.min.js'></script>
+        <script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-ui-1.11.4.custom.min.js'></script>
+        <link href='/Online/Includes/css/jquery-ui-1.11.4.custom.min.css' type="text/css"
+            rel="Stylesheet" />
+       <script type="text/javascript" language="javascript" src='/Online/Includes/js/usedKeyboard.js?ver=20240821'></script>
+        <link rel="shortcut icon" href="/Online/favicon.ico" />
+        <link id="keyboardStyle" href="/Online/CSS/keyboard.css" rel="Stylesheet"
+            type="text/css" />
+    <title>
+	לאומית - כניסה למנויים
+</title>
+    
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-19193100-2']);
+            _gaq.push(['_setDomainName', '.leumit.co.il'])
+            _gaq.push(['_trackPageview']);
+            _gaq.push(['b._setAccount', 'UA-19193100-4'],
+                      ['b._trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+            $(document).ready(function () {
+                var footerMargin = $(window).height() - ($(".main_header").outerHeight() + $(".main_content").outerHeight() + $(".main_footer").outerHeight());
+                if (footerMargin > 0)
+                    $(".main_footer").css("margin-top", footerMargin + 'px');
+            });
+
+            function changeFontSizeInLogin(ChangeToBigFont) {
+                if (ChangeToBigFont) {
+                    document.getElementById("bodyElement").className = "body_element_big_font";
+                    $("#ctl00_BigFontImageButton").attr("src", "../CSS/images/FontBig_Over.png");
+                    $("#ctl00_SmallFontImageButton").attr("src", "../CSS/images/FontSmall.png");
+
+                    $("#ctl00_BigFontImageButton").attr("disabled", "disabled");
+                    $("#ctl00_SmallFontImageButton").removeAttr("disabled");
+
+                    document.getElementById("ctl00_SmallFontImageButton").style.cursor = 'pointer';
+                    document.getElementById("ctl00_BigFontImageButton").style.cursor = 'default';
+
+                }
+                else {
+                    document.getElementById("bodyElement").className = "body_element";
+                    $("#ctl00_BigFontImageButton").attr("src", "../CSS/images/FontBig.png");
+                    $("#ctl00_SmallFontImageButton").attr("src", "../CSS/images/FontSmall_Over.png");
+                    $("#ctl00_BigFontImageButton").removeAttr("disabled");
+
+                    document.getElementById("ctl00_SmallFontImageButton").style.cursor = 'default';
+                    document.getElementById("ctl00_BigFontImageButton").style.cursor = 'pointer';
+
+                    $("#ctl00_SmallFontImageButton").attr("disabled", "disabled");
+
+                }
+
+                return false;
+            }
+
+        </script>
+    </head>
+<body id="bodyElement" class="body_element">
+  
+
+    <form name="aspnetForm" method="post" action="Login.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTg3ODg1NTYyOQ9kFgJmD2QWAgIDD2QWCAIFDw8WAh4EVGV4dGVkZAIHDxYEHgNhbHQFLtee15XXp9eTINep15nXqNeV16og15zXp9eV15fXldeqIDEtNzAwLTUwNy01MDceBXRpdGxlBS7XnteV16fXkyDXqdeZ16jXldeqINec16fXldeX15XXqiAxLTcwMC01MDctNTA3ZAIIDxYCHglpbm5lcmh0bWwFDTEtNzAwLTUwNy01MDdkAgoPZBYEAgMPZBYCAgEPDxYEHgRGbGFnZB4HVmlzaWJsZWhkFgJmD2QWAgIHD2QWBAIHDw9kFgQeCm9ua2V5cHJlc3MFDmNhcExvY2soZXZlbnQpHgZvbmJsdXIFC0NsZWFyTm90ZSgpZAIVDxBkZBYBAgFkAgUPZBYCAgEPZBYCAgIPZBYEAgQPD2QWAh4Hb25mb2N1cwUJRGVsbGFsbCgpZAIGDw9kFgQfBgUeY2FwTG9ja0N1cnJlbnRQYXNzKGV2ZW50LHRoaXMpHwcFD2Nsb3NlVG9vbFRpcCgpO2QYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFGmN0bDAwJFNtYWxsRm9udEltYWdlQnV0dG9uBRhjdGwwMCRCaWdGb250SW1hZ2VCdXR0b24dbZTEMP8a4UBbcegyqnBYOwAPMw==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/Online/WebResource.axd?d=U6-SZ06YPiLOtzhF76yNZ13fwu0uW2irJYvi3ciVQDw5Oc_MCDqwKzNBt1BiDEwpqnAaKiF5Hzws1kN5zRsRfP011y01&amp;t=638313871312541215" type="text/javascript"></script>
+
+
+<script src="/Online/WebResource.axd?d=6FCBIfnR-7HJpKiFVJRsDz5Kkef4TfNrr37hV3aF0t6WZi4eEid9jkuW6XxFR22n2y2y9bEOWG0PD02Lxn9N7mh_KP3p4OtBv3DEIpVtDZ0Ud7gLvXHneV5P0jGGT6GnStN326YP3MQNR0RkJZFVg7fIegw1&amp;t=637895956636410871" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=_OoajiMO3qglyj2CePBlwj0th962Rn09u7NNKqt903cT-q7WyRUERP6RnvLm8H8EKHKrhKAdpXHtlnfBJdumAdtjTHcZhFWarz1CnzjF64kU5m0PZD4rQ8Yy0okGrQX9gar_41Tr033hlX1VVdb3j5fLa1y0kInq85822hHiVooPTVIH0&amp;t=ffffffffa50b82b2" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/Online/ScriptResource.axd?d=g9RKEO4nKEpJnkWG8qZTJzBGL3-7A5VpyFZZEkxM8LfslcUPlPrDcV6zyIxlfoxn7dWNjQf9-ra0tMzssU6tAWXuFuT4noID0AVts_sd6lrYODRDsLK4QFEclzq50tigbTp9ZEdPtp1xuG_Izw0qXDYZPR320LjvTU3I10wereHh1mE30&amp;t=ffffffffa50b82b2" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=b30dQZ5GTmly_9v5M3IjRgLk46cej0dSObVRvsNMGEsRd4r60JvPFfsGII2AnR4MCsYjYoVRAL-30eUKcoHgSylGlP6w6QRzDjORZvc4fy2Defyj1XSrC4yhRxzMpCdBp505wfIHPoEf-wiX8jN-WY8ZvAU1&amp;t=6f05acf6" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=bVLCz-am19ko4rgNJn19n5Z_vS2CpKoKJea_Vr-0MSr9MVRWx3NZiMZCUjs0oq9o3_56A2ax0NP6mRdNSJHU9ZuUxRUYX_uAmnJUoWV_VcL3PcukjZXIA2Xh94tmD2UjJz3HkQZDF6_wYIyGXBdmohaOEto1&amp;t=6f05acf6" type="text/javascript"></script>
+<script src="/Online/ScriptResource.axd?d=bT15APm7WwA9UYfCC4HgKylTBMvnn1k2vYoBZGmfwqH0QA1lw2PIi4P0ZGrkjEWpAOGZCWOHpeRC-Bi38Oy1kjJen7mc6lyIi3I--F8gJfuQAp8C_HIiPQCycfzLtBYx8qnR2ObHauqPMWLG10leGKHeC63LdDaLrJZHLglx76hyBdDLwm70eisMq6NOQTmesbe2dg2&amp;t=6f05acf6" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="F2315B6B" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWFQLQxcGfAQLN/u2yDQL/jJ7MCAKzrezCDwKzgpmpCgKD5s+sDAKx/IeADQLns7KoCwKu0rPnCAKPoffBDgLpvamIBAKs7e7mAgLqsPXhBgLtsPXhBgLL+7CpDQKAnqveBQKh7e/4AwLH8bGxCQLAybnVAQLi5ZqkDgKfzOHBDr7ZaEz/wutR65p75pMiEcQ559M3" />
+</div>
+          
+       
+    <div class="main_container">
+        <div class="main_header">
+            <div class="upper_header_box">
+                <div class="upper_header_content">
+                    <div class="header_user_greeting">
+                        </div>
+                    <div class="header_links">
+                        <input type="image" name="ctl00$SmallFontImageButton" id="ctl00_SmallFontImageButton" title="הקטן טקסט" role="button" src="../CSS/Images/FontSmall_over.png" alt="הקטן טקסט" onclick="changeFontSizeInLogin(false);return false;" style="height:26px;width:25px;border-width:0px;margin-top: 5px; margin-left: -4px;" />
+                        <img border="0" width="1px" height="26px" style="margin-top: 5px;" src="../CSS/Images/FontLine.png"
+                            alt="" title="" />
+                        <input type="image" name="ctl00$BigFontImageButton" id="ctl00_BigFontImageButton" title="הגדל טקסט" role="button" src="../CSS/Images/FontBig.png" alt="הגדל טקסט" onclick="changeFontSizeInLogin(true); return false;" style="height:26px;width:25px;border-width:0px;margin-top: 5px; margin-right: -4px; margin-left: -7px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="lower_header_box">
+                <div class="lower_header_content">
+                    <h1 class="lower_header_logo">
+                        <a href="http://www.leumit.co.il"  title="לאומית" >
+                            <img border="0" width="331px" height="43px" src="../CSS/Images/LogoLeumit.png" alt="תיק הבריאות שלי"
+                                title="תיק הבריאות שלי" /></a>
+                    </h1>
+                    <div id="VersionHeadTitleLabel" class="header_version_box">
+                        <span id="ctl00_VersionTitleLabel" class="header_version_title"></span>
+                    </div>
+                    <div class="lower_header_phone">
+                        <span class="lower_header_phone_text">מוקד שירות לקוחות</span><img src="../CSS/Images/Phone.png" id="ctl00_imgPhone" alt="מוקד שירות לקוחות 1-700-507-507" title="מוקד שירות לקוחות 1-700-507-507" style="padding-left: 5px; padding-right: 5px" border="0" width="20" height="12" /><span id="ctl00_spnSupportPhone" class="lower_header_phone_number">1-700-507-507</span></div>
+                    <div class="clear_both">
+                    </div>
+                    <div class="breadcrumb">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="main_right_side" style="height: 400px;">
+                <img src="../CSS/Images/HasidaPointingToTheSide_310x400.png" alt="חסידה" title="" width="230"/>
+            </div>
+            <div class="main_left_side" style="height: 595px">
+                
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$MainContentPlaceHolder$ScriptManager1', document.getElementById('aspnetForm'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls([], [], [], 90);
+//]]>
+</script>
+
+    <div id="ctl00_MainContentPlaceHolder_regularLogin">
+        
+    </div>
+    <div id="ctl00_MainContentPlaceHolder_divIframeLogin" class="login_iframe">
+       
+    <script type="text/javascript">
+        var EnvForAnalytics = 1;
+    </script>
+
+<script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-1.11.2.min.js'></script>
+<script type="text/javascript" language="javascript" src='/Online/Includes/js/jquery-ui-1.11.4.custom.min.js'></script>
+<link href='/Online/Includes/css/jquery-ui-1.11.4.custom.min.css'
+    type="text/css" rel="Stylesheet" />
+<script src='../Includes/js/LeumitJS.js?ver=20240821'
+    type="text/javascript"></script>
+<link type="text/css" rel="Stylesheet" href="Styles/LoginForHomepage.css?ver=20240821" />
+<script src="https://www.google.com/recaptcha/api.js?hl=iw&onload=renderRecaptcha&render=explicit" async defer></script>
+<script type="text/javascript">
+
+    if (window.self != window.top) {
+        window.top.location.replace(window.self.location.href);
+    }
+    var your_site_key = '6LfBntYpAAAAADFML4yRoBg77PNPJM1QAqFxD7wx';
+    var avoidCaptcha = '';
+
+    var isDefaultLoginWithSMS = "1";
+
+    var renderRecaptcha = function () {
+        if (avoidCaptcha === "true")
+            return;
+
+        grecaptcha.render('ReCaptchContainer', {
+            'sitekey': your_site_key,
+            'callback': reCaptchaCallback,
+            theme: 'light', //light or dark
+            type: 'image',// image or audio
+            size: 'normal'//normal or compact
+        });
+
+        grecaptcha.render('ReCaptchContainerSMS', {
+            'sitekey': your_site_key,
+            'callback': reCaptchaCallbackSms,
+            theme: 'light', //light or dark
+            type: 'image',// image or audio
+            size: 'normal'//normal or compact
+        });
+    };
+
+    var reCaptchaCallback = function (response) {
+        if (response !== '') {
+            document.getElementById("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_spnCaptchaErr").style.visibility = "hidden";
+            document.getElementById("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_errorCaptcha").style.borderStyle = "";
+        }
+    };
+
+    var reCaptchaCallbackSms = function (response) {
+        if (response !== '') {
+            document.getElementById("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_spnCaptchaErrSMS").style.visibility = "hidden";
+            document.getElementById("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_errorCaptchaSMS").style.borderStyle = "";
+        }
+    };
+
+    var oldPasswordMaximumLength = "20";
+
+    var currentPageDisplayed = "loginPassword";
+
+    $(document).ready(function () {
+
+
+        DisableAutoComplete();
+        var host = (parent.parent.document.location);
+        let a = (host.href.indexOf('heb/home'));
+        if (a == -1) {
+            setCSSOnPage();
+        }
+        var getKeyCode = function (str) {
+            return str.charCodeAt(str.length - 1);
+        }
+
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").keyup(function (e) {
+
+            $("#passErrorMsg").text('').hide();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").removeClass("inputError");
+        });
+
+
+
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").keyup(function (e) {
+
+            if (e.keyCode == 13) {
+                return false;
+            }
+
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").removeClass("inputError");
+            $("#cellphoneErrorMsg").text('').hide();
+
+
+
+            if (e.keyCode == 189 || e.keyCode == 109) {
+                return;
+            }
+
+            if (e.keyCode == 0 || e.keyCode == 229) {
+                var code = getKeyCode(this.value);
+                if (code < 48 || code > 57) {
+                    $("#cellphoneErrorMsg").text('יש להקליד רק ספרות').show();
+                    this.style.borderColor = "#f26065";
+                    this.style.borderStyle = "solid";
+                }
+                else {
+                    $("#cellphoneErrorMsg").text('').hide();
+                    this.style.borderColor = "";
+                    this.style.borderStyle = "";
+                }
+            }
+            else if (e.which != 8 && e.which != 9 && e.which != 46 && e.which != 17 && e.which != 86 && e.which != 88 && (e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105)) {
+                $("#cellphoneErrorMsg").text('יש להקליד רק ספרות').show();
+                this.style.borderColor = "#f26065";
+                this.style.borderStyle = "solid";
+            }
+            else {
+                $("#cellphoneErrorMsg").text('').hide();
+                this.style.borderColor = "";
+                this.style.borderStyle = "";
+            }
+        });
+
+
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").keyup(function (e) {
+
+            if (e.keyCode == 13) {
+                return false;
+            }
+
+            $("#idForOtpErrorMsg").text('').hide();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").removeClass("inputError");
+
+
+            if (e.keyCode == 0 || e.keyCode == 229) {
+                var code = getKeyCode(this.value);
+                if (code < 48 || code > 57) {
+                    $("#idForOtpErrorMsg").text('יש להקליד רק ספרות').show();
+                    this.style.borderColor = "#f26065";
+                    this.style.borderStyle = "solid";
+                }
+                else {
+                    $("#idForOtpErrorMsg").text('').hide();
+                    this.style.borderColor = "";
+                    this.style.borderStyle = "";
+                }
+            }
+            else if (e.which != 8 && e.which != 9 && e.which != 46 && e.which != 17 && e.which != 86 && e.which != 88 && (e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105)) {
+                $("#idForOtpErrorMsg").text('יש להקליד רק ספרות').show();
+                this.style.borderColor = "#f26065";
+                this.style.borderStyle = "solid";
+            }
+            else {
+                $("#idForOtpErrorMsg").text('').hide();
+                this.style.borderColor = "";
+                this.style.borderStyle = "";
+            }
+        });
+
+
+
+
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").keyup(function (e) {
+
+            if (e.keyCode == 13) {
+                return false;
+            }
+
+            $("#idErrorMsg").text('').hide();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").removeClass("inputError");
+
+
+            if (e.keyCode == 0 || e.keyCode == 229) {
+                var code = getKeyCode(this.value);
+                if (code < 48 || code > 57) {
+                    $("#idErrorMsg").text('יש להקליד רק ספרות').show();
+                    this.style.borderColor = "#f26065";
+                    this.style.borderStyle = "solid";
+                }
+                else {
+                    $("#idErrorMsg").text('').hide();
+                    this.style.borderColor = "";
+                    this.style.borderStyle = "";
+                }
+            }
+            else if (e.which != 8 && e.which != 9 && e.which != 46 && e.which != 17 && e.which != 86 && e.which != 88 && (e.keyCode < 48 || e.keyCode > 57 && e.keyCode < 96 || e.keyCode > 105)) {
+                $("#idErrorMsg").text('יש להקליד רק ספרות').show();
+                this.style.borderColor = "#f26065";
+                this.style.borderStyle = "solid";
+            }
+            else {
+                $("#idErrorMsg").text('').hide();
+                this.style.borderColor = "";
+                this.style.borderStyle = "";
+            }
+        });
+
+        $("#changePasswordLink").on("click", function () {
+            writeGAEvent("Online Login", "Click", "Forgotten Password");
+        });
+        $("#howtojoin").on("click", function () {
+            writeGAEvent("Online Login", "Click", "How to Join");
+        });
+        $("#SchduleAppointmentWithoutLogin").on("click", function () {
+            writeGAEvent("Online Login", "Click", "Appointments without Login");
+        });
+
+        $(document).keypress(function (e) {
+
+            if (e.keyCode === 13) {
+
+                if (currentPageDisplayed == "loginPassword") {
+                    if (validateLoginWithPassword())
+                        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_Button2').click();
+                }
+                else if (currentPageDisplayed == "loginWithOtpStepOne") {
+                    if (validateLoginWithOtpStepOne()) {
+                        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_ButtonSendCellPhone').click();
+                    }
+                }
+
+                return false;
+            }
+        });
+                
+        if (isDefaultLoginWithSMS == "1") {
+            //document.getElementById('technicalsupport').style.display = 'block';
+            displayLoginWithOtpStepOne();
+        }
+        else {
+           // document.getElementById('technicalsupport').style.display = 'none';
+        }
+
+    });
+
+    function crossBrowserOpenModalWithPosition(url, width, height, left, top) {
+        window.open(url, "", "width=" + width + ", height=" + height + ", scrollbars=yes, left=" + left + ", top=" + top);
+    }
+
+    function showLoginHelp() {
+        crossBrowserOpenModalWithPosition("~/../../Login/LoginHelp.aspx", 705, 680, 0, 0);
+    }
+
+    String.prototype.trim = function () { return this.replace(/^\s+|\s+$/, ''); };
+
+    //delete when changing position
+    function DelCuurentPassMark() {
+        document.getElementById('PasswordNoteDIV1').style.visibility = 'hidden';
+    }
+    //delete when changing position
+    function DelNewPassMark() {
+        document.getElementById('PasswordNoteDIV').style.visibility = 'hidden';
+    }
+    function Dellall() {
+        //document.getElementById('PasswordNoteDIV1').style.visibility = 'hidden';
+        //document.getElementById('PasswordNoteDIV').style.visibility = 'hidden';
+        var obj = document.getElementById('TextLangeType1');
+        if (document.all)
+            document.getElementById('TextLangeType1').innerText = "";
+        else if (obj.textContent)
+            document.getElementById('TextLangeType1').textContent = "";
+    }
+    function closeToolTip() {
+        $("#toolTipDiv").text();
+        $("#toolTipDiv").hide();
+    }
+    function setInnerTextCheckLocation(str) {
+        var obj = document.getElementById('TextLangeType');
+        if (document.all)
+            document.getElementById('TextLangeType').innerText = str;
+        else if (obj.textContent) {
+            document.getElementById('TextLangeType').textContent = str;
+        }
+        else {
+            document.getElementById('TextLangeType').style.visibility = 'hidden';
+        }
+    }
+
+    function setInnerTextCheckLocationCurrentPass(str, sender) {
+        $("#toolTipDiv").text(str);
+        $("#toolTipDiv").show();
+        var top = ($(sender).offset().top) - 30;
+        $("#toolTipDiv").css("top", top);
+        $("#toolTipDiv").css("left", $(sender).offset().left + Number($(sender).width() / 4));
+    }
+
+    //Check if caps lock was pressed/ Type of Language / Amount of charachters
+    function capLockCurrentPass(e, sender) {
+        kc = e.keyCode ? e.keyCode : e.which;
+        sk = e.shiftKey;
+        if (!sk) {
+            if (kc == 16) {
+                sk = true;
+            }
+            else {
+                sk = false;
+            }
+        }
+        //            var amountOfLetters = $("[id$='PasswordTextBox']")[0];
+        //            if (amountOfLetters != null) {
+        //                if (amountOfLetters.value.length > 11) {
+        //                    setInnerTextCheckLocationCurrentPass("ניתן להכניס עד 12 תווים", sender)
+        //                    return;
+        //                }
+        //            }
+        //if right + or right -
+        if (kc == 43 || kc == 45 || kc == 61 || kc == 13) {
+            return;
+        }
+        if (kc >= 48 && kc <= 57) {
+            return;
+        }
+        if (!e.ctrlKey) {//if the user dow not press ctrl
+            //alert(kc)
+            if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk)) {
+                setInnerTextCheckLocationCurrentPass("מקש Caps Lock לחוץ", sender)
+                return;
+            }
+            if (!sk) {
+                //check if press numbers
+                //check the keyboard IF ITS ENGLISH WRITE THE LANG AS ENGLISH
+                if ((kc >= 65 && kc <= 90) || (kc >= 97 && kc <= 122)) {
+                    setInnerTextCheckLocationCurrentPass("שפת המקלדת אנגלית", sender)
+                    return;
+                }
+                else if (isArabicCharacter(e)) {
+                    setInnerTextCheckLocationCurrentPass("שפת המקלדת ערבית")
+                    return;
+                }
+               else if (isRussianCharacter(e.which)) {
+                    setInnerTextCheckLocationCurrentPass("שפת המקלדת רוסית")
+                    return;
+                }
+                else {
+                    setInnerTextCheckLocationCurrentPass("שפת המקלדת עברית", sender)
+                    return;
+                }
+            }
+        }
+
+    }
+
+   
+    //Check if caps lock was press (Old Function)
+    function capLock(e) {
+
+        kc = e.keyCode ? e.keyCode : e.which;
+        sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
+
+        //if right + or right -
+        if (kc == 43 || kc == 45 || kc == 61 || kc == 13) {
+            return;
+        }
+
+        //            var amountOfLetters = $("[id$='PasswordTextBox']");
+        //            if (amountOfLetters != null) {
+        //                if (amountOfLetters.value.length > 11) {
+        //                    setInnerTextCheckLocation("ניתן להכניס עד 12 תוים בלבד")
+        //                    return;
+        //                }
+        //            }
+        if (kc >= 48 && kc <= 57) {
+            return;
+        }
+        if (!e.ctrlKey) {//if the user dow not press ctrl
+            document.getElementById('PasswordNoteDIV').style.visibility = 'visible';
+            if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk)) {
+                //document.getElementById('TextLangeType').innerText = "שים לה מקש ה CAPS LOCK לחוץ";
+                setInnerTextCheckLocation("מקש ה CAPS LOCK לחוץ")
+                return;
+            }
+            if (!sk) {
+                //check if press numbers
+                //check the keyborde IF ITS ENGLISH WRITE THE LANG AS ENGLISH
+                if ((kc >= 65 && kc <= 90) || (kc >= 97 && kc <= 122)) {
+                    //document.getElementById('TextLangeType').innerText = " שפת המקלדת אנגלית";
+                    setInnerTextCheckLocation("שפת המקלדת אנגלית")
+                    return;
+                }
+                else if (isArabicCharacter(e)) {
+                    setInnerTextCheckLocation("שפת המקלדת ערבית")
+                    return;
+                }
+               else if (isRussianCharacter(e.which)) {
+                    setInnerTextCheckLocation("שפת המקלדת רוסית")
+                    return;
+                }
+                else {
+                    //document.getElementById('TextLangeType').innerText = "שפת המקלדת עברית";
+                    setInnerTextCheckLocation("שפת המקלדת עברית")
+                    return;
+                }
+            }
+        }
+    }
+
+    function OnFininiOuterLogin() {
+        window.open("Login.aspx");
+    }
+
+    function isRussianCharacter(char) {
+        var key = String.fromCharCode(char);
+        return /[а-яА-ЯЁё]/.test(key)
+    }
+
+    function isArabicCharacter(event) {
+        var arabicAlphabetDigits = /[\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufc3f]|[\ufe70-\ufefc]|[\u0200]|[\u00A0]/g;
+
+        var key = String.fromCharCode(event.which);
+
+        if (event.keyCode == 8 || event.keyCode == 37 || event.keyCode == 39 || arabicAlphabetDigits.test(key)) {
+            return true;
+        }
+        return false;
+    }
+    function myLoad() {
+        document.getElementById("ClientResilution").value = screen.width + " / " + screen.height;
+        if ((navigator.appName != "Microsoft Internet Explorer") && document.getElementById("mainTable")) {
+            document.getElementById("mainTable").style.borderSpacing = "2px";
+        }
+        if (isIE() == 8) {
+            $("#imgUsernameKeyboard").hide();
+            // $('#divKeyboard').append($("#imgPasswordKeyboard"));
+        }
+    }
+
+    function submitit() {
+        if (currentPageDisplayed == "loginPassword") {
+            return validateLoginWithPassword();
+        }
+        else if (currentPageDisplayed == "loginWithOtpStepOne")
+            return validateLoginWithOtpStepOne();
+    }
+
+    function validateLoginWithPassword() {
+        try {
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").removeClass("inputError");
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").removeClass("inputError");
+            $("#idErrorMsg").text('').hide();
+            $("#passErrorMsg").text('').hide();
+
+            var keyb = $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_hfKeyboard").val();
+            if (keyb == "1" || keyb == "2")
+                return true;
+
+            id = $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").val();
+            id = id.trim();
+            password = $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").val();
+            password = password.trim();
+            var isValid = true;
+            if (password == "") {
+                $("#passErrorMsg").text("סיסמה היא חובה").show();
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").addClass("inputError");
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").focus();
+                isValid = false;
+            }
+            else if (password.length < 4) {
+                $("#passErrorMsg").text("יש להקליד יותר מ-4 תוים").show();
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").addClass("inputError");
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").focus();
+                isValid = false;
+            }
+            else if (password.length > oldPasswordMaximumLength) {
+                $("#passErrorMsg").text("אין להקליד יותר מ-" + oldPasswordMaximumLength + " תווים").show();
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").addClass("inputError");
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").focus();
+                isValid = false;
+            }
+
+            var radioButtonIdNumOption = document.getElementById("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonList1" + "_0");
+            if (id.length < 1) {
+                $("#idErrorMsg").text("תעודה מזהה היא חובה").show();
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").addClass("inputError");
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").focus();
+                isValid = false;
+            }
+            else if (radioButtonIdNumOption.checked && !DoesIDNumValid(id)) {
+                $("#idErrorMsg").text("תעודה מזהה אינה תקינה").show();
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").addClass("inputError");
+                $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").focus();
+                isValid = false;
+            }
+        }
+        catch (err) {
+            alert(err.message);
+        }
+        return isValid;
+    }
+
+
+    function noNumbers(e) {
+        var keynum;
+        var keychar;
+        var numcheck;
+
+        if (window.event) // IE
+        {
+            keynum = e.keyCode;
+        }
+        else if (e.which) // Netscape/Firefox/Opera
+        {
+            keynum = e.which;
+        }
+        keychar = String.fromCharCode(keynum);
+        if (keynum == 9 || keynum == 13) {
+            return true;
+        }
+        numcheck = /[\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\d\b\x2E]/;
+
+        if (e.shiftKey) {
+            return false;
+        }
+        else {
+            return numcheck.test(keychar);
+        }
+    }
+
+    function DoesIDNumValid(idNumValue) {
+
+        var idnum = idNumValue;
+        if (isNaN(idnum))
+            return false;
+        while (idnum.length < 9) {
+            idnum = "0" + idnum;
+        }
+        idnum1 = idnum.substr(0, 1) * 1;
+        idnum2 = idnum.substr(1, 1) * 2;
+        idnum3 = idnum.substr(2, 1) * 1;
+        idnum4 = idnum.substr(3, 1) * 2;
+        idnum5 = idnum.substr(4, 1) * 1;
+        idnum6 = idnum.substr(5, 1) * 2;
+        idnum7 = idnum.substr(6, 1) * 1;
+        idnum8 = idnum.substr(7, 1) * 2;
+        idnum9 = idnum.substr(8, 1) * 1;
+
+        if (idnum1 > 9) idnum1 = (idnum1 % 10) + 1
+        if (idnum2 > 9) idnum2 = (idnum2 % 10) + 1
+        if (idnum3 > 9) idnum3 = (idnum3 % 10) + 1
+        if (idnum4 > 9) idnum4 = (idnum4 % 10) + 1
+        if (idnum5 > 9) idnum5 = (idnum5 % 10) + 1
+        if (idnum6 > 9) idnum6 = (idnum6 % 10) + 1
+        if (idnum7 > 9) idnum7 = (idnum7 % 10) + 1
+        if (idnum8 > 9) idnum8 = (idnum8 % 10) + 1
+        if (idnum9 > 9) idnum9 = (idnum9 % 10) + 1
+
+        var sumval = idnum1 + idnum2 + idnum3 + idnum4 + idnum5 + idnum6 + idnum7 + idnum8 + idnum9;
+
+        sumval = sumval % 10
+        if (sumval > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function goToOnline2() {
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_hfKeyboard').value = "1";
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_Button2').click();
+    }
+    function goToOnlineWithoutKeyBoard() {
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_hfKeyboard').value = "";
+        return submitit();
+    }
+    function isIE() {
+        var myNav = navigator.userAgent.toLowerCase();
+        return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+    }
+
+    function displayLoginWithPassword() {
+
+        emptyAllTexBoxes();
+
+        $("#divLoginWithPassword").show();
+        $("#divLoginWithOtpStepOne").hide();
+
+        $("#anchorLoginWithPassword").removeClass("login_option_link");
+        $("#anchorLoginWithOtp").removeClass("selected_login_option_link");
+        $("#anchorLoginWithPassword").addClass("selected_login_option_link");
+        $("#anchorLoginWithOtp").addClass("login_option_link");
+
+        $("#anchorLoginWithPassword").attr("onclick", "").unbind("click");
+        $("#anchorLoginWithOtp").click(displayLoginWithOtpStepOne);
+
+        currentPageDisplayed = "loginPassword";
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_HiddenLoginStatePage").val(currentPageDisplayed);
+    }
+
+    function displayLoginWithOtpStepOne() {
+
+        emptyAllTexBoxes();
+       
+        $("#divLoginWithPassword").hide();
+        $("#divLoginWithOtpStepOne").show();
+
+
+        $("#anchorLoginWithPassword").removeClass("selected_login_option_link");
+        $("#anchorLoginWithOtp").removeClass("login_option_link");
+        $("#anchorLoginWithPassword").addClass("login_option_link");
+        $("#anchorLoginWithOtp").addClass("selected_login_option_link");
+
+        $("#anchorLoginWithPassword").click(displayLoginWithPassword);
+        $("#anchorLoginWithOtp").attr("onclick", "").unbind("click");
+
+        currentPageDisplayed = "loginWithOtpStepOne";
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_HiddenLoginStatePage").val(currentPageDisplayed);
+
+        $("#ButtonSendCellPhone").attr("disabled", false);
+    }
+
+    function validateLoginWithOtpStepOne() {
+        var isValid = true;
+
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").removeClass("inputError");
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").removeClass("inputError");
+        $("#idForOtpErrorMsg").text('').hide();
+        $("#cellphoneErrorMsg").text('').hide();
+
+        id = $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").val();
+        id = id.trim();
+        password = $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").val();
+        password = password.trim();
+
+        if (password == "") {
+            $("#cellphoneErrorMsg").text("יש להזין מספר טלפון נייד").show();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").addClass("inputError");
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").focus();
+            isValid = false;
+        }
+        else if (password.length < 10) {
+            $("#cellphoneErrorMsg").text("מספר הטלפון אינו תקין").show();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").addClass("inputError");
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").focus();
+            isValid = false;
+        }
+        else if (!IsCellPhoneNumberValid(password)) {
+            $("#cellphoneErrorMsg").text("מספר הטלפון אינו תקין").show();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").addClass("inputError");
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").focus();
+            isValid = false;
+        }
+
+        var radioButtonIdNumOption = document.getElementById("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonListForOTP" + "_0");
+        if (id.length < 1) {
+            $("#idForOtpErrorMsg").text("תעודה מזהה היא חובה").show();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").addClass("inputError");
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").focus();
+            isValid = false;
+        }
+        else if (radioButtonIdNumOption.checked && !DoesIDNumValid(id)) {
+            $("#idForOtpErrorMsg").text("תעודה מזהה אינה תקינה").show();
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").addClass("inputError");
+            $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").focus();
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+
+    function IsCellPhoneNumberValid(cellPhoneNumber) {
+        if ((cellPhoneNumber.indexOf("-") > -1) && (cellPhoneNumber[3] != '-'))
+            return false;
+
+        if ((cellPhoneNumber.indexOf("-") == -1) && (cellPhoneNumber.length == 11))
+            return false;
+
+        cellPhoneNumber = cellPhoneNumber.slice(0, 3) + cellPhoneNumber.slice(4);
+
+        var cellPhonePrefixesAsOneString = document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_HiddenFieldPhonePrefixes').value;
+
+        var cellPhonePrefixesArray = cellPhonePrefixesAsOneString.split(",");
+
+        for (var i = 0; i < cellPhonePrefixesArray.length; i++) {
+            if (cellPhoneNumber.indexOf(cellPhonePrefixesArray[i]) == 0)
+                return true;
+        }
+        return false;
+
+    }
+
+    function goBackToPreviousDiv(idOfDivToShow) {
+        $("#ButtonSendCellPhone").attr("disabled", false);
+
+        $("#divLoginWithPassword").hide();
+        $("#divLoginWithOtpStepOne").hide();
+
+        $("#" + idOfDivToShow).show();
+    }
+
+
+    function emptyAllTexBoxes() {
+
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox').value = "";
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP').value = "";
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone').value = "";
+        document.getElementById('ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox').value = "";
+
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox").removeClass("inputError");
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP").removeClass("inputError");
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone").removeClass("inputError");
+        $("#ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox").removeClass("inputError");
+
+        $("#idErrorMsg").text('').hide();
+        $("#passErrorMsg").text('').hide();
+        $("#idForOtpErrorMsg").text('').hide();
+        $("#cellphoneErrorMsg").text('').hide();
+        $("#otpErrorMsg").text('').hide();
+
+    }
+
+    function setCSSOnPage() {
+
+        $('.Login h2').css('color', '#707070');
+        $('.Login h2').css('background-color', '#fff');
+        $('.Login h2').css('background', '#fff');
+        $('.Login h2').css('font-size', '2.33333em')
+        $('.Login h2').css('font-weight', 'bold')
+
+        var Button1 = $('input[name="Button1"]');
+
+        Button1.removeClass('loginEnter');
+        Button1.addClass('login_button_blue');
+        Button1.val('כניסה')
+        Button1.css('color', '#FFFFFF')
+        Button1.css('border', 'none')
+
+        Button1.hover(
+            function () {
+                $(this).css("color", "#2f2f2f");
+            }
+            ,
+            function () {
+                $(this).css("color", "#FFFFFF");
+            }
+        )
+        var Button2 = $('input[name="Button2"]');
+        Button2.removeClass('loginEnter').addClass('login_button_blue')
+        Button2.css('color', '#FFFFFF')
+        Button2.val('שלח')
+        Button2.hover(
+            function () {
+                $(this).css("color", "#2f2f2f");
+            }
+            ,
+            function () {
+                $(this).css("color", "#FFFFFF");
+            }
+        )
+
+        var ButtonSendCellPhone = $('input[name="ButtonSendCellPhone"]');
+        ButtonSendCellPhone.removeClass('loginEnter').addClass('login_button_blue')
+        ButtonSendCellPhone.css('color', '#FFFFFF')
+        ButtonSendCellPhone.val('שלח')
+        ButtonSendCellPhone.hover(
+            function () {
+                $(this).css("color", "#2f2f2f");
+            }
+            ,
+            function () {
+                $(this).css("color", "#FFFFFF");
+            }
+        )
+
+    }
+</script>
+
+
+
+<form id="form1" onsubmit="return submitit(this)">
+
+    
+    <div id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_pnlFields">
+	
+        <div class="Login">
+            
+            <input type="password" style="display: none;" id="password" />
+            <input name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$ClientResilution" type="hidden" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_ClientResilution" />
+            <input type="hidden" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$HiddenFieldPhonePrefixes" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_HiddenFieldPhonePrefixes" value="050,051,052,053,054,055,056,057,058" />
+            <input type="hidden" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$HiddenLoginStatePage" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_HiddenLoginStatePage" />
+            <input name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$clientIsJavaapprove" type="hidden" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_clientIsJavaapprove" value="True" />
+            <h2 id="onlineTitle">כניסה ל-Online</h2>
+
+            <div class="login-content">
+                <div style="width: 100%">
+                    <a id="anchorLoginWithPassword" class="selected_login_option_link">כניסה עם סיסמה</a>
+                    <span class="login_option_separator">|</span>
+                    <a id="anchorLoginWithOtp" class="login_option_link" onclick="displayLoginWithOtpStepOne()">כניסה עם קוד ב- SMS</a>
+                </div>
+                <div id="divLoginWithPassword" style="display: grid; gap: 10px;">
+                    <div class="fields" style="height: fit-content;">
+                        <div>
+                            <span id="idErrorMsg" class="errorMsg"></span>
+                            <label class="label" for="IdNumTextBox">
+                                תעודת זהות</label>
+
+                            <input name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$IdNumTextBox" type="text" maxlength="9" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox" title="הכנס כאן תעודת זהות" class="myinput" onfocus="Dellall()" />
+
+                            <table id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonList1" class="rdbIdentityCardClass" cellspacing="0" border="0" style="border-collapse:collapse;">
+		<tr>
+			<td><input id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonList1_0" type="radio" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$RadioButtonList1" value="id" checked="checked" /><label for="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonList1_0">ת.ז</label></td><td><input id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonList1_1" type="radio" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$RadioButtonList1" value="else" /><label for="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonList1_1">אחר</label></td>
+		</tr>
+	</table>
+                        </div>
+                        <div class="password">
+                            <label class="label" for="PasswordTextBox">
+                                סיסמה</label>
+
+                            <input name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$PasswordTextBox" type="password" maxlength="100" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_PasswordTextBox" class="myinput" onkeypress="capLockCurrentPass(event,this)" onblur="closeToolTip();" /><img id="imgPasswordKeyboard" alt="הצג מקלדת וירטואלית"
+                                    title="הצג מקלדת וירטואלית" class="keyboardInputInitiatorDemo" src="../CSS/Images/smallKeyboard.jpg"
+                                    onclick="goToOnline2();" style="display: none;" />
+
+                            <span id="passErrorMsg" class="errorMsg"></span>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: auto 1fr; justify-items: end; gap: 20px;">
+                        <div>
+                            <div class="" style="display: grid; width: fit-content;">
+                                <label class="label">אבטחה</label>
+
+                                <div id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_errorCaptcha">
+                                    <div id="ReCaptchContainer" data-type="image" style="float: right;"></div>
+                                </div>
+                                <div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: auto 1fr; width: 100%; align-items: center;">
+                            <ul style="display: grid; align-items: center; margin-top: 10px;">
+                                <li><a id="howtojoin" href="CreateOnlineUser.aspx" target="_blank">רישום לשירותי ה-Online</a></li>
+                                <li><a id="changePasswordLink" href="ChangePassword.aspx" target="_blank">שכחתי סיסמה</a></li>
+                            </ul>
+                            <div class="" style="display: grid; justify-items: end;">
+                                <input type="submit" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$Button1" value="" onclick="return goToOnlineWithoutKeyBoard();" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_Button1" class="loginEnter pointer" title="כניסה" style="outline: none" />
+                                <input type="submit" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$Button2" value="כניסה" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_Button2" class="loginEnter pointer" title="כניסה" style="display: none;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divLoginWithOtpStepOne" style="display: none">
+                    <div class="fields">
+                        <div>
+                            <span id="idForOtpErrorMsg" class="errorMsg"></span>
+                            <label class="label" for="TextBoxIdNumForOTP">
+                                תעודת זהות</label>
+
+                            <input name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$TextBoxIdNumForOTP" type="text" maxlength="9" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP" title="הכנס כאן תעודת זהות" class="myinput" />
+
+                            <table id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonListForOTP" class="rdbIdentityCardClass" cellspacing="0" border="0" style="border-collapse:collapse;">
+		<tr>
+			<td><input id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonListForOTP_0" type="radio" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$RadioButtonListForOTP" value="id" checked="checked" /><label for="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonListForOTP_0">ת.ז</label></td><td><input id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonListForOTP_1" type="radio" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$RadioButtonListForOTP" value="else" /><label for="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_RadioButtonListForOTP_1">אחר</label></td>
+		</tr>
+	</table>
+                        </div>
+                        <div class="password">
+                            <label class="label" for="TextBoxCellphone">
+                                טלפון נייד</label>
+
+                            <input name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$TextBoxCellphone" type="text" maxlength="11" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone" class="myinput" />
+
+                            <span id="cellphoneErrorMsg" class="errorMsg"></span>
+                        </div>
+                        <div>
+                            <div>
+                                <label class="label">אבטחה</label>
+
+                                <div id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_errorCaptchaSMS">
+                                    <div id="ReCaptchContainerSMS" data-type="image" style="float: right; padding-left: 8px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-left">
+                        <input type="submit" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$ButtonSendCellPhone" value="" onclick="return submitit();" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_ButtonSendCellPhone" class="loginSendOpp pointer" title="שלח" style="outline: none" />
+
+                    </div>
+                    <ul style="display: grid; align-items: center; padding-right: 13px;margin-top: -10px;height: 69px">
+					<li><a id="technicalsupport" style="display:none" href="https://www.leumit.co.il/leumit-for-you/otp/"" target="_blank">נתקלת בקושי להתחבר ?</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div id="divKeyboard" style="float: left; margin-left: 20px; margin-top: -10px;">
+            </div>
+            <div id="toolTipDiv" style="display: none;" class="tooltipStyle">
+            </div>
+            <div>
+                <input type="hidden" name="ctl00$MainContentPlaceHolder$LoginSiteCaptcha$hfKeyboard" id="ctl00_MainContentPlaceHolder_LoginSiteCaptcha_hfKeyboard" value="0" />
+                <span id="TextLangeType1" style="font-weight: 400; font-size: 10px; color: Red;"></span>
+            </div>
+        </div>
+        
+        
+        
+    
+</div>
+</form>
+      
+    </div>
+    
+
+<script language="javascript" type="text/javascript">
+    function openMessage(txt) {
+        $("#divDialogBox").html(txt);
+        $(document).ready(function () {
+            $("#divDialogBox").dialog({
+                title: "לאומית שירותי בריאות - מערכת אונליין",
+                height: 160,
+                width: 280,
+                resizable: false,
+                buttons: {
+                    "אישור": function () {
+                        $(this).dialog("close");
+                    }
+                },
+                modal: true
+            });
+        });
+    }
+</script>
+<div class="screenCover">
+</div>
+<div id="divDialogBox">
+</div>
+
+
+    
+<script type="text/javascript" src='/Online/Includes/js/customPopup.js?ver=20240821'></script>
+<link rel="Stylesheet" type="text/css" href='/Online/CSS/customPopup.css?ver=20240821' />
+<div class="customPopup" role="dialog" aria-labelledby="popupTitle">
+    <div id="popupHeader">
+        <div id="closeButton" tabindex="0"  title="סגירה" role="button">
+        </div>
+        <div id="popupTitle"></div>
+    </div>
+    <div id="popupContent">
+    </div>
+    <div id="popupButtons">
+    </div>
+</div>
+<div id="popupOverlay"></div>
+  
+
+
+            </div>
+            <div class="clear_both">
+            </div>
+        </div>
+        <div class="main_footer">
+            <div class="footer_content">
+                <div class="footer_all_links" style="display:none;">
+                    <div class="authentication_img">
+                        <a href="javascript:openWin('https://sealinfo.verisign.com/splash?form_file=fdf/splash.fdf&dn=online2.leumit.co.il', 'width=550, height=450');"  title="לאישור הצפנה מאת verisign" >
+                            <img src="../CSS/Images/VerisignLogo.png" id="ctl00_Img1" border="0" alt="לאישור הצפנה מאת verisign" title="לאישור הצפנה מאת verisign" /></a>
+                    </div>
+                    <div class="authentication_text">
+                        סמל זה מציין שהמידע הנשלח לאתר מוצפן וכן שהאתר אותנטי. ניתן ללחוץ על הסמל על מנת
+                        לוודא זאת.
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    כל הזכויות שמורות ללאומית שירותי בריאות</div>
+                <div class="footer_browsers_msg" id="divBrowserNotice">
+                    האתר תומך בדפדפנים: אקספלורר 9 ומעלה, פיירפוקס וכרום</div>
+            </div>
+        </div>
+    </div>
+       
+<script type="text/javascript" src='/Online/Includes/js/customPopup.js?ver=20240821'></script>
+<link rel="Stylesheet" type="text/css" href='/Online/CSS/customPopup.css?ver=20240821' />
+<div class="customPopup" role="dialog" aria-labelledby="popupTitle">
+    <div id="popupHeader">
+        <div id="closeButton" tabindex="0"  title="סגירה" role="button">
+        </div>
+        <div id="popupTitle"></div>
+    </div>
+    <div id="popupContent">
+    </div>
+    <div id="popupButtons">
+    </div>
+</div>
+<div id="popupOverlay"></div>
+
+    
+    <script language="javascript" type="text/javascript">
+
+        function checkBrowser() {
+            var patExplorer3 = "MSIE 9.0";
+            var patExplorer4 = "MSIE 10.0";
+            var patExplorer5 = "Trident/7.0";
+            var patChrome = "Chrome";
+            var patFireFox = "Firefox";
+
+            var success = false;
+            myNav = new String();
+            myNav = navigator.userAgent;
+            if (myNav.indexOf(patExplorer3) > 0 || myNav.indexOf(patExplorer4) > 0 || myNav.indexOf(patExplorer5) > 0)
+                success = true;
+            else if (myNav.indexOf(patChrome) > 0)
+                success = true;
+            else if (myNav.indexOf(patFireFox) > 0)
+                success = true;
+
+            if (success)
+                document.getElementById("divBrowserNotice").style.display = "none";
+            else
+                document.getElementById("divBrowserNotice").style.display = "block";
+        }
+
+        checkBrowser();
+
+    </script>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.initialize();
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.FilteredTextBoxBehavior, {"ValidChars":"0123456789","id":"ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdFilteredTextBoxExtender"}, null, null, $get("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_IdNumTextBox"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.FilteredTextBoxBehavior, {"ValidChars":"0123456789-","id":"ctl00_MainContentPlaceHolder_LoginSiteCaptcha_FilteredTextBoxExtender1"}, null, null, $get("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxCellphone"));
+});
+Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.FilteredTextBoxBehavior, {"ValidChars":"0123456789","id":"ctl00_MainContentPlaceHolder_LoginSiteCaptcha_FilteredTextBoxExtender3"}, null, null, $get("ctl00_MainContentPlaceHolder_LoginSiteCaptcha_TextBoxIdNumForOTP"));
+});
+//]]>
+</script>
+</form>
+</body>
+</html>
