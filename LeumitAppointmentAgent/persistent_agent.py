@@ -13,6 +13,7 @@ from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
 from otp_listener import OTPListener
+from sms_service import get_sms_service
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
@@ -1388,9 +1389,15 @@ class PersistentAgent:
                 await self.page.screenshot(path=str(screenshot_path))
                 logger.info(f"Screenshot: {screenshot_path}")
                 
+                # Send SMS notification
+                sms_service = get_sms_service()
+                sms_result = sms_service.send_appointment_confirmed()
+                logger.info(f"SMS notification result: {sms_result}")
+                
                 return {
                     "status": "success",
-                    "screenshot": str(screenshot_path)
+                    "screenshot": str(screenshot_path),
+                    "sms_sent": sms_result.get("status") == "sent"
                 }
             
             else:
